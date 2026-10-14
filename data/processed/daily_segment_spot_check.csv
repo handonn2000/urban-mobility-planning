@@ -1,0 +1,2 @@
+request_date,operator,touches_zone,trips,short_trips,low_fare_trips,valid_wait_trips,valid_fare_trips,valid_distance_trips,valid_driver_pay_trips,valid_economics_trips,total_base_fare,total_driver_pay,median_wait_minutes
+2025-01-21,Lyft,True,58431,18603.0,7119.0,57287.0,52389.0,58429.0,58431.0,52389.0,1418941.8799999969,1071407.179999994,3.966666666666667

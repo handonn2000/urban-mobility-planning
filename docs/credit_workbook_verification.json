@@ -1,0 +1,16 @@
+{
+  "engine": "Artifact Tool",
+  "recalculated": true,
+  "share_formula_matches_python": true,
+  "default_economics_matches_python": true,
+  "hand_example_matches": true,
+  "targeted_denominators_match": true,
+  "zero_redemption_checked": true,
+  "zero_uplift_checked": true,
+  "missing_margin_exposed": true,
+  "nonpositive_margin_checked": true,
+  "default_inputs_restored": true,
+  "sensitivity_rows_checked": 24,
+  "exported": "excel/lyft_credit_breakeven.xlsx",
+  "native_excel_execution_tested": false
+}

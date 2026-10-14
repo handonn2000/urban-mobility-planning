@@ -1,0 +1,23 @@
+{
+  "checked_at_utc": "2026-10-14T11:46:24.629354+00:00",
+  "valid": true,
+  "checks": {
+    "twenty_eight_unique_keys": true,
+    "reference_dates_before_cutoff": true,
+    "history_completed_before_cutoff": true,
+    "zone_calibration_before_cutoff": true,
+    "four_holiday_factors": true,
+    "six_ordinary_days_equal": true,
+    "hand_forecast_matches": true,
+    "hand_MAE_matches": true,
+    "pooled_WAPE_matches": true,
+    "pooled_bias_matches": true,
+    "future_volume_cannot_change_forecast": true,
+    "missing_reference_rejected": true,
+    "forecast_file_unchanged_after_scoring": true,
+    "scores_cover_scopes_and_segments": true,
+    "zero_actual_denominator_unavailable": true
+  },
+  "forecast_rows": 28,
+  "score_rows": 45
+}

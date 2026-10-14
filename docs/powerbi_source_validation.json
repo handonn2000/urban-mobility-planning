@@ -1,0 +1,14 @@
+{
+  "checked_at_utc": "2026-10-14T12:17:57.730669+00:00",
+  "json_schema_valid": true,
+  "files_checked": 27,
+  "public_schemas_loaded": 11,
+  "semantic_field_references_valid": true,
+  "embedded_snapshots_match_csv": true,
+  "single_direction_relationships": 16,
+  "native_DAX_executed": false,
+  "native_Power_Query_executed": false,
+  "native_report_opened": false,
+  "PBIX_created": false,
+  "evidence_status": "Local schema and source validation; Desktop validation pending"
+}

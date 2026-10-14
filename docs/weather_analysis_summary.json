@@ -1,0 +1,29 @@
+{
+  "completed_at_utc": "2026-10-14T09:38:44.070835+00:00",
+  "weather_selection": {
+    "selected_before_trip_analysis": true,
+    "start": "2024-06-01",
+    "end": "2024-08-31",
+    "months": [
+      "2024-06",
+      "2024-07",
+      "2024-08"
+    ],
+    "heavy_rain_hours": 35,
+    "heavy_rain_events": 14,
+    "selection_rule": "Contiguous three-month windows with >=20 non-holiday heavy-rain hours; maximize distinct wet events, then hours; no trip outcomes used",
+    "event_definition": "Contiguous hours with rain>0 or snowfall>0; heavy hours may belong to the same wet event",
+    "season_limit": "Summer estimates are not directly transferred to February planning"
+  },
+  "summer_hourly_rows": 2208,
+  "summer_completed_trips": 58430874,
+  "baseline": "Dry non-holiday hours within the same year/month/weekday/hour; median trips and hourly median waits",
+  "core_monitoring_rows": 360,
+  "alert_rows": 118,
+  "alert_dates": 58,
+  "missing_baseline_rows": 56,
+  "reviewed_cases": 2,
+  "trips_alert_threshold": 0.07,
+  "wait_alert_threshold": 0.2,
+  "interpretation": "Descriptive associations, not causal effects; summer factors not transferred directly to February forecasts"
+}

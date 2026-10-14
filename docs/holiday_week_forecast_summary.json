@@ -1,0 +1,60 @@
+{
+  "created_at_utc": "2026-10-14T11:46:25.055760+00:00",
+  "cutoff_date": "2025-02-16",
+  "target_window": [
+    "2025-02-17",
+    "2025-02-23"
+  ],
+  "planning_method_at_cutoff": "B2",
+  "planning_reason": "Prespecified same-weekday two-week mean; MLK transfer retained as a scenario, not selected using test scores.",
+  "retrospective_lowest_WAPE_method": "B2",
+  "week_scores": [
+    {
+      "scope": "week",
+      "operator": "All",
+      "touches_zone": "All",
+      "method": "B1",
+      "observations": 28,
+      "actual_trips": 4820140.0,
+      "forecast_trips": 4951605.0,
+      "absolute_error_trips": 214483.0,
+      "signed_error_trips": 131465.0,
+      "MAE": 7660.107142857143,
+      "WAPE": 0.044497255266444546,
+      "bias": 0.02727410407166597
+    },
+    {
+      "scope": "week",
+      "operator": "All",
+      "touches_zone": "All",
+      "method": "B2",
+      "observations": 28,
+      "actual_trips": 4820140.0,
+      "forecast_trips": 4871467.5,
+      "absolute_error_trips": 167949.5,
+      "signed_error_trips": 51327.5,
+      "MAE": 5998.196428571428,
+      "WAPE": 0.03484328256025759,
+      "bias": 0.010648549627189252
+    },
+    {
+      "scope": "week",
+      "operator": "All",
+      "touches_zone": "All",
+      "method": "B3",
+      "observations": 28,
+      "actual_trips": 4820140.0,
+      "forecast_trips": 4868999.648252842,
+      "absolute_error_trips": 174148.00829517713,
+      "signed_error_trips": 48859.648252841915,
+      "MAE": 6219.571724827755,
+      "WAPE": 0.03612924278032944,
+      "bias": 0.01013656206102767
+    }
+  ],
+  "forecast_sha256_before_actual_join": "0d9406d4d2a8d777b68e7c274ec9c2eaebb6a48348df4fcf8f7a9b52ae235fa4",
+  "forecast_frozen_before_actual_join": true,
+  "parameters_use_future_actuals": false,
+  "weather_adjustment_used": false,
+  "availability_assumption": "Historical simulation assumes trip records and the static zone lookup are accessible at cutoff. TLC monthly releases are retrospective, not a live feed."
+}

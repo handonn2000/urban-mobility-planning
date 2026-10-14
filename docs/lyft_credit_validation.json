@@ -1,0 +1,22 @@
+{
+  "checked_at_utc": "2026-10-14T11:27:10.036235+00:00",
+  "valid": true,
+  "checks": {
+    "weekly_unique": true,
+    "weekly_counts_match_daily": true,
+    "weekly_share_matches_counts": true,
+    "matched_periods": true,
+    "share_gap_matches_counts": true,
+    "uplift_denominator_matches": true,
+    "hundred_trip_example": true,
+    "targeted_denominators": true,
+    "scenario_costs_match": true,
+    "zero_redemption": true,
+    "zero_uplift": true,
+    "insufficient_margin": true
+  },
+  "weekly_rows": 18,
+  "partial_week_rows": 4,
+  "comparison_rows": 4,
+  "scenario_rows": 24
+}

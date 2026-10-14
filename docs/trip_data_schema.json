@@ -1,0 +1,304 @@
+{
+  "2024-01": [
+    {
+      "column_name": "hvfhs_license_num",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "dispatching_base_num",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "originating_base_num",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "request_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "on_scene_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "pickup_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "dropoff_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "PULocationID",
+      "column_type": "INTEGER"
+    },
+    {
+      "column_name": "DOLocationID",
+      "column_type": "INTEGER"
+    },
+    {
+      "column_name": "trip_miles",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "trip_time",
+      "column_type": "BIGINT"
+    },
+    {
+      "column_name": "base_passenger_fare",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "tolls",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "bcf",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "sales_tax",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "congestion_surcharge",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "airport_fee",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "tips",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "driver_pay",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "shared_request_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "shared_match_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "access_a_ride_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "wav_request_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "wav_match_flag",
+      "column_type": "VARCHAR"
+    }
+  ],
+  "2025-01": [
+    {
+      "column_name": "hvfhs_license_num",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "dispatching_base_num",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "originating_base_num",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "request_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "on_scene_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "pickup_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "dropoff_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "PULocationID",
+      "column_type": "INTEGER"
+    },
+    {
+      "column_name": "DOLocationID",
+      "column_type": "INTEGER"
+    },
+    {
+      "column_name": "trip_miles",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "trip_time",
+      "column_type": "BIGINT"
+    },
+    {
+      "column_name": "base_passenger_fare",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "tolls",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "bcf",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "sales_tax",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "congestion_surcharge",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "airport_fee",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "tips",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "driver_pay",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "shared_request_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "shared_match_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "access_a_ride_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "wav_request_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "wav_match_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "cbd_congestion_fee",
+      "column_type": "DOUBLE"
+    }
+  ],
+  "2025-02": [
+    {
+      "column_name": "hvfhs_license_num",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "dispatching_base_num",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "originating_base_num",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "request_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "on_scene_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "pickup_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "dropoff_datetime",
+      "column_type": "TIMESTAMP"
+    },
+    {
+      "column_name": "PULocationID",
+      "column_type": "INTEGER"
+    },
+    {
+      "column_name": "DOLocationID",
+      "column_type": "INTEGER"
+    },
+    {
+      "column_name": "trip_miles",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "trip_time",
+      "column_type": "BIGINT"
+    },
+    {
+      "column_name": "base_passenger_fare",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "tolls",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "bcf",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "sales_tax",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "congestion_surcharge",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "airport_fee",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "tips",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "driver_pay",
+      "column_type": "DOUBLE"
+    },
+    {
+      "column_name": "shared_request_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "shared_match_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "access_a_ride_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "wav_request_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "wav_match_flag",
+      "column_type": "VARCHAR"
+    },
+    {
+      "column_name": "cbd_congestion_fee",
+      "column_type": "DOUBLE"
+    }
+  ]
+}

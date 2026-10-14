@@ -1,0 +1,13 @@
+claim,value,source,selection,known_at_cutoff
+planned_week_trips_B2,4871467.5,data/processed/forecast_week.csv,"sum B2, 2025-02-17 through 2025-02-23",True
+holiday_scenario_week_trips_B3,4868999.648252842,data/processed/forecast_week.csv,sum B3,True
+January_relative_zone_gap,-0.0949165546702469,data/processed/fee_effect.csv,"operator=All, trip_group=all_trips",True
+January_Lyft_zone_share,0.26999525149693665,data/processed/daily_segment.csv,"2025-01-06 through 2025-01-26, touches_zone=True",True
+credit_cost_per_extra_trip_scenario,25.87892068222107,docs/lyft_credit_analysis.json,default_economics.cost_per_incremental_trip_usd; retrospective review only,False
+illustrative_eligible_breakeven,0.3333333333333333,data/processed/credit_economics_hand_examples.csv,"targeted example, breakeven_eligible_uplift; assumed economics, independent of observed uplift",True
+illustrative_whole_base_breakeven,0.1,data/processed/credit_economics_hand_examples.csv,"targeted example, breakeven_global_uplift; assumed economics",True
+assumed_trip_coverage,0.3,data/processed/credit_economics_hand_examples.csv,"targeted example, coverage; assumption",True
+assumed_contribution_per_trip,6.0,data/processed/credit_economics_hand_examples.csv,"margin_usd; assumption, not observed margin",True
+credit_face_value,1.5,data/processed/credit_economics_hand_examples.csv,credit_usd; program face value,True
+proposed_holdout_share,0.1,docs/targeted_credit_experiment_brief.md,"Eligibility and assignment; proposed design, not executed test",True
+proposed_issuance_days_minimum,14.0,docs/targeted_credit_experiment_brief.md,Duration and sample; proposed design,True

@@ -1,0 +1,21 @@
+{
+  "completed_at_utc": "2026-10-14T09:38:46.037196+00:00",
+  "reference_window": [
+    "2024-01-08",
+    "2024-01-28"
+  ],
+  "comparison_window": [
+    "2025-01-06",
+    "2025-01-26"
+  ],
+  "main_zone_threshold": 0.95,
+  "low_fare_threshold_usd": 11.63,
+  "main_rows": 9,
+  "sensitivity_rows": 54,
+  "rainiest_matched_week_index_removed": 0,
+  "weather_rule": "Maximum combined rain_mm in matched week pairs, selected without trip outcomes; remove corresponding seven-day block from each year",
+  "all_trips_relative_gap": -0.09491655467024696,
+  "all_directions_stable": true,
+  "elasticity": "Naive illustrative ratio, not an identified elasticity",
+  "identification_limit": "Requires parallel growth absent policy and unaffected controls; neither is established with this short dataset"
+}

@@ -1,0 +1,15 @@
+Study,WeatherGroup,Hours,Days,Events,TripsFactor,WaitFactor,LowSample
+summer_2024,drizzle,0,0,0,,,True
+summer_2024,dry,1792,90,0,1.0,1.0,False
+summer_2024,light_rain,110,32,36,1.0306791606948509,1.0033658379983548,False
+summer_2024,moderate_or_heavy_rain,35,13,14,1.0771738161630824,1.0091743119266054,False
+winter_2024,drizzle,0,0,0,,,True
+winter_2024,dry,528,29,0,1.0,1.0,False
+winter_2024,light_rain,37,9,7,1.1009055427857397,1.0572082379862702,False
+winter_2024,moderate_or_heavy_rain,15,4,3,1.0286228809890738,1.0657276995305165,True
+winter_2024,snow,50,5,5,1.0896917518444296,1.0354705459770115,False
+winter_2025,drizzle,0,0,0,,,True
+winter_2025,dry,1168,56,0,1.0,1.0,False
+winter_2025,light_rain,38,9,7,1.0119664083634394,1.0445408672507486,False
+winter_2025,moderate_or_heavy_rain,4,2,2,1.0558921454641257,1.0118289271035532,True
+winter_2025,snow,94,15,13,1.0274462690347983,1.0781208775101383,False

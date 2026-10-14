@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "decision_kpi_0",
+  "position": {
+    "x": 15,
+    "y": 10,
+    "width": 300,
+    "height": 105,
+    "z": 10,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactFeeEffect"
+                    }
+                  },
+                  "Property": "Fee all-trip gap"
+                }
+              },
+              "queryRef": "FactFeeEffect.Fee all-trip gap",
+              "nativeQueryRef": "Fee all-trip gap"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Fee all-trip gap'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

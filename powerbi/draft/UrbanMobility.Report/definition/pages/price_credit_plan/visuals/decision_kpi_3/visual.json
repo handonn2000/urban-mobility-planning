@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "decision_kpi_3",
+  "position": {
+    "x": 960,
+    "y": 10,
+    "width": 300,
+    "height": 105,
+    "z": 13,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactPlan"
+                    }
+                  },
+                  "Property": "Planned trips B2"
+                }
+              },
+              "queryRef": "FactPlan.Planned trips B2",
+              "nativeQueryRef": "Planned trips B2"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Planned trips B2'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

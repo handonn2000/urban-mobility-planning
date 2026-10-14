@@ -1,0 +1,15 @@
+{
+  "selected_before_trip_analysis": true,
+  "start": "2024-06-01",
+  "end": "2024-08-31",
+  "months": [
+    "2024-06",
+    "2024-07",
+    "2024-08"
+  ],
+  "heavy_rain_hours": 35,
+  "heavy_rain_events": 14,
+  "selection_rule": "Contiguous three-month windows with >=20 non-holiday heavy-rain hours; maximize distinct wet events, then hours; no trip outcomes used",
+  "event_definition": "Contiguous hours with rain>0 or snowfall>0; heavy hours may belong to the same wet event",
+  "season_limit": "Summer estimates are not directly transferred to February planning"
+}

@@ -1,0 +1,2 @@
+request_date,operator,touches_zone,D7_trips,D14_trips,MLK_trips,MLK_before_trips,MLK_after_trips,B1,B2,B3,hand_B3,actual_trips,pooled_B3_absolute_error,pooled_actual_trips,pooled_B3_signed_error,hand_MAE,hand_WAPE,hand_bias
+2025-02-17,Lyft,False,99643.0,95176.0,88770.0,88171.0,90233.0,99643.0,97409.5,96937.75156386627,96937.75156386629,98348,174148.00829517713,4820140,48859.648252841915,6219.571724827755,0.03612924278032944,0.01013656206102767

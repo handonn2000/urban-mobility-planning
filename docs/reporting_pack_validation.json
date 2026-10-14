@@ -1,0 +1,35 @@
+{
+  "checked_at_utc": "2026-10-14T12:23:40.722089+00:00",
+  "valid": true,
+  "checks": {
+    "continuous_date_dimension": true,
+    "four_unique_segments": true,
+    "daily_total_matches_source": true,
+    "city_hour_total_matches_source": true,
+    "single_date_segment_matches": true,
+    "all_daily_keys_unique": true,
+    "weather_has_no_segment_key": true,
+    "only_full_share_weeks": true,
+    "missing_prior_year_is_unavailable": true,
+    "forecast_keys_unique": true,
+    "plan_has_no_actual": true,
+    "B1_WAPE_matches_source": true,
+    "B2_WAPE_matches_source": true,
+    "B3_WAPE_matches_source": true,
+    "foreign_keys_match_dimensions": true,
+    "operator_slicer_does_not_change_share_market": true
+  },
+  "default_filters": {
+    "start": "2025-01-06",
+    "end": "2025-01-26"
+  },
+  "default_kpis": {
+    "trips": 14097953,
+    "prior_trips": 13825022.0,
+    "year_on_year": 0.019741813069085845,
+    "lyft_share": 0.2492908012957626,
+    "alert_rows": 45
+  },
+  "native_powerbi_tested": false,
+  "evidence": "Local source reconciliation and filter semantics; native DAX and visual interactions require Power BI validation."
+}

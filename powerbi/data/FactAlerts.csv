@@ -1,0 +1,119 @@
+Date,SegmentKey,TripsDeviation,WaitDeviation,Trigger,NextStep,Status
+2024-01-15 00:00:00,Lyft_outside,-0.1747841627023081,-0.156794425087108,trips,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2024-01-15 00:00:00,Uber_outside,-0.072808342143406,-0.1886120996441281,trips,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2024-01-15 00:00:00,Uber_zone,0.1580166105776652,-0.2107438016528926,"trips,wait",So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2024-01-16 00:00:00,Lyft_zone,0.1300431805295065,0.1674208144796378,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-16 00:00:00,Uber_outside,0.0890412380666625,0.0655021834061133,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-16 00:00:00,Uber_zone,0.2705170660079383,0.1336633663366337,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-17 00:00:00,Lyft_outside,0.1428638990569697,0.1323210412147504,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-17 00:00:00,Lyft_zone,0.2773971454437751,0.3194805194805197,"trips,wait","Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-17 00:00:00,Uber_outside,0.2483849523918484,0.1209302325581394,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-17 00:00:00,Uber_zone,0.4390459775469324,0.3219373219373218,"trips,wait","Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-18 00:00:00,Lyft_zone,0.1285179404188492,0.1720698254364088,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-18 00:00:00,Uber_outside,0.1497561871711346,0.0849056603773585,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-18 00:00:00,Uber_zone,0.280659537140975,0.1657458563535911,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-19 00:00:00,Uber_outside,0.1092413538087426,0.020316027088036,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-19 00:00:00,Uber_zone,0.2002589898175466,0.0242587601078165,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-20 00:00:00,Lyft_zone,0.0995520756181003,0.0833333333333332,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-20 00:00:00,Uber_outside,0.1308120014378475,0.0452488687782806,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-20 00:00:00,Uber_zone,0.1850188216798409,0.0463917525773196,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-21 00:00:00,Uber_outside,0.1296735454092432,0.069351230425056,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-21 00:00:00,Uber_zone,0.1187219232479339,0.0645994832041343,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-22 00:00:00,Uber_outside,0.0894760225954798,0.031390134529148,trips,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2024-01-23 00:00:00,Lyft_outside,-0.1513152106976335,-0.0961538461538462,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-23 00:00:00,Lyft_zone,-0.0841707331185989,-0.1342685370741482,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-24 00:00:00,Lyft_outside,-0.0952976443876827,-0.036734693877551,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-24 00:00:00,Uber_zone,0.0731949189978633,-0.0195121951219511,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-26 00:00:00,Lyft_outside,-0.0726116999608003,0.0103950103950105,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2024-01-27 00:00:00,Lyft_outside,-0.1205246578724869,-0.0245901639344261,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-27 00:00:00,Lyft_zone,-0.0859648664191979,-0.0065359477124183,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-29 00:00:00,Lyft_zone,-0.0944213333333333,-0.0285714285714285,trips,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2024-01-31 00:00:00,Lyft_outside,-0.079251819740255,-0.0623742454728368,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2024-01-31 00:00:00,Uber_zone,-0.0836541500075567,-0.1224018475750577,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-01 00:00:00,Lyft_outside,-0.0217010555498319,0.2844827586206897,wait,So cả bốn phân khúc và ngày lễ năm trước; kiểm tra thời tiết trước khi gán nguyên nhân.,needs_follow_up
+2025-01-01 00:00:00,Lyft_zone,0.288743290943378,0.4388297872340423,"trips,wait",So cả bốn phân khúc và ngày lễ năm trước; kiểm tra thời tiết trước khi gán nguyên nhân.,needs_follow_up
+2025-01-01 00:00:00,Uber_outside,0.5165507985729052,0.5833333333333333,"trips,wait",So cả bốn phân khúc và ngày lễ năm trước; kiểm tra thời tiết trước khi gán nguyên nhân.,needs_follow_up
+2025-01-01 00:00:00,Uber_zone,0.2916678011017632,0.7745664739884393,"trips,wait",So cả bốn phân khúc và ngày lễ năm trước; kiểm tra thời tiết trước khi gán nguyên nhân.,needs_follow_up
+2025-01-02 00:00:00,Lyft_outside,-0.2762956769949245,0.1283185840707965,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-02 00:00:00,Lyft_zone,-0.2249522521088651,0.0666666666666666,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-02 00:00:00,Uber_outside,0.0948819921947592,0.0995260663507107,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-02 00:00:00,Uber_zone,-0.187144145876159,0.0282485875706213,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-03 00:00:00,Lyft_outside,-0.2157770283366282,0.0798319327731091,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-03 00:00:00,Lyft_zone,-0.105066888723955,0.0974358974358975,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-03 00:00:00,Uber_zone,-0.1578741946010275,0.0056497175141243,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-04 00:00:00,Lyft_outside,-0.1653682943821648,0.0649350649350648,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-04 00:00:00,Uber_zone,-0.1557760955973569,-0.0523560209424083,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-05 00:00:00,Lyft_outside,-0.0794114130867936,0.0854700854700856,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-05 00:00:00,Uber_outside,0.2003176424220429,0.0322580645161292,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-06 00:00:00,Lyft_zone,0.1308021022643548,0.1479591836734695,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-06 00:00:00,Uber_outside,0.1473040620875674,0.0825688073394492,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-07 00:00:00,Uber_zone,-0.1660092565039286,-0.0945945945945946,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-08 00:00:00,Lyft_outside,0.0948823523792237,0.1222707423580784,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-08 00:00:00,Lyft_zone,0.272485397742626,0.1878172588832487,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-08 00:00:00,Uber_outside,0.2088846279159473,0.0654205607476634,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-09 00:00:00,Lyft_outside,0.0898552024028331,0.0565217391304346,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-09 00:00:00,Lyft_zone,0.2053909351056955,0.0728155339805824,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-09 00:00:00,Uber_outside,0.213829040771913,0.0751173708920189,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-10 00:00:00,Lyft_outside,-0.1242247869832866,0.0210084033613444,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-10 00:00:00,Uber_outside,0.1382539682539683,0.0266666666666666,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-11 00:00:00,Lyft_outside,-0.1783054925309497,-0.0209205020920502,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-11 00:00:00,Uber_outside,0.0985126775393967,0.0179372197309415,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-12 00:00:00,Lyft_outside,-0.2209658625005395,0.0040983606557376,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-12 00:00:00,Lyft_zone,-0.1481221428784845,0.0181818181818183,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-12 00:00:00,Uber_zone,-0.1400981445209662,0.0251256281407035,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-13 00:00:00,Lyft_outside,-0.1035432870723399,0.1033057851239669,trips,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2025-01-13 00:00:00,Uber_outside,0.1324201264440307,0.0175438596491226,trips,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2025-01-14 00:00:00,Lyft_outside,-0.2001859057895072,-0.066420664206642,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-14 00:00:00,Uber_outside,0.0853739681307486,-0.069672131147541,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-15 00:00:00,Lyft_outside,-0.1526926289937505,-0.1243243243243243,trips,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2025-01-15 00:00:00,Uber_outside,-0.0114073424663918,-0.2,wait,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2025-01-15 00:00:00,Uber_zone,0.2007495473239475,-0.1692913385826772,trips,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2025-01-16 00:00:00,Lyft_zone,0.201281571651942,0.1515151515151513,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-16 00:00:00,Uber_outside,0.0829266142981479,0.0108459869848156,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-16 00:00:00,Uber_zone,0.2869693564596938,0.1758530183727034,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-17 00:00:00,Lyft_outside,0.0750830010974203,0.0160000000000002,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-17 00:00:00,Lyft_zone,0.0765031184296543,0.0710900473933648,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-17 00:00:00,Uber_outside,0.0823578349458162,0.0549450549450549,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-17 00:00:00,Uber_zone,0.1515119433600211,0.1141304347826086,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-18 00:00:00,Lyft_outside,0.1105569799434724,0.0291666666666665,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-19 00:00:00,Lyft_outside,0.1414650169714222,0.1142284569138278,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-19 00:00:00,Lyft_zone,0.1465558040478465,0.164785553047404,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-19 00:00:00,Uber_outside,0.0739635600921102,0.2200435729847494,"trips,wait",So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-19 00:00:00,Uber_zone,0.051789238678354,0.2295918367346938,wait,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-20 00:00:00,Lyft_outside,-0.0766878503895239,0.0502793296089387,trips,So cả bốn phân khúc và ngày lễ năm trước; kiểm tra thời tiết trước khi gán nguyên nhân.,reviewed_with_limitations
+2025-01-21 00:00:00,Lyft_outside,0.0815922652768335,0.0174081237911025,trips,"Rà nguồn cước/chờ; giữ volume, không dùng giá thiếu mẫu để gán nguyên nhân.",needs_follow_up
+2025-01-21 00:00:00,Lyft_zone,0.0992775708319222,0.0214592274678113,trips,"Rà nguồn cước/chờ; giữ volume, không dùng giá thiếu mẫu để gán nguyên nhân.",reviewed_with_limitations
+2025-01-21 00:00:00,Uber_zone,0.0797684175538679,0.0631067961165048,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-01-22 00:00:00,Lyft_zone,0.09970192834114,0.0447761194029849,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-22 00:00:00,Uber_zone,0.1114213497292317,0.0728155339805824,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-23 00:00:00,Uber_zone,0.0715261001995588,0.0591016548463356,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-24 00:00:00,Lyft_zone,0.1399149891731494,0.0829493087557602,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-24 00:00:00,Uber_zone,0.0701853640987255,0.0531645569620253,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-25 00:00:00,Lyft_zone,0.1052740036542978,0.0988505747126438,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-01-29 00:00:00,Uber_outside,-0.1043314645007628,-0.0603448275862067,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-01 00:00:00,Lyft_outside,0.0849428408481516,0.0322580645161292,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-02 00:00:00,Lyft_outside,0.1450371781509167,0.0113207547169811,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-02 00:00:00,Lyft_zone,0.070650070940281,0.0101419878296147,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-04 00:00:00,Lyft_zone,-0.1074576179823734,-0.0262008733624453,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-06 00:00:00,Uber_zone,0.0878192353166429,-0.0474040632054175,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-10 00:00:00,Lyft_outside,0.0748453419197558,0.0650406504065039,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-10 00:00:00,Lyft_zone,0.0869408092865355,0.0973871733966746,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-10 00:00:00,Uber_zone,0.0851323436149815,0.0816326530612245,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-11 00:00:00,Uber_zone,0.0730392580017071,0.0439024390243902,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-12 00:00:00,Uber_outside,0.0869201609309715,0.0588235294117647,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-14 00:00:00,Lyft_outside,0.0756849100369883,0.1860465116279068,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-14 00:00:00,Lyft_zone,-0.072223440606142,0.1860940695296524,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-14 00:00:00,Uber_outside,0.1119674908118506,0.2148760330578514,"trips,wait","Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-14 00:00:00,Uber_zone,-0.0057332520704875,0.2300683371298406,wait,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-15 00:00:00,Lyft_outside,0.0803703109971145,0.0597302504816954,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-18 00:00:00,Lyft_outside,0.0713257686371031,0.0020703933747412,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-21 00:00:00,Lyft_zone,0.0876304002206913,-0.125233644859813,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-22 00:00:00,Lyft_zone,-0.0921188914346693,-0.0795454545454547,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-23 00:00:00,Uber_zone,-0.146320613172984,-0.1227364185110663,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-24 00:00:00,Lyft_zone,-0.0789249103924659,-0.0758928571428571,trips,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2025-02-24 00:00:00,Uber_zone,-0.0811284498595772,-0.0634146341463414,trips,So lại với ngày thường cùng thứ; baseline có lễ nên không coi chênh lệch là tác động mới.,needs_follow_up
+2025-02-25 00:00:00,Uber_zone,-0.1202409748528137,-0.0336538461538461,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up
+2025-02-26 00:00:00,Lyft_outside,0.1004306300671205,0.0353430353430355,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-26 00:00:00,Uber_zone,-0.1054574870713316,-0.0070588235294117,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-27 00:00:00,Uber_zone,-0.0734619973331461,-0.0171673819742488,trips,So giờ khô cùng tháng/thứ/giờ và thời tiết các ngày baseline; chưa suy ra thiếu tài xế.,needs_follow_up
+2025-02-28 00:00:00,Uber_zone,-0.142030227172327,0.0042016806722688,trips,"Rà xu hướng hai hãng/nhãn vùng, giá và dữ liệu nguồn; chưa gán tác động cho phí hoặc credit.",needs_follow_up

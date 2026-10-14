@@ -1,0 +1,107 @@
+{
+  "data/raw/fhvhv_tripdata_2024-01.parquet": {
+    "url": "https://d37ci6vzurychx.cloudfront.net/trip-data/fhvhv_tripdata_2024-01.parquet",
+    "downloaded_at_utc": "2026-10-14T07:44:21.885930+00:00",
+    "bytes": 472757547,
+    "sha256": "9897de352aa52cea36b70348cc6721b8d4494327ce39c85f0dba83d86ecaa098"
+  },
+  "data/raw/fhvhv_tripdata_2025-01.parquet": {
+    "url": "https://d37ci6vzurychx.cloudfront.net/trip-data/fhvhv_tripdata_2025-01.parquet",
+    "downloaded_at_utc": "2026-10-14T07:46:16.027934+00:00",
+    "bytes": 491076642,
+    "sha256": "fcdef276f4e9887f2beab30590165cdea74caef50a1313d71fa01ff6afacca3a"
+  },
+  "data/raw/fhvhv_tripdata_2025-02.parquet": {
+    "url": "https://d37ci6vzurychx.cloudfront.net/trip-data/fhvhv_tripdata_2025-02.parquet",
+    "downloaded_at_utc": "2026-10-14T07:48:06.358551+00:00",
+    "bytes": 461632254,
+    "sha256": "2077477d4d841b8ec40a3839b629f08f45f6802ca016adc1e01d6d8cffd2cf23"
+  },
+  "data/external/taxi_zone_lookup.csv": {
+    "url": "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv",
+    "downloaded_at_utc": "2026-10-14T07:48:06.909971+00:00",
+    "bytes": 12331,
+    "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed"
+  },
+  "data/external/weather_2024-01.json": {
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=40.7812&longitude=-73.9665&start_date=2024-01-01&end_date=2024-01-31&hourly=temperature_2m%2Crain%2Csnowfall&timezone=America%2FNew_York&models=era5&temperature_unit=celsius&precipitation_unit=mm",
+    "downloaded_at_utc": "2026-10-14T07:48:08.139393+00:00",
+    "bytes": 25137,
+    "sha256": "ff1241d2c06d193fcbe9631ac03902a93e03fea7bd625757caac5ff26d81635a"
+  },
+  "data/external/weather_2025-01.json": {
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=40.7812&longitude=-73.9665&start_date=2025-01-01&end_date=2025-01-31&hourly=temperature_2m%2Crain%2Csnowfall&timezone=America%2FNew_York&models=era5&temperature_unit=celsius&precipitation_unit=mm",
+    "downloaded_at_utc": "2026-10-14T07:48:09.102622+00:00",
+    "bytes": 25363,
+    "sha256": "1695471dc82f243a7ce7c7480321ff4aea97aa4059d176cda3c3330c592d8318"
+  },
+  "data/external/weather_2025-02.json": {
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=40.7812&longitude=-73.9665&start_date=2025-02-01&end_date=2025-02-28&hourly=temperature_2m%2Crain%2Csnowfall&timezone=America%2FNew_York&models=era5&temperature_unit=celsius&precipitation_unit=mm",
+    "downloaded_at_utc": "2026-10-14T07:48:10.139715+00:00",
+    "bytes": 22810,
+    "sha256": "69fe6003cedd0fabc9547c6ced85b4cf64ecf8a8a08b9901dfb78543edc04267"
+  },
+  "derived_sources": {
+    "weather_hourly.csv": {
+      "inputs": [
+        "weather_2024-01.json",
+        "weather_2025-01.json",
+        "weather_2025-02.json"
+      ],
+      "model": "ERA5",
+      "timezone": "America/New_York",
+      "note": "Historical reanalysis; not a forecast known at 16 Feb 2025"
+    },
+    "holidays.csv": {
+      "country": "US",
+      "years": [
+        2024,
+        2025
+      ],
+      "observed": true,
+      "holidays_version": "0.106"
+    }
+  },
+  "data/external/weather_2024_full_year.json": {
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=40.7812&longitude=-73.9665&start_date=2024-01-01&end_date=2024-12-31&hourly=temperature_2m%2Crain%2Csnowfall&timezone=America%2FNew_York&models=era5&temperature_unit=celsius&precipitation_unit=mm",
+    "downloaded_at_utc": "2026-10-14T09:09:54.364792+00:00",
+    "bytes": 296160,
+    "sha256": "eb86b5e0f8cdb00b2f7dedaf09012d880568250a76fd1d30e19d0778f5eee1f5"
+  },
+  "data/weather_raw/fhvhv_tripdata_2024-06.parquet": {
+    "url": "https://d37ci6vzurychx.cloudfront.net/trip-data/fhvhv_tripdata_2024-06.parquet",
+    "downloaded_at_utc": "2026-10-14T09:15:36.730111+00:00",
+    "bytes": 484417715,
+    "sha256": "4772ee1ab01e639a5db74169b49049f74f0f46a0c925fd3b67f9f068221f6373"
+  },
+  "data/external/weather_2024-06.json": {
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=40.7812&longitude=-73.9665&start_date=2024-06-01&end_date=2024-06-30&hourly=temperature_2m%2Crain%2Csnowfall&timezone=America%2FNew_York&models=era5&temperature_unit=celsius&precipitation_unit=mm",
+    "downloaded_at_utc": "2026-10-14T09:15:37.931251+00:00",
+    "bytes": 24810,
+    "sha256": "597d2065f8db56360c85c09ccf8c8d718b930d94578143ba2bc89ec878b7a467"
+  },
+  "data/weather_raw/fhvhv_tripdata_2024-07.parquet": {
+    "url": "https://d37ci6vzurychx.cloudfront.net/trip-data/fhvhv_tripdata_2024-07.parquet",
+    "downloaded_at_utc": "2026-10-14T09:17:20.912749+00:00",
+    "bytes": 468437522,
+    "sha256": "3a511a8df72441d72b32f6ce9829e29f5d61666e37f1b40b8d352cc5830c81e1"
+  },
+  "data/external/weather_2024-07.json": {
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=40.7812&longitude=-73.9665&start_date=2024-07-01&end_date=2024-07-31&hourly=temperature_2m%2Crain%2Csnowfall&timezone=America%2FNew_York&models=era5&temperature_unit=celsius&precipitation_unit=mm",
+    "downloaded_at_utc": "2026-10-14T09:17:22.305772+00:00",
+    "bytes": 25624,
+    "sha256": "44f85744515042252cfd659dffba5f5cf5084c0e133c263f84ddd172b7aa89a2"
+  },
+  "data/weather_raw/fhvhv_tripdata_2024-08.parquet": {
+    "url": "https://d37ci6vzurychx.cloudfront.net/trip-data/fhvhv_tripdata_2024-08.parquet",
+    "downloaded_at_utc": "2026-10-14T09:19:12.139335+00:00",
+    "bytes": 465991646,
+    "sha256": "99fd2913d2c8935e4c1d166f229290a90971b6564c490a8ba2a257de9e08fae2"
+  },
+  "data/external/weather_2024-08.json": {
+    "url": "https://archive-api.open-meteo.com/v1/archive?latitude=40.7812&longitude=-73.9665&start_date=2024-08-01&end_date=2024-08-31&hourly=temperature_2m%2Crain%2Csnowfall&timezone=America%2FNew_York&models=era5&temperature_unit=celsius&precipitation_unit=mm",
+    "downloaded_at_utc": "2026-10-14T09:19:13.537933+00:00",
+    "bytes": 25624,
+    "sha256": "43b175c124789b7e17b8b320f44abd360b0024dceaa24759c0e2c2d4c048d3b1"
+  }
+}

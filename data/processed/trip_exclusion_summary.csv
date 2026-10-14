@@ -1,0 +1,4 @@
+source_month,raw_trips,excluded_outside_period,excluded_operator,excluded_unknown_endpoints,retained_trips
+2024-01,19663930,861.0,0.0,0.0,19663069.0
+2025-01,20405666,1164.0,0.0,0.0,20404502.0
+2025-02,19339461,13.0,0.0,6.0,19339442.0

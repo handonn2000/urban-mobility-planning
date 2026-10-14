@@ -1,0 +1,24 @@
+{
+  "created_at_utc": "2026-10-14T09:38:41.256129+00:00",
+  "date_basis": "request_datetime, New York local time",
+  "zone_threshold": 0.95,
+  "zone_count": 38,
+  "zone_inference_dates": [
+    "2025-01-05",
+    "2025-01-31"
+  ],
+  "low_fare_threshold_usd": 11.63,
+  "low_fare_reference": "All retained Jan 2024 trips with finite positive base fare; pooled across operators/zones",
+  "low_fare_definition": "base_passenger_fare <= reference 25th percentile; ties included",
+  "short_trip_definition": "0 < trip_miles < 2",
+  "valid_wait_definition": "0 <= pickup_datetime - request_datetime <= 60 minutes",
+  "monetary_sample": "Both total_base_fare and total_driver_pay use the same valid_economics sample",
+  "outside_nyc_zone": "265 retained as a known outside-zone endpoint; 264 Unknown excluded",
+  "retained_trips": 59407013,
+  "daily_rows": 360,
+  "hourly_rows": 2160,
+  "empty_daily_segments_filled": 0,
+  "empty_hours_filled": 0,
+  "source_coverage": "Every expected hour contains in-scope Uber/Lyft requests; this does not prove provider-level completeness",
+  "boundary_limit": "January 2024 cannot include requests picked up in February 2024 because that source month is outside scope; Jan/Feb 2025 requests are reassigned across the available adjacent files"
+}

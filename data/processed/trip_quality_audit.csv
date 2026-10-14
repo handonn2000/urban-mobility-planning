@@ -1,0 +1,40 @@
+source_month,rule,affected_trips,raw_trips,decision,reason
+2024-01,missing_request_time,0,19663930,exclude,Không xác định được ngày phân tích
+2024-01,request_outside_source_month,861,19663930,flag,"Phân tháng theo request trong toàn bộ phạm vi, không loại chỉ vì khác tháng file"
+2024-01,request_outside_analysis_period,861,19663930,exclude,Ngày đặt ngoài 90 ngày đã chọn
+2024-01,unsupported_operator,0,19663930,exclude,Chỉ phân tích Uber và Lyft
+2024-01,unknown_endpoint,0,19663930,exclude,"Không đủ cơ sở gắn nhãn vùng; 264 là Unknown, 265 Outside of NYC được giữ"
+2024-01,missing_pickup_time,0,19663930,metric_only,Giữ chuyến; bỏ khỏi mẫu thời gian chờ
+2024-01,negative_wait,188251,19663930,metric_only,Giữ chuyến; bỏ khỏi mẫu thời gian chờ
+2024-01,wait_over_60_minutes,587,19663930,metric_only,Giữ chuyến; bỏ khỏi mẫu thời gian chờ
+2024-01,invalid_fare,7334,19663930,metric_only,"Cước phải hữu hạn và >0; không dùng để tính giá, giá thấp hoặc mẫu kinh tế"
+2024-01,invalid_driver_pay,137,19663930,metric_only,Tiền tài xế phải hữu hạn và >=0; không dùng cho mẫu kinh tế
+2024-01,invalid_distance,3286,19663930,metric_only,Quãng đường phải hữu hạn và >0; không gắn nhãn chuyến ngắn
+2024-01,negative_congestion_fee,0,19663930,flag,Giữ chuyến; khoản điều chỉnh không tính là có phí dương
+2024-01,missing_congestion_fee,19663930,19663930,flag,2024 thiếu cột phí theo schema; không đổi NULL thành 0
+2025-01,missing_request_time,0,20405666,exclude,Không xác định được ngày phân tích
+2025-01,request_outside_source_month,1169,20405666,flag,"Phân tháng theo request trong toàn bộ phạm vi, không loại chỉ vì khác tháng file"
+2025-01,request_outside_analysis_period,1164,20405666,exclude,Ngày đặt ngoài 90 ngày đã chọn
+2025-01,unsupported_operator,0,20405666,exclude,Chỉ phân tích Uber và Lyft
+2025-01,unknown_endpoint,0,20405666,exclude,"Không đủ cơ sở gắn nhãn vùng; 264 là Unknown, 265 Outside of NYC được giữ"
+2025-01,missing_pickup_time,0,20405666,metric_only,Giữ chuyến; bỏ khỏi mẫu thời gian chờ
+2025-01,negative_wait,199788,20405666,metric_only,Giữ chuyến; bỏ khỏi mẫu thời gian chờ
+2025-01,wait_over_60_minutes,710,20405666,metric_only,Giữ chuyến; bỏ khỏi mẫu thời gian chờ
+2025-01,invalid_fare,17204,20405666,metric_only,"Cước phải hữu hạn và >0; không dùng để tính giá, giá thấp hoặc mẫu kinh tế"
+2025-01,invalid_driver_pay,313,20405666,metric_only,Tiền tài xế phải hữu hạn và >=0; không dùng cho mẫu kinh tế
+2025-01,invalid_distance,2606,20405666,metric_only,Quãng đường phải hữu hạn và >0; không gắn nhãn chuyến ngắn
+2025-01,negative_congestion_fee,0,20405666,flag,Giữ chuyến; khoản điều chỉnh không tính là có phí dương
+2025-01,missing_congestion_fee,0,20405666,flag,2024 thiếu cột phí theo schema; không đổi NULL thành 0
+2025-02,missing_request_time,0,19339461,exclude,Không xác định được ngày phân tích
+2025-02,request_outside_source_month,3332,19339461,flag,"Phân tháng theo request trong toàn bộ phạm vi, không loại chỉ vì khác tháng file"
+2025-02,request_outside_analysis_period,13,19339461,exclude,Ngày đặt ngoài 90 ngày đã chọn
+2025-02,unsupported_operator,0,19339461,exclude,Chỉ phân tích Uber và Lyft
+2025-02,unknown_endpoint,6,19339461,exclude,"Không đủ cơ sở gắn nhãn vùng; 264 là Unknown, 265 Outside of NYC được giữ"
+2025-02,missing_pickup_time,0,19339461,metric_only,Giữ chuyến; bỏ khỏi mẫu thời gian chờ
+2025-02,negative_wait,193755,19339461,metric_only,Giữ chuyến; bỏ khỏi mẫu thời gian chờ
+2025-02,wait_over_60_minutes,380,19339461,metric_only,Giữ chuyến; bỏ khỏi mẫu thời gian chờ
+2025-02,invalid_fare,1708,19339461,metric_only,"Cước phải hữu hạn và >0; không dùng để tính giá, giá thấp hoặc mẫu kinh tế"
+2025-02,invalid_driver_pay,238,19339461,metric_only,Tiền tài xế phải hữu hạn và >=0; không dùng cho mẫu kinh tế
+2025-02,invalid_distance,2469,19339461,metric_only,Quãng đường phải hữu hạn và >0; không gắn nhãn chuyến ngắn
+2025-02,negative_congestion_fee,0,19339461,flag,Giữ chuyến; khoản điều chỉnh không tính là có phí dương
+2025-02,missing_congestion_fee,0,19339461,flag,2024 thiếu cột phí theo schema; không đổi NULL thành 0

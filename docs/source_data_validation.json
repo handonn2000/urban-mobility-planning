@@ -1,0 +1,176 @@
+{
+  "valid": true,
+  "checked_at_utc": "2026-10-14T09:38:21.618259+00:00",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "checks": [
+    {
+      "check": "libraries_import",
+      "valid": true,
+      "details": {
+        "duckdb": "1.5.6",
+        "pandas": "3.0.6",
+        "requests": "2.34.2",
+        "holidays": "0.106"
+      }
+    },
+    {
+      "check": "schema_2024-01",
+      "valid": true,
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "check": "rows_2024-01",
+      "valid": true,
+      "details": {
+        "rows": 19663930
+      }
+    },
+    {
+      "check": "schema_2025-01",
+      "valid": true,
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "check": "rows_2025-01",
+      "valid": true,
+      "details": {
+        "rows": 20405666
+      }
+    },
+    {
+      "check": "fee_column_2025-01",
+      "valid": true,
+      "details": {}
+    },
+    {
+      "check": "schema_2025-02",
+      "valid": true,
+      "details": {
+        "missing": []
+      }
+    },
+    {
+      "check": "rows_2025-02",
+      "valid": true,
+      "details": {
+        "rows": 19339461
+      }
+    },
+    {
+      "check": "fee_column_2025-02",
+      "valid": true,
+      "details": {}
+    },
+    {
+      "check": "no_positive_fee_on_trips_ended_before_start",
+      "valid": true,
+      "details": {
+        "positive_fee_trips": 0,
+        "time_basis": "dropoff_datetime < 2025-01-05 00:00 New York",
+        "note": "Trips spanning midnight may have a fee; 2024 has no fee column"
+      }
+    },
+    {
+      "check": "positive_fee_has_dropoff",
+      "valid": true,
+      "details": {}
+    },
+    {
+      "check": "positive_fee_after_start",
+      "valid": true,
+      "details": {
+        "positive_fee_trips": 13123818
+      }
+    },
+    {
+      "check": "zone_unique_key",
+      "valid": true,
+      "details": {
+        "rows": 265
+      }
+    },
+    {
+      "check": "weather_exact_hour_grid",
+      "valid": true,
+      "details": {
+        "rows": 2160,
+        "expected": 2160
+      }
+    },
+    {
+      "check": "weather_non_null",
+      "valid": true,
+      "details": {
+        "nulls": {
+          "request_hour": 0,
+          "temperature_c": 0,
+          "rain_mm": 0,
+          "snowfall_cm": 0
+        }
+      }
+    },
+    {
+      "check": "weather_nonnegative",
+      "valid": true,
+      "details": {}
+    },
+    {
+      "check": "key_holidays_present",
+      "valid": true,
+      "details": [
+        {
+          "date": "2024-01-15",
+          "holiday_name": "Martin Luther King Jr. Day"
+        },
+        {
+          "date": "2025-01-20",
+          "holiday_name": "Martin Luther King Jr. Day"
+        },
+        {
+          "date": "2025-02-17",
+          "holiday_name": "Washington's Birthday"
+        }
+      ]
+    },
+    {
+      "check": "holidays_unique",
+      "valid": true,
+      "details": {
+        "rows": 22
+      }
+    }
+  ],
+  "inventory": [
+    {
+      "month": "2024-01",
+      "rows": 19663930,
+      "bytes": 472757547,
+      "columns": 24,
+      "fee_column_present": false,
+      "min_request_date": "2023-12-31 00:00:00",
+      "max_request_date": "2024-02-01 00:00:00"
+    },
+    {
+      "month": "2025-01",
+      "rows": 20405666,
+      "bytes": 491076642,
+      "columns": 25,
+      "fee_column_present": true,
+      "min_request_date": "2024-12-31 00:00:00",
+      "max_request_date": "2025-02-01 00:00:00"
+    },
+    {
+      "month": "2025-02",
+      "rows": 19339461,
+      "bytes": 461632254,
+      "columns": 25,
+      "fee_column_present": true,
+      "min_request_date": "2025-01-31 00:00:00",
+      "max_request_date": "2025-03-01 00:00:00"
+    }
+  ]
+}

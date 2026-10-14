@@ -1,0 +1,10 @@
+operator,trip_group,main_relative_gap,min_relative_gap,max_relative_gap,variants,same_direction,interpretation
+All,all_trips,-0.09491655467024696,-0.09491655467024696,-0.0926497076360111,6,True,Direction stability only; not proof of causality or parallel trends
+All,short_trips,-0.11593579974108525,-0.11645070048903272,-0.11493194652471439,6,True,Direction stability only; not proof of causality or parallel trends
+All,low_fare_trips,-0.23892842303275263,-0.2421162196010842,-0.23892842303275263,6,True,Direction stability only; not proof of causality or parallel trends
+Uber,all_trips,-0.1630607983825204,-0.1630607983825204,-0.1599501679760147,6,True,Direction stability only; not proof of causality or parallel trends
+Uber,short_trips,-0.20804386020170984,-0.20804386020170984,-0.20670039364267745,6,True,Direction stability only; not proof of causality or parallel trends
+Uber,low_fare_trips,-0.41687893187686387,-0.41892663406453956,-0.4095306591882425,6,True,Direction stability only; not proof of causality or parallel trends
+Lyft,all_trips,0.1369184604218443,0.13667957767335892,0.1444433746162206,6,True,Direction stability only; not proof of causality or parallel trends
+Lyft,short_trips,0.2203610728413763,0.21673844713951085,0.22913018163082755,6,True,Direction stability only; not proof of causality or parallel trends
+Lyft,low_fare_trips,0.4366815384732212,0.4197829595042184,0.4366815384732212,6,True,Direction stability only; not proof of causality or parallel trends

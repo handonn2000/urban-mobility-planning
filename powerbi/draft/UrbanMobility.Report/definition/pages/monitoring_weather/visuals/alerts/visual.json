@@ -1,0 +1,115 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "alerts",
+  "position": {
+    "x": 15,
+    "y": 470,
+    "width": 905,
+    "height": 235,
+    "z": 7,
+    "tabOrder": 7
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactAlerts"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "FactAlerts.Date",
+              "nativeQueryRef": "Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimSegment"
+                    }
+                  },
+                  "Property": "SegmentLabel"
+                }
+              },
+              "queryRef": "DimSegment.SegmentLabel",
+              "nativeQueryRef": "SegmentLabel"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactAlerts"
+                    }
+                  },
+                  "Property": "TripsDeviation"
+                }
+              },
+              "queryRef": "FactAlerts.TripsDeviation",
+              "nativeQueryRef": "TripsDeviation"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactAlerts"
+                    }
+                  },
+                  "Property": "WaitDeviation"
+                }
+              },
+              "queryRef": "FactAlerts.WaitDeviation",
+              "nativeQueryRef": "WaitDeviation"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactAlerts"
+                    }
+                  },
+                  "Property": "NextStep"
+                }
+              },
+              "queryRef": "FactAlerts.NextStep",
+              "nativeQueryRef": "NextStep"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Alert watchlist | hypotheses and next steps'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
