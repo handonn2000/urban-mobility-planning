@@ -24,12 +24,12 @@ table FactAlertList
 		summarizeBy: none
 		sourceColumn: Segment
 
-	column Trips
+	column TripCount
 		dataType: int64
 		formatString: #,0
-		lineageTag: d84efb9a-c966-5279-bbc8-4fec962c6267
+		lineageTag: 5c850913-2e34-5d8d-a5c5-6a2facc6e77e
 		summarizeBy: none
-		sourceColumn: Trips
+		sourceColumn: TripCount
 
 	column Expected
 		dataType: int64
@@ -61,9 +61,9 @@ table FactAlertList
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(Binary.FromText("RGF0ZSxTZWdtZW50LFRyaXBzLEV4cGVjdGVkLFpTY29yZSxSZWFzb24sUmVmZXJlbmNlRGF5cwoyMDI0LTAxLTE1LEx5ZnQgem9uZSw1MDE3MSw0MDcxOCwyLjg5LEhvbGlkYXksIjA4IEphbjogcmFpbiAwaCwgc25vdyAwaCIKMjAyNC0wMS0xNSxVYmVyIHpvbmUsMTUwMDI4LDExOTc2NywyLjc3LEhvbGlkYXksIjA4IEphbjogcmFpbiAwaCwgc25vdyAwaCIKMjAyNC0wMS0xNyxVYmVyIG91dHNpZGUsMzE2NDM1LDI2NzAyMywzLjEyLEJhZCB3ZWF0aGVyIG9uIGEgcmVmZXJlbmNlIGRheSwiMTAgSmFuOiByYWluIDRoLCBzbm93IDBoIgoyMDI0LTAxLTE3LFViZXIgem9uZSwxODUzNTIsMTQ3NDE3LDIuODIsQmFkIHdlYXRoZXIgb24gYSByZWZlcmVuY2UgZGF5LCIxMCBKYW46IHJhaW4gNGgsIHNub3cgMGgiCjIwMjQtMDEtMjMsTHlmdCBvdXRzaWRlLDk2NDcwLDExMzY3MCwtMy4xMyxCYWQgd2VhdGhlciBvbiBhIHJlZmVyZW5jZSBkYXksIjE2IEphbjogcmFpbiAxaCwgc25vdyAxOGg7IDA5IEphbjogcmFpbiAxMGgsIHNub3cgMGgiCjIwMjQtMDEtMjcsTHlmdCBvdXRzaWRlLDExNzU0MSwxMzM2NDksLTIuNTYsQmFkIHdlYXRoZXIgb24gYSByZWZlcmVuY2UgZGF5LCIyMCBKYW46IHJhaW4gMGgsIHNub3cgMGg7IDEzIEphbjogcmFpbiA3aCwgc25vdyAwaCIKMjAyNS0wMS0xNSxMeWZ0IG91dHNpZGUsOTI4MDYsMTE0NjA5LC0zLjM3LFVuZXhwbGFpbmVkLCIwOCBKYW46IHJhaW4gMGgsIHNub3cgMGgiCjIwMjUtMDItMjMsVWJlciB6b25lLDE0Njc5NywxNzE5NTgsLTIuNzIsQmFkIHdlYXRoZXIgb24gYSByZWZlcmVuY2UgZGF5LCIxNiBGZWI6IHJhaW4gMTdoLCBzbm93IDBoOyAwOSBGZWI6IHJhaW4gM2gsIHNub3cgOWgiCjIwMjUtMDItMjgsVWJlciB6b25lLDE2MDIyOCwxODY3NTIsLTIuNjUsVW5leHBsYWluZWQsIjIxIEZlYjogcmFpbiAwaCwgc25vdyAwaDsgMTQgRmViOiByYWluIDBoLCBzbm93IDBoIgo=", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Source = Csv.Document(Binary.FromText("RGF0ZSxTZWdtZW50LFRyaXBDb3VudCxFeHBlY3RlZCxaU2NvcmUsUmVhc29uLFJlZmVyZW5jZURheXMKMjAyNC0wMS0xNSxMeWZ0IHpvbmUsNTAxNzEsNDA3MTgsMi44OSxIb2xpZGF5LCIwOCBKYW46IHJhaW4gMGgsIHNub3cgMGgiCjIwMjQtMDEtMTUsVWJlciB6b25lLDE1MDAyOCwxMTk3NjcsMi43NyxIb2xpZGF5LCIwOCBKYW46IHJhaW4gMGgsIHNub3cgMGgiCjIwMjQtMDEtMTcsVWJlciBvdXRzaWRlLDMxNjQzNSwyNjcwMjMsMy4xMixCYWQgd2VhdGhlciBvbiBhIHJlZmVyZW5jZSBkYXksIjEwIEphbjogcmFpbiA0aCwgc25vdyAwaCIKMjAyNC0wMS0xNyxVYmVyIHpvbmUsMTg1MzUyLDE0NzQxNywyLjgyLEJhZCB3ZWF0aGVyIG9uIGEgcmVmZXJlbmNlIGRheSwiMTAgSmFuOiByYWluIDRoLCBzbm93IDBoIgoyMDI0LTAxLTIzLEx5ZnQgb3V0c2lkZSw5NjQ3MCwxMTM2NzAsLTMuMTMsQmFkIHdlYXRoZXIgb24gYSByZWZlcmVuY2UgZGF5LCIxNiBKYW46IHJhaW4gMWgsIHNub3cgMThoOyAwOSBKYW46IHJhaW4gMTBoLCBzbm93IDBoIgoyMDI0LTAxLTI3LEx5ZnQgb3V0c2lkZSwxMTc1NDEsMTMzNjQ5LC0yLjU2LEJhZCB3ZWF0aGVyIG9uIGEgcmVmZXJlbmNlIGRheSwiMjAgSmFuOiByYWluIDBoLCBzbm93IDBoOyAxMyBKYW46IHJhaW4gN2gsIHNub3cgMGgiCjIwMjUtMDEtMTUsTHlmdCBvdXRzaWRlLDkyODA2LDExNDYwOSwtMy4zNyxVbmV4cGxhaW5lZCwiMDggSmFuOiByYWluIDBoLCBzbm93IDBoIgoyMDI1LTAyLTIzLFViZXIgem9uZSwxNDY3OTcsMTcxOTU4LC0yLjcyLEJhZCB3ZWF0aGVyIG9uIGEgcmVmZXJlbmNlIGRheSwiMTYgRmViOiByYWluIDE3aCwgc25vdyAwaDsgMDkgRmViOiByYWluIDNoLCBzbm93IDloIgoyMDI1LTAyLTI4LFViZXIgem9uZSwxNjAyMjgsMTg2NzUyLC0yLjY1LFVuZXhwbGFpbmVkLCIyMSBGZWI6IHJhaW4gMGgsIHNub3cgMGg7IDE0IEZlYjogcmFpbiAwaCwgc25vdyAwaCIK", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"Segment", type text}, {"Trips", Int64.Type}, {"Expected", Int64.Type}, {"ZScore", Currency.Type}, {"Reason", type text}, {"ReferenceDays", type text}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"Segment", type text}, {"TripCount", Int64.Type}, {"Expected", Int64.Type}, {"ZScore", Currency.Type}, {"Reason", type text}, {"ReferenceDays", type text}}, "en-US")
 				in
 				    Typed
 

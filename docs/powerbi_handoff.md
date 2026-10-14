@@ -37,6 +37,7 @@
 - 16 file TMDL đọc được bằng `@pbip-tools/tmdl-parser`, không cảnh báo.
 - 50 file JSON (PBIP/PBIR) hợp lệ theo schema chính thức của Microsoft; bộ kiểm tra bắt được lỗi cố ý.
 - `pbiplint`: 0 lỗi; cảnh báo còn lại là định dạng % có chủ ý (WAPE 2 chữ số) và báo nhầm khóa ngoại theo tên cột.
+- Tên measure không trùng tên cột hay measure nào trong model (script dừng nếu trùng). Lỗi Power BI Desktop 'The Trips measure cannot be created because a column with the same name already exists' đã sửa bằng cách đổi cột thành `TripCount`.
 - 67 tham chiếu trường trên visual và mọi tham chiếu DAX đều tồn tại trong model; 40 visual nằm trong khung 1280×720, không chồng nhau.
 - Dữ liệu nhúng trùng CSV; tính lại: 59.407.013 chuyến, kế hoạch B2 4.871.468, WAPE B2 3,48%, B3 3,61%, 9 cảnh báo.
 - Script chạy lại trên máy khác cho file giống hệt.

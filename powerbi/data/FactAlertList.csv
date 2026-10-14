@@ -1,4 +1,4 @@
-Date,Segment,Trips,Expected,ZScore,Reason,ReferenceDays
+Date,Segment,TripCount,Expected,ZScore,Reason,ReferenceDays
 2024-01-15,Lyft zone,50171,40718,2.89,Holiday,"08 Jan: rain 0h, snow 0h"
 2024-01-15,Uber zone,150028,119767,2.77,Holiday,"08 Jan: rain 0h, snow 0h"
 2024-01-17,Uber outside,316435,267023,3.12,Bad weather on a reference day,"10 Jan: rain 4h, snow 0h"

@@ -1,4 +1,4 @@
-Date,SegmentKey,Trips,ShortTrips,LowFareTrips,EconomicsTrips,FareSum,DriverPaySum,MedianWait
+Date,SegmentKey,TripCount,ShortTrips,LowFareTrips,EconomicsTrips,FareSum,DriverPaySum,MedianWait
 2024-01-01,Lyft_outside,139194,44638,36545,139187,3250924.15,2703546.98,5.633
 2024-01-01,Lyft_zone,59382,12767,5983,59381,1821269.57,1509712.99,5.15
 2024-01-01,Uber_outside,301020,95316,66485,301007,7901600.36,6110296.14,5.733

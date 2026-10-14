@@ -52,14 +52,14 @@ def build_tables(root):
 
     fact = daily.assign(SegmentKey=[segment_key(o, z) for o, z in zip(daily.operator, daily.touches_zone)])
     tables["FactDaily"] = pd.DataFrame({
-        "Date": fact.request_date, "SegmentKey": fact.SegmentKey, "Trips": fact.trips,
+        "Date": fact.request_date, "SegmentKey": fact.SegmentKey, "TripCount": fact.trips,
         "ShortTrips": fact.short_trips, "LowFareTrips": fact.low_fare_trips,
         "EconomicsTrips": fact.valid_economics_trips, "FareSum": fact.total_base_fare.round(2),
         "DriverPaySum": fact.total_driver_pay.round(2), "MedianWait": fact.median_wait_minutes.round(3)})
 
     forecast = pd.read_csv(p / "forecast_week.csv", parse_dates=["request_date"])
     forecast["SegmentKey"] = [segment_key(o, z) for o, z in zip(forecast.operator, forecast.touches_zone)]
-    actual = tables["FactDaily"].set_index(["Date", "SegmentKey"]).Trips
+    actual = tables["FactDaily"].set_index(["Date", "SegmentKey"]).TripCount
     long = forecast.melt(id_vars=["request_date", "SegmentKey"], value_vars=["B1", "B2", "B3"],
                          var_name="Method", value_name="Forecast")
     long["Actual"] = [actual[(d, s)] for d, s in zip(long.request_date, long.SegmentKey)]
@@ -67,7 +67,7 @@ def build_tables(root):
 
     city = pd.read_csv(p / "forecast_band_city.csv", parse_dates=["request_date"]).dropna(subset=["expected_trips"])
     tables["FactCityForecast"] = pd.DataFrame({
-        "Date": city.request_date, "Trips": city.trips, "Expected": city.expected_trips.round(1),
+        "Date": city.request_date, "TripCount": city.trips, "Expected": city.expected_trips.round(1),
         "BandLower": (city.expected_trips * (city.center_log - city.half_width_log).map(math.exp)).round(1),
         "BandUpper": (city.expected_trips * (city.center_log + city.half_width_log).map(math.exp)).round(1)})
 
@@ -86,7 +86,7 @@ def build_tables(root):
         reason = ("Holiday" if pd.notna(r.known_event) and str(r.known_event).strip()
                   else "Bad weather on a reference day" if bad_reference else "Unexplained")
         rows.append({"Date": r.request_date, "Segment": dict((s[0], s[3]) for s in SEGMENTS)[segment_key(r.operator, r.touches_zone)],
-                     "Trips": int(r.trips), "Expected": round(float(r.expected_trips)), "ZScore": round(float(r.z_score), 2),
+                     "TripCount": int(r.trips), "Expected": round(float(r.expected_trips)), "ZScore": round(float(r.z_score), 2),
                      "Reason": reason, "ReferenceDays": "; ".join(describe(d) for d in refs)})
     tables["FactAlertList"] = pd.DataFrame(rows)
 
@@ -220,7 +220,7 @@ PCT, NUM, DEC2, USD = "#,0.0%;-#,0.0%;#,0.0%", "#,0", "0.00", "\\$#,0.00"
 
 MEASURES = {
     "FactDaily": [
-        ("Trips", "SUM(FactDaily[Trips])", NUM),
+        ("Trips", "SUM(FactDaily[TripCount])", NUM),
         ("Average fare", "DIVIDE(SUM(FactDaily[FareSum]), SUM(FactDaily[EconomicsTrips]))", USD),
         ("Platform share", "DIVIDE(SUM(FactDaily[FareSum]) - SUM(FactDaily[DriverPaySum]), SUM(FactDaily[FareSum]))", PCT),
         ("Short trip share", "DIVIDE(SUM(FactDaily[ShortTrips]), [Trips])", PCT),
@@ -230,7 +230,7 @@ MEASURES = {
         ("Trips vs last year", "DIVIDE([Trips] - [Trips same weekday last year], [Trips same weekday last year])", PCT),
     ],
     "FactCityForecast": [
-        ("City trips", "SUM(FactCityForecast[Trips])", NUM),
+        ("City trips", "SUM(FactCityForecast[TripCount])", NUM),
         ("City forecast", "SUM(FactCityForecast[Expected])", NUM),
         ("Band lower", "SUM(FactCityForecast[BandLower])", NUM),
         ("Band upper", "SUM(FactCityForecast[BandUpper])", NUM),
@@ -279,22 +279,22 @@ MEASURES = {
 }
 
 FORMATS = {
-    "FactDaily": {"Trips": NUM, "FareSum": NUM, "DriverPaySum": NUM, "MedianWait": "0.0"},
-    "FactCityForecast": {"Trips": NUM, "Expected": NUM, "BandLower": NUM, "BandUpper": NUM},
+    "FactDaily": {"TripCount": NUM, "FareSum": NUM, "DriverPaySum": NUM, "MedianWait": "0.0"},
+    "FactCityForecast": {"TripCount": NUM, "Expected": NUM, "BandLower": NUM, "BandUpper": NUM},
     "FactKPI": {c: PCT for c in ("TripGrowthYoY", "GapBeforeFee", "GapWithFee", "GapCILow", "GapCIHigh",
                                  "UpliftProxy", "BreakevenBlanket", "BreakevenTargeted", "CreditCostShareZoneGMV")}
                | {"ShareGapPP": "0.00", "CostPerExtraTrip": USD, "FixedRuleAlerts": NUM},
     "FactWeeklyShare": {"LyftTrips": NUM, "MarketTrips": NUM},
-    "FactAlertList": {"Trips": NUM, "Expected": NUM, "ZScore": "+0.0;-0.0"},
+    "FactAlertList": {"TripCount": NUM, "Expected": NUM, "ZScore": "+0.0;-0.0"},
     "FactFeeGap": {"GapAll": PCT},
     "FactFeeEffect": {"Gap": PCT},
     "FactGrowth": {"TripGrowth": PCT, "FareGrowth": PCT, "GMVGrowth": PCT},
     "FactWeather": {"TripsFactor": "0.000", "WaitFactor": "0.000"},
     "FactForecast": {"Forecast": NUM, "Actual": NUM},
 }
-HIDDEN = {"FactDaily": ["Date", "SegmentKey", "Trips", "ShortTrips", "LowFareTrips", "EconomicsTrips", "FareSum", "DriverPaySum", "MedianWait"],
+HIDDEN = {"FactDaily": ["Date", "SegmentKey", "TripCount", "ShortTrips", "LowFareTrips", "EconomicsTrips", "FareSum", "DriverPaySum", "MedianWait"],
           "FactForecast": ["Date", "SegmentKey", "Method", "Forecast", "Actual"],
-          "FactCityForecast": ["Date", "Trips", "Expected", "BandLower", "BandUpper"],
+          "FactCityForecast": ["Date", "TripCount", "Expected", "BandLower", "BandUpper"],
           "FactFeeGap": ["Date", "BeforeFee", "GapAll"],
           "FactKPI": ["TripGrowthYoY", "GapBeforeFee", "GapWithFee", "GapCILow", "GapCIHigh", "ShareGapPP",
                       "UpliftProxy", "CostPerExtraTrip", "BreakevenBlanket", "BreakevenTargeted",
@@ -314,7 +314,17 @@ RELATIONSHIPS = [("FactDaily", "Date", "DimDate", "Date"), ("FactDaily", "Segmen
                  ("FactFeeGap", "Date", "DimDate", "Date")]
 
 
+def check_unique_names(tables):
+    """Power BI requires measure names to be unique across all columns and measures of the model."""
+    columns = {c.lower() for frame in tables.values() for c in frame.columns}
+    measures = [m[0].lower() for items in MEASURES.values() for m in items]
+    clashes = sorted({m for m in measures if m in columns} | {m for m in measures if measures.count(m) > 1})
+    if clashes:
+        raise ValueError(f"Measure names clash with columns or other measures: {clashes}")
+
+
 def write_semantic_model(folder, tables):
+    check_unique_names(tables)
     definition = folder / "definition"
     (definition / "tables").mkdir(parents=True)
     (folder / "definition.pbism").write_text(json.dumps({
