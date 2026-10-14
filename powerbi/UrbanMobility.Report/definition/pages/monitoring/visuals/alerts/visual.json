@@ -3,9 +3,9 @@
   "name": "alerts",
   "position": {
     "x": 800,
-    "y": 382,
+    "y": 172,
     "z": 8000,
-    "height": 180,
+    "height": 262,
     "width": 460,
     "tabOrder": 8000
   },
@@ -70,20 +70,6 @@
               },
               "queryRef": "FactAlertList.Reason",
               "nativeQueryRef": "Reason"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FactAlertList"
-                    }
-                  },
-                  "Property": "ReferenceDays"
-                }
-              },
-              "queryRef": "FactAlertList.ReferenceDays",
-              "nativeQueryRef": "ReferenceDays"
             }
           ]
         }

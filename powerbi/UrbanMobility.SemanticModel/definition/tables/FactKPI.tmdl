@@ -45,7 +45,7 @@ table FactKPI
 		lineageTag: 9bf2cc91-3b31-5845-87df-1c5733f10b81
 
 	column TripGrowthYoY
-		dataType: decimal
+		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
@@ -54,7 +54,7 @@ table FactKPI
 		sourceColumn: TripGrowthYoY
 
 	column GapBeforeFee
-		dataType: decimal
+		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
@@ -63,7 +63,7 @@ table FactKPI
 		sourceColumn: GapBeforeFee
 
 	column GapWithFee
-		dataType: decimal
+		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
@@ -72,7 +72,7 @@ table FactKPI
 		sourceColumn: GapWithFee
 
 	column GapCILow
-		dataType: decimal
+		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
@@ -81,7 +81,7 @@ table FactKPI
 		sourceColumn: GapCILow
 
 	column GapCIHigh
-		dataType: decimal
+		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
@@ -99,7 +99,7 @@ table FactKPI
 		sourceColumn: ShareGapPP
 
 	column UpliftProxy
-		dataType: decimal
+		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
@@ -117,7 +117,7 @@ table FactKPI
 		sourceColumn: CostPerExtraTrip
 
 	column BreakevenBlanket
-		dataType: decimal
+		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
@@ -135,7 +135,7 @@ table FactKPI
 		sourceColumn: BreakevenTargeted
 
 	column CreditCostShareZoneGMV
-		dataType: decimal
+		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
@@ -158,7 +158,7 @@ table FactKPI
 				let
 				    Source = Csv.Document(Binary.FromText("VHJpcEdyb3d0aFlvWSxHYXBCZWZvcmVGZWUsR2FwV2l0aEZlZSxHYXBDSUxvdyxHYXBDSUhpZ2gsU2hhcmVHYXBQUCxVcGxpZnRQcm94eSxDb3N0UGVyRXh0cmFUcmlwLEJyZWFrZXZlbkJsYW5rZXQsQnJlYWtldmVuVGFyZ2V0ZWQsQ3JlZGl0Q29zdFNoYXJlWm9uZUdNVixGaXhlZFJ1bGVBbGVydHMKMC4wMTk3NDIsLTAuMTM4NDc3LC0wLjA5NDkxNywtMC4xMDkwNjUsLTAuMDgwMzI3LDEuNjA3NywwLjA2MTUyOSwyNS44OCwwLjMzMzMzMywwLjEsMC4wNTkzOSwxMTgK", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				    Typed = Table.TransformColumnTypes(Headers, {{"TripGrowthYoY", Currency.Type}, {"GapBeforeFee", Currency.Type}, {"GapWithFee", Currency.Type}, {"GapCILow", Currency.Type}, {"GapCIHigh", Currency.Type}, {"ShareGapPP", Currency.Type}, {"UpliftProxy", Currency.Type}, {"CostPerExtraTrip", Currency.Type}, {"BreakevenBlanket", Currency.Type}, {"BreakevenTargeted", Currency.Type}, {"CreditCostShareZoneGMV", Currency.Type}, {"FixedRuleAlerts", Int64.Type}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Headers, {{"TripGrowthYoY", type number}, {"GapBeforeFee", type number}, {"GapWithFee", type number}, {"GapCILow", type number}, {"GapCIHigh", type number}, {"ShareGapPP", Currency.Type}, {"UpliftProxy", type number}, {"CostPerExtraTrip", Currency.Type}, {"BreakevenBlanket", type number}, {"BreakevenTargeted", Currency.Type}, {"CreditCostShareZoneGMV", type number}, {"FixedRuleAlerts", Int64.Type}}, "en-US")
 				in
 				    Typed
 

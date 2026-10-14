@@ -34,7 +34,7 @@ table FactFeeGap
 		sourceColumn: BeforeFee
 
 	column GapAll
-		dataType: decimal
+		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
@@ -48,7 +48,7 @@ table FactFeeGap
 				let
 				    Source = Csv.Document(Binary.FromText("RGF0ZSxCZWZvcmVGZWUsR2FwQWxsCjIwMjUtMDEtMDIsMSwtMC4xODIyMTYKMjAyNS0wMS0wMywxLC0wLjExNzczNQoyMDI1LTAxLTA0LDEsLTAuMTI2NTA3CjIwMjUtMDEtMDUsMCwtMC4xMDU3MjIKMjAyNS0wMS0wNiwwLC0wLjEwODQ4NwoyMDI1LTAxLTA3LDAsLTAuMTI4NDE1CjIwMjUtMDEtMDgsMCwtMC4xMTM5ODEKMjAyNS0wMS0wOSwwLC0wLjExODA0NQoyMDI1LTAxLTEwLDAsLTAuMDU0MDg5CjIwMjUtMDEtMTEsMCwtMC4wNDQ5MDgKMjAyNS0wMS0xMiwwLC0wLjExMjAyMgoyMDI1LTAxLTEzLDAsLTAuMTA3OTQyCjIwMjUtMDEtMTQsMCwtMC4wMjA2MTkKMjAyNS0wMS0xNSwwLC0wLjA2MTU2MQoyMDI1LTAxLTE2LDAsLTAuMDg4NjM2CjIwMjUtMDEtMTcsMCwtMC4xMDUzNTUKMjAyNS0wMS0xOCwwLC0wLjE0MzUwOQoyMDI1LTAxLTE5LDAsLTAuMTE4NjEKMjAyNS0wMS0yMCwwLC0wLjA3NjYzCjIwMjUtMDEtMjEsMCwtMC4xMzkzNDIKMjAyNS0wMS0yMiwwLC0wLjA5OTcwMQoyMDI1LTAxLTIzLDAsLTAuMDg5MDYyCjIwMjUtMDEtMjQsMCwtMC4wNjMwNTEKMjAyNS0wMS0yNSwwLC0wLjA2ODY2NQoyMDI1LTAxLTI2LDAsLTAuMTExMDk1CjIwMjUtMDEtMjcsMCwtMC4wNjU0MjcKMjAyNS0wMS0yOCwwLC0wLjA5MjI4CjIwMjUtMDEtMjksMCwtMC4wMjExNDMK", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"BeforeFee", Int64.Type}, {"GapAll", Currency.Type}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"BeforeFee", Int64.Type}, {"GapAll", type number}}, "en-US")
 				in
 				    Typed
 

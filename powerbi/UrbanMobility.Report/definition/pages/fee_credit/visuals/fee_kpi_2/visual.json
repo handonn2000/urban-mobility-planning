@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "fee_kpi_2",
   "position": {
-    "x": 864,
+    "x": 840,
     "y": 72,
     "z": 4000,
     "height": 96,
-    "width": 196,
+    "width": 172,
     "tabOrder": 4000
   },
   "visual": {

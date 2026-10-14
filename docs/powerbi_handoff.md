@@ -36,10 +36,12 @@
 
 - 16 file TMDL đọc được bằng `@pbip-tools/tmdl-parser`, không cảnh báo.
 - 50 file JSON (PBIP/PBIR) hợp lệ theo schema chính thức của Microsoft; bộ kiểm tra bắt được lỗi cố ý.
-- `pbiplint`: 0 lỗi; cảnh báo còn lại là định dạng % có chủ ý (WAPE 2 chữ số) và báo nhầm khóa ngoại theo tên cột.
+- `pbiplint`: 0 lỗi. Cảnh báo còn lại có chủ ý: cột tỷ lệ dùng số thực (fixed decimal chỉ giữ 4 chữ số, làm -0,138477 thành -13,9% thay vì -13,8%), WAPE 2 chữ số, và báo nhầm khóa ngoại theo tên cột.
 - Tên measure không trùng tên cột hay measure nào trong model (script dừng nếu trùng). Lỗi Power BI Desktop 'The Trips measure cannot be created because a column with the same name already exists' đã sửa bằng cách đổi cột thành `TripCount`.
-- 67 tham chiếu trường trên visual và mọi tham chiếu DAX đều tồn tại trong model; 40 visual nằm trong khung 1280×720, không chồng nhau.
+- 66 tham chiếu trường trên visual và mọi tham chiếu DAX đều tồn tại trong model; 40 visual nằm trong khung 1280×720, không chồng nhau.
 - Dữ liệu nhúng trùng CSV; tính lại: 59.407.013 chuyến, kế hoạch B2 4.871.468, WAPE B2 3,48%, B3 3,61%, 9 cảnh báo.
 - Script chạy lại trên máy khác cho file giống hệt.
 
-Chưa kiểm tra được: Power Query refresh, kết quả DAX và hiển thị visual trong Power BI Desktop. Nếu Desktop báo lỗi khi mở, ghi lại thông báo và sửa trong script dựng, không sửa tay file sinh ra.
+Bản in PDF từ Power BI Desktop (14/10/2026) đã mở được cả 4 trang. Các sửa sau đó: thẻ số chuyến hiển thị số đầy đủ (trước là 59M, 5M), thẻ khoảng tin cậy rộng hơn để không bị cắt chữ, bỏ dòng Total trong bảng WAPE, bảng cảnh báo hiện đủ 9 dòng, tiêu đề trang không còn thanh cuộn.
+
+Chưa kiểm tra được sau bản sửa này: Power Query refresh, kết quả DAX và hiển thị visual trong Power BI Desktop. Nếu Desktop báo lỗi khi mở, ghi lại thông báo và sửa trong script dựng, không sửa tay file sinh ra.

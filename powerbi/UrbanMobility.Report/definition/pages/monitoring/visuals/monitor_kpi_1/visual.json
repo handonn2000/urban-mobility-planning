@@ -5,8 +5,8 @@
     "x": 800,
     "y": 72,
     "z": 4000,
-    "height": 94,
-    "width": 460,
+    "height": 90,
+    "width": 148,
     "tabOrder": 4000
   },
   "visual": {
@@ -77,6 +77,29 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
                 }
               }
             }

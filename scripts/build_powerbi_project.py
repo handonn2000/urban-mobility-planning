@@ -150,7 +150,7 @@ def build_tables(root):
 
 # ---------------------------------------------------------------- semantic model (TMDL)
 
-M_TYPES = {"int64": "Int64.Type", "decimal": "Currency.Type", "dateTime": "type date", "string": "type text"}
+M_TYPES = {"int64": "Int64.Type", "decimal": "Currency.Type", "double": "type number", "dateTime": "type date", "string": "type text"}
 
 
 def dtype(series):
@@ -159,7 +159,9 @@ def dtype(series):
     if pd.api.types.is_integer_dtype(series):
         return "int64"
     if pd.api.types.is_float_dtype(series):
-        return "decimal"
+        # Fixed decimal keeps 4 decimal places; ratios need more, e.g. -0.138477 must not round to -0.1385.
+        scaled = series.dropna() * 10_000
+        return "decimal" if (scaled - scaled.round()).abs().max() < 1e-6 else "double"
     return "string"
 
 
@@ -401,9 +403,25 @@ def chart(kind, roles, title, alt, sort=None):
             "drillFilterOtherVisuals": True}
 
 
-def card(title, entity, prop, alt=None):
+EXACT, MILLIONS = "1D", "1000000D"
+
+
+def card(title, entity, prop, alt=None, units=None, decimals=None):
+    """units: None keeps Power BI's auto display units; EXACT shows the full number; MILLIONS shows e.g. 40.37M."""
     visual = chart("cardVisual", {"Data": [projection(measure(entity, prop))]}, title, alt or title)
     visual["objects"] = {"label": [{"properties": {"show": lit("false")}, "selector": {"id": "default"}}]}
+    value = {}
+    if units:
+        value["labelDisplayUnits"] = lit(units)
+    if decimals is not None:
+        value["labelPrecision"] = lit(f"{decimals}L")
+    if value:
+        visual["objects"]["value"] = [{"properties": value, "selector": {"id": "default"}}]
+    return visual
+
+
+def no_totals(visual):
+    visual["objects"] = {"total": [{"properties": {"totals": lit("false")}}]}
     return visual
 
 
@@ -423,7 +441,7 @@ def textbox(paragraphs, alt):
 
 
 def slicer(entity, prop, title):
-    visual = chart("slicer", {"Values": [projection(column(entity, prop), active=True)]}, title, f"Slicer to filter the page by {title.lower()}")
+    visual = chart("slicer", {"Values": [projection(column(entity, prop), active=True)]}, None, f"Slicer to filter the page by {title.lower()}")
     visual["objects"] = {"data": [{"properties": {"mode": text_lit("Dropdown")}}]}
     return visual
 
@@ -441,7 +459,7 @@ HEADER = {"fontWeight": "bold", "fontSize": "16pt"}
 
 
 def header(page, title, subtitle, width=1240):
-    page.add("header", 20, 8, width, 56, textbox([[(title, HEADER)], subtitle], "Page title and reading guide"))
+    page.add("header", 20, 4, width, 66, textbox([[(title, HEADER)], subtitle], "Page title and reading guide"))
 
 
 def build_pages():
@@ -457,7 +475,8 @@ def build_pages():
              ("Credit cost per extra trip ($6 contribution)", "FactKPI", "Credit cost per extra trip"),
              ("Alerts with the forecast band", "FactAlertList", "Band alerts")]
     for i, (title, entity, prop) in enumerate(cards):
-        p.add(f"kpi_{i + 1}", 20 + (i % 4) * 312, 76 + (i // 4) * 122, 296, 110, card(title, entity, prop))
+        units = EXACT if prop in ("Trips", "Plan B2") else None
+        p.add(f"kpi_{i + 1}", 20 + (i % 4) * 312, 76 + (i // 4) * 122, 296, 110, card(title, entity, prop, units=units))
     p.add("findings", 20, 330, 800, 380, textbox([
         [("What happened in January", BOLD)],
         "Demand grew through volume: trips +2.0% year on year, average base fare +0.7%.",
@@ -485,18 +504,20 @@ def build_pages():
         "Y": [projection(measure("FactDaily", "Trips"))],
         "Series": [projection(column("DimSegment", "Segment"))]},
         "Completed trips per day by segment", "Line chart of daily completed trips for the four segments"))
-    for i, (title, prop) in enumerate([("Completed trips", "Trips"), ("Average base fare", "Average fare"),
-                                       ("Platform share (1 - driver pay / fare)", "Platform share")]):
-        p.add(f"monitor_kpi_{i + 1}", 800, 72 + i * 102, 460, 94, card(title, "FactDaily", prop))
+    for i, (title, prop, alt) in enumerate([("Completed trips", "Trips", "Completed trips"),
+                                            ("Average base fare", "Average fare", "Average base fare"),
+                                            ("Platform share", "Platform share", "Platform share, 1 - driver pay / fare")]):
+        units = (MILLIONS, 2) if prop == "Trips" else (None, None)
+        p.add(f"monitor_kpi_{i + 1}", 800 + i * 156, 72, 148, 90, card(title, "FactDaily", prop, alt, *units))
     p.add("city_band", 20, 382, 760, 330, chart("lineChart", {
         "Category": [projection(column("DimDate", "Date"), active=True)],
         "Y": [projection(measure("FactCityForecast", m)) for m in ("City trips", "City forecast", "Band lower", "Band upper")]},
         "City trips vs two-week forecast and alert band (2.5 robust SD)",
         "Line chart of city-wide trips against the forecast and its alert band"))
-    p.add("alerts", 800, 382, 460, 180, chart("tableEx", {"Values": [projection(column("FactAlertList", c)) for c in
-                                                                     ("Date", "Segment", "ZScore", "Reason", "ReferenceDays")]},
+    p.add("alerts", 800, 172, 460, 262, chart("tableEx", {"Values": [projection(column("FactAlertList", c)) for c in
+                                                                     ("Date", "Segment", "ZScore", "Reason")]},
         "Band alerts (Jan 2024 and Jan-Feb 2025)", "Table of the nine segment-days outside the forecast band"))
-    p.add("weather", 800, 570, 460, 142, chart("tableEx", {"Values": [projection(column("FactWeather", c)) for c in
+    p.add("weather", 800, 444, 460, 268, chart("tableEx", {"Values": [projection(column("FactWeather", c)) for c in
                                                                       ("Study", "Weather", "Hours", "TripsFactor", "WaitFactor", "SmallSample")]},
         "Weather factors vs matched dry hours", "Table of trip and wait ratios by weather group"))
     pages.append(p)
@@ -510,7 +531,7 @@ def build_pages():
         "Daily zone vs outside gap, 2025 vs same weekday 2024", "Line chart of the daily gap before and after the fee start"))
     for i, (title, prop) in enumerate([("Gap 2-4 Jan (no fee yet)", "Gap before fee 2-4 Jan"),
                                        ("Gap 6-26 Jan", "Gap 6-26 Jan"), ("95% bootstrap interval", "Gap 95% CI")]):
-        p.add(f"fee_kpi_{i + 1}", 660 + i * 204, 72, 196, 96, card(title, "FactKPI", prop))
+        p.add(f"fee_kpi_{i + 1}", 660 + i * 180, 72, 240 if i == 2 else 172, 96, card(title, "FactKPI", prop))
     p.add("fee_groups", 660, 176, 600, 196, chart("clusteredBarChart", {
         "Category": [projection(column("FactFeeEffect", "TripGroup"), active=True)],
         "Series": [projection(column("FactFeeEffect", "Operator"))],
@@ -545,14 +566,14 @@ def build_pages():
         "Category": [projection(column("DimDate", "Date"), active=True)],
         "Y": [projection(measure("FactForecast", m)) for m in ("Actual trips", "Plan B2", "Scenario B3", "Last week B1")]},
         "Backtest: actual trips vs the three baselines", "Line chart comparing actual trips with B1, B2 and B3"))
-    p.add("scores", 20, 382, 620, 160, chart("tableEx", {"Values": [
+    p.add("scores", 20, 382, 620, 160, no_totals(chart("tableEx", {"Values": [
         projection(column("DimMethod", "Method")), projection(column("DimMethod", "Description")),
         projection(measure("FactForecast", "WAPE")), projection(measure("FactForecast", "Bias")),
         projection(measure("FactForecast", "MAE"))]},
-        "Backtest accuracy (WAPE = sum of absolute errors / sum of actuals)", "Table of WAPE, bias and MAE by method"))
+        "Backtest accuracy (WAPE = sum of absolute errors / sum of actuals)", "Table of WAPE, bias and MAE by method")))
     for i, (title, prop) in enumerate([("Plan B2, week", "Plan B2"), ("Holiday scenario B3, week", "Scenario B3"),
                                        ("Actual trips, week", "Actual trips")]):
-        p.add(f"forecast_kpi_{i + 1}", 660 + i * 204, 382, 196, 100, card(title, "FactForecast", prop))
+        p.add(f"forecast_kpi_{i + 1}", 660 + i * 204, 382, 196, 100, card(title, "FactForecast", prop, units=EXACT))
     p.add("forecast_reading", 20, 552, 1240, 160, textbox([
         [("Reading", BOLD)],
         "B2 had the lowest error over the week (WAPE 3.48%) and on Presidents' Day itself (1.41%).",

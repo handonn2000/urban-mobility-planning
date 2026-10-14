@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "monitor_kpi_3",
   "position": {
-    "x": 800,
-    "y": 276,
+    "x": 1112,
+    "y": 72,
     "z": 6000,
-    "height": 94,
-    "width": 460,
+    "height": 90,
+    "width": 148,
     "tabOrder": 6000
   },
   "visual": {
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Platform share (1 - driver pay / fare)'"
+                  "Value": "'Platform share, 1 - driver pay / fare'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Platform share (1 - driver pay / fare)'"
+                  "Value": "'Platform share'"
                 }
               }
             }
