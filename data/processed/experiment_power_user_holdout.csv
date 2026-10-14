@@ -1,0 +1,19 @@
+eligible_users,treatment_share,trips_per_user_cv,cuped_variance_reduction,mde_relative,assumption
+50000,0.9,1.5,0.0,0.06264534504743749,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+50000,0.9,1.5,0.3,0.05241285604962537,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+50000,0.9,1.5,0.5,0.04429694829281415,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+50000,0.9,2.5,0.0,0.1044089084123958,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+50000,0.9,2.5,0.3,0.08735476008270895,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+50000,0.9,2.5,0.5,0.07382824715469026,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+200000,0.9,1.5,0.0,0.031322672523718745,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+200000,0.9,1.5,0.3,0.026206428024812684,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+200000,0.9,1.5,0.5,0.022148474146407075,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+200000,0.9,2.5,0.0,0.0522044542061979,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+200000,0.9,2.5,0.3,0.04367738004135448,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+200000,0.9,2.5,0.5,0.03691412357734513,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+500000,0.9,1.5,0.0,0.01981019751570514,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+500000,0.9,1.5,0.3,0.01657440037913514,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+500000,0.9,1.5,0.5,0.014007925000000003,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+500000,0.9,2.5,0.0,0.03301699585950856,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+500000,0.9,2.5,0.3,0.0276240006318919,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.
+500000,0.9,2.5,0.5,0.02334654166666667,Giả định minh họa; TLC không có ID khách. Thay bằng phương sai thật trước khi chạy.

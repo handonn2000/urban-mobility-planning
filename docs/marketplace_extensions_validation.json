@@ -1,0 +1,15 @@
+{
+  "checked_at_utc": "2026-10-14T15:25:11.065592+00:00",
+  "matched_day_window_equals_fee_effect": true,
+  "main_window_days": 21,
+  "economics_all_trips_equals_segment_sum": true,
+  "decomposition_logs_add_up": true,
+  "alert_rows": 360,
+  "alert_rows_expected": 360,
+  "credit_window_charged_trips": 1315183,
+  "fee_charged_trips_labeled_outside_share": {
+    "Lyft": 0.047305964265049044,
+    "Uber": 0.05352080231017944
+  },
+  "bootstrap_point_matches_fee_effect": true
+}

@@ -1,0 +1,70 @@
+table FactAlertList
+	lineageTag: 67714ff7-40f0-597d-8dd2-90688458a463
+
+	measure 'Band alerts' = COUNTROWS(FactAlertList)
+		formatString: #,0
+		lineageTag: 4a7719d4-3073-518f-ab0e-0480f6edd153
+
+	measure 'Open alerts' = CALCULATE(COUNTROWS(FactAlertList), FactAlertList[Reason] = "Unexplained")
+		formatString: #,0
+		lineageTag: b5d2e6a4-413d-5aa5-bed8-182dd7a76bdf
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 348dffe0-070c-5a1e-9431-7d6e55b62a07
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Segment
+		dataType: string
+		lineageTag: 28eb453a-f038-593c-981e-244d237a9055
+		summarizeBy: none
+		sourceColumn: Segment
+
+	column Trips
+		dataType: int64
+		formatString: #,0
+		lineageTag: d84efb9a-c966-5279-bbc8-4fec962c6267
+		summarizeBy: none
+		sourceColumn: Trips
+
+	column Expected
+		dataType: int64
+		formatString: #,0
+		lineageTag: 05a1dac3-1805-53a3-88e5-8b501481b2e7
+		summarizeBy: none
+		sourceColumn: Expected
+
+	column ZScore
+		dataType: decimal
+		formatString: +0.0;-0.0
+		lineageTag: bbac675c-6aa8-58cd-8495-9eace7cabc58
+		summarizeBy: none
+		sourceColumn: ZScore
+
+	column Reason
+		dataType: string
+		lineageTag: fc6c17f8-7058-5278-b0f7-5d484a906a9f
+		summarizeBy: none
+		sourceColumn: Reason
+
+	column ReferenceDays
+		dataType: string
+		lineageTag: 9a5339b4-2a28-5ed9-ab90-0cd8f210f0f1
+		summarizeBy: none
+		sourceColumn: ReferenceDays
+
+	partition FactAlertList = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Binary.FromText("RGF0ZSxTZWdtZW50LFRyaXBzLEV4cGVjdGVkLFpTY29yZSxSZWFzb24sUmVmZXJlbmNlRGF5cwoyMDI0LTAxLTE1LEx5ZnQgem9uZSw1MDE3MSw0MDcxOCwyLjg5LEhvbGlkYXksIjA4IEphbjogcmFpbiAwaCwgc25vdyAwaCIKMjAyNC0wMS0xNSxVYmVyIHpvbmUsMTUwMDI4LDExOTc2NywyLjc3LEhvbGlkYXksIjA4IEphbjogcmFpbiAwaCwgc25vdyAwaCIKMjAyNC0wMS0xNyxVYmVyIG91dHNpZGUsMzE2NDM1LDI2NzAyMywzLjEyLEJhZCB3ZWF0aGVyIG9uIGEgcmVmZXJlbmNlIGRheSwiMTAgSmFuOiByYWluIDRoLCBzbm93IDBoIgoyMDI0LTAxLTE3LFViZXIgem9uZSwxODUzNTIsMTQ3NDE3LDIuODIsQmFkIHdlYXRoZXIgb24gYSByZWZlcmVuY2UgZGF5LCIxMCBKYW46IHJhaW4gNGgsIHNub3cgMGgiCjIwMjQtMDEtMjMsTHlmdCBvdXRzaWRlLDk2NDcwLDExMzY3MCwtMy4xMyxCYWQgd2VhdGhlciBvbiBhIHJlZmVyZW5jZSBkYXksIjE2IEphbjogcmFpbiAxaCwgc25vdyAxOGg7IDA5IEphbjogcmFpbiAxMGgsIHNub3cgMGgiCjIwMjQtMDEtMjcsTHlmdCBvdXRzaWRlLDExNzU0MSwxMzM2NDksLTIuNTYsQmFkIHdlYXRoZXIgb24gYSByZWZlcmVuY2UgZGF5LCIyMCBKYW46IHJhaW4gMGgsIHNub3cgMGg7IDEzIEphbjogcmFpbiA3aCwgc25vdyAwaCIKMjAyNS0wMS0xNSxMeWZ0IG91dHNpZGUsOTI4MDYsMTE0NjA5LC0zLjM3LFVuZXhwbGFpbmVkLCIwOCBKYW46IHJhaW4gMGgsIHNub3cgMGgiCjIwMjUtMDItMjMsVWJlciB6b25lLDE0Njc5NywxNzE5NTgsLTIuNzIsQmFkIHdlYXRoZXIgb24gYSByZWZlcmVuY2UgZGF5LCIxNiBGZWI6IHJhaW4gMTdoLCBzbm93IDBoOyAwOSBGZWI6IHJhaW4gM2gsIHNub3cgOWgiCjIwMjUtMDItMjgsVWJlciB6b25lLDE2MDIyOCwxODY3NTIsLTIuNjUsVW5leHBsYWluZWQsIjIxIEZlYjogcmFpbiAwaCwgc25vdyAwaDsgMTQgRmViOiByYWluIDBoLCBzbm93IDBoIgo=", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"Segment", type text}, {"Trips", Int64.Type}, {"Expected", Int64.Type}, {"ZScore", Currency.Type}, {"Reason", type text}, {"ReferenceDays", type text}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

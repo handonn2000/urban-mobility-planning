@@ -1,0 +1,7 @@
+operator,method,reps,seed,point_estimate,ci_low_2_5,ci_high_97_5,interpretation
+All,day_pairs,5000,20250105,-0.09491655467024684,-0.10906500287349355,-0.08032662205987501,"Sampling variation across days only; does not cover zone-label, spillover or parallel-trend uncertainty"
+All,weekday_stratified,5000,20250105,-0.09491655467024684,-0.10831719043979982,-0.08186102684414605,"Sampling variation across days only; does not cover zone-label, spillover or parallel-trend uncertainty"
+Uber,day_pairs,5000,20250105,-0.1630607983825204,-0.1763258627808274,-0.15024871615124058,"Sampling variation across days only; does not cover zone-label, spillover or parallel-trend uncertainty"
+Uber,weekday_stratified,5000,20250105,-0.1630607983825204,-0.17537272305579638,-0.15081249495404656,"Sampling variation across days only; does not cover zone-label, spillover or parallel-trend uncertainty"
+Lyft,day_pairs,5000,20250105,0.1369184604218443,0.11374653754804272,0.15982428450930453,"Sampling variation across days only; does not cover zone-label, spillover or parallel-trend uncertainty"
+Lyft,weekday_stratified,5000,20250105,0.1369184604218443,0.11649732088407576,0.15758571222417606,"Sampling variation across days only; does not cover zone-label, spillover or parallel-trend uncertainty"

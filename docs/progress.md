@@ -110,3 +110,30 @@ Không dùng trạng thái này thay cho file kết quả kiểm tra từng gate
 - Notebook tự chứa nhúng bảy hàm reporting, thêm six code cells; 62/62 code cells chạy từ đầu trong kernel/thư mục mới chỉ notebook + verified source cache; không repository scripts/processed inputs, không lỗi. 46 CSV khớp baseline. Chưa chạy runtime Colab thực tế.
 - Gói ZIP được xây từ allowlist source/aggregate/artifacts, loại raw/weather_raw/.venv/cache/local Power BI state; kiểm tra integrity và inventory riêng. Workspace vẫn giữ raw/.venv để chạy local; không xóa nguồn.
 - G7 local artifacts đạt; chưa PASS toàn bộ. Còn native model refresh/Power Query/DAX, slicer interactions, heatmap conditional formatting, hai ảnh chụp thực tế, Save As/mở lại PBIX. Ghi trạng thái chờ ở powerbi_source_validation.json và powerbi_handoff.md; không tạo binary PBIX giả.
+
+## Bổ sung theo cách Grab đo marketplace - 14/10/2026
+
+- Theo yêu cầu người dùng sau khi đối chiếu báo cáo quý 2/2026 của Grab, tin tuyển dụng Demand Planning và các bài Grab Tech/Inside Grab. Không mở rộng phạm vi dữ liệu; chỉ đọc thêm cột phí trên raw 01/2025.
+- Kiểm tra trước phí: chênh lệch trong/ngoài vùng 02–04/01/2025 so cùng thứ 2024 đã là −13,85%, cửa sổ chính −9,49% (bootstrap −10,9% đến −8,0%). Raw đếm lại độc lập khớp. Kết luận đổi: so sánh hiện tại không tách được phần do phí. Memo tại 16/02 và bản hồi cứu đã cập nhật; PDF vẫn một trang.
+- Nhãn vùng: 4,7% chuyến Lyft và 5,4% chuyến Uber bị thu phí nằm ở nhóm ngoài vùng.
+- Cây metric: tách GMV proxy thành số chuyến × giá TB; Uber chạm vùng giá +9,2%/chuyến −7,8%, Lyft chạm vùng giá −5,8%/chuyến +5,8% (01/2024→01/2025).
+- Chi phí credit tối đa 5,9% GMV proxy Lyft chạm vùng; 1.315.183 chuyến Lyft bị thu phí trong 06–26/01.
+- Cảnh báo theo dải dự báo: 118 → 9 (2 lễ, 5 thời tiết ở ngày tham chiếu, 2 chưa giải thích). Sensitivity k = 2/2,5/3.
+- Thiết kế thử nghiệm: MDE holdout theo khách (giả định), switchback theo giờ từ phương sai thật, SRM check.
+- Notebook thêm section tự chứa; các CSV Power BI và preview giữ nguyên bản đã commit vì giá trị không đổi (script tạo lại chỉ khác định dạng số do phiên bản pandas).
+- Còn mở: dữ liệu 11–12/2024 và 11–12/2023 để kiểm tra xu hướng trước phí (cần người dùng đồng ý mở rộng phạm vi); Power BI native vẫn chờ máy Windows; chưa commit/push.
+- Notebook: Run all toàn bộ 73/73 code cell từ thư mục trống, kernel mới (pandas 3.0.6, Python 3.13), chỉ có notebook và 14 file nguồn khớp SHA-256; không lỗi. 45/62 CSV trùng byte, 17 chỉ khác làm tròn số thực (<1e-9; tổng tiền lệch <0,4 cent); 3 memo trùng. Ghi trong notebook_execution.json; chưa chạy trên Google Colab.
+
+## Notebook nộp nhà tuyển dụng - 14/10/2026
+
+- Viết lại notebook bằng tiếng Anh, 6 phần theo câu hỏi nghiệp vụ, mở đầu bằng executive summary và kết bằng bảng đề xuất. 139 ô/2.724 dòng code còn 58 ô/748 dòng.
+- Giữ nguyên quy tắc: phạm vi request, loại zone 264, mẫu hợp lệ từng metric, vùng ≥95%, ngưỡng giá thấp $11,63, cửa sổ mưa chọn từ thời tiết, cutoff theo thời điểm hoàn thành chuyến.
+- Bỏ khỏi notebook: Power BI pack, memo PDF, Excel, file kiểm tra và proxy độ nhạy giá (vì phép so sánh phí không tách được tác động).
+- Run all từ thư mục trống, kernel mới: 31/31 code cell, không lỗi. Bảng ngày/giờ, 38 zone, hệ số mưa, 54 phương án phí, kiểm tra trước phí, phân rã GMV, thị phần Lyft, 28 dự báo, WAPE, 9 cảnh báo và MDE switchback khớp bảng repo (sai số tương đối 1e-9). Khoảng bootstrap lệch ở chữ số thứ tư do một luồng ngẫu nhiên.
+- Chưa chạy trên Google Colab; chưa commit/push.
+
+## Power BI project mới - 14/10/2026
+
+- Thay bản PBIP nháp (TMSL, 2 trang, thẻ "Fee all-trip gap", 118 cảnh báo ±7%) bằng PBIP mới: model TMDL 13 bảng/42 measure, báo cáo PBIR 4 trang theo kết luận mới (−9,5% không phải tác động phí; cảnh báo theo dải dự báo; số chuyến vs giá).
+- `scripts/build_powerbi_project.py` viết lại; `prepare_reporting_pack.py` chuyển đầu ra sang `data/reporting/` để không ghi đè `powerbi/`.
+- Kiểm tra: TMDL parser, schema Microsoft cho 50 file JSON, pbiplint 0 lỗi, đối chiếu tham chiếu và số liệu, chạy lại trên máy người dùng cho file giống hệt. Chưa mở bằng Power BI Desktop.

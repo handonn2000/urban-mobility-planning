@@ -1,0 +1,92 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "forecast_reading",
+  "position": {
+    "x": 20,
+    "y": 552,
+    "z": 9000,
+    "height": 160,
+    "width": 1240,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Reading",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "B2 had the lowest error over the week (WAPE 3.48%) and on Presidents' Day itself (1.41%)."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The MLK factor (B3) made 17 Feb worse in three of four segments: Presidents' Day did not behave like MLK."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The largest miss is Uber zone trips on Sunday 23 Feb (about 171k planned, 147k actual); its reference day 16 Feb had 17 hours of rain."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Forecast reading'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

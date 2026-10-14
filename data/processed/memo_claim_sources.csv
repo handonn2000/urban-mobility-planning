@@ -2,6 +2,9 @@ claim,value,source,selection,known_at_cutoff
 planned_week_trips_B2,4871467.5,data/processed/forecast_week.csv,"sum B2, 2025-02-17 through 2025-02-23",True
 holiday_scenario_week_trips_B3,4868999.648252842,data/processed/forecast_week.csv,sum B3,True
 January_relative_zone_gap,-0.0949165546702469,data/processed/fee_effect.csv,"operator=All, trip_group=all_trips",True
+pre_fee_relative_zone_gap,-0.1384768206335522,data/processed/fee_pre_period_check.csv,operator=All; 2025-01-02..04 vs same weekdays 2024,True
+January_gap_bootstrap_low,-0.1090650028734935,data/processed/fee_gap_bootstrap.csv,"operator=All, method=day_pairs",True
+January_gap_bootstrap_high,-0.080326622059875,data/processed/fee_gap_bootstrap.csv,"operator=All, method=day_pairs",True
 January_Lyft_zone_share,0.26999525149693665,data/processed/daily_segment.csv,"2025-01-06 through 2025-01-26, touches_zone=True",True
 credit_cost_per_extra_trip_scenario,25.87892068222107,docs/lyft_credit_analysis.json,default_economics.cost_per_incremental_trip_usd; retrospective review only,False
 illustrative_eligible_breakeven,0.3333333333333333,data/processed/credit_economics_hand_examples.csv,"targeted example, breakeven_eligible_uplift; assumed economics, independent of observed uplift",True

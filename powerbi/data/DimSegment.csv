@@ -1,5 +1,5 @@
-SegmentKey,Operator,TouchesZone,SegmentLabel
-Uber_outside,Uber,False,Uber / outside endpoints
-Uber_zone,Uber,True,Uber / zone endpoints
-Lyft_outside,Lyft,False,Lyft / outside endpoints
-Lyft_zone,Lyft,True,Lyft / zone endpoints
+SegmentKey,Operator,ZoneFlag,Segment,SortOrder
+Uber_zone,Uber,Zone,Uber zone,1
+Uber_outside,Uber,Outside,Uber outside,2
+Lyft_zone,Lyft,Zone,Lyft zone,3
+Lyft_outside,Lyft,Outside,Lyft outside,4

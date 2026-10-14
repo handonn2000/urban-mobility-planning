@@ -1,0 +1,106 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "growth",
+  "position": {
+    "x": 20,
+    "y": 382,
+    "z": 7000,
+    "height": 330,
+    "width": 620,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactGrowth"
+                    }
+                  },
+                  "Property": "Segment"
+                }
+              },
+              "queryRef": "FactGrowth.Segment",
+              "nativeQueryRef": "Segment",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactGrowth"
+                    }
+                  },
+                  "Property": "Trip growth"
+                }
+              },
+              "queryRef": "FactGrowth.Trip growth",
+              "nativeQueryRef": "Trip growth"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactGrowth"
+                    }
+                  },
+                  "Property": "Average fare growth"
+                }
+              },
+              "queryRef": "FactGrowth.Average fare growth",
+              "nativeQueryRef": "Average fare growth"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Bar chart splitting year-on-year growth into volume and price'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Year-on-year growth: trips vs average fare'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

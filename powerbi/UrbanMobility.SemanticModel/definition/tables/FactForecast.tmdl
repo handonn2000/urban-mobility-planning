@@ -1,0 +1,95 @@
+table FactForecast
+	lineageTag: 15b123da-370d-5f20-8f04-ae59a6dd4e96
+
+	measure 'Forecast trips' = IF(HASONEVALUE(DimMethod[Method]), SUM(FactForecast[Forecast]))
+		formatString: #,0
+		lineageTag: c24f3e20-5267-573c-8a25-58186863a3ff
+
+	measure 'Actual trips' = CALCULATE(SUM(FactForecast[Actual]), DimMethod[Method] = "B2")
+		formatString: #,0
+		lineageTag: d10b4050-db99-54b7-ab36-4c4985bb2f7b
+
+	measure 'Plan B2' = CALCULATE(SUM(FactForecast[Forecast]), DimMethod[Method] = "B2")
+		formatString: #,0
+		lineageTag: 9c6a79b9-7c63-5509-9852-4835fea6d9eb
+
+	measure 'Scenario B3' = CALCULATE(SUM(FactForecast[Forecast]), DimMethod[Method] = "B3")
+		formatString: #,0
+		lineageTag: 78cb7c03-35b4-5c4c-b7b1-9c6dd7b543dc
+
+	measure 'Last week B1' = CALCULATE(SUM(FactForecast[Forecast]), DimMethod[Method] = "B1")
+		formatString: #,0
+		lineageTag: 44668ea2-3f96-5de3-b082-62430a033a94
+
+	measure WAPE = IF(HASONEVALUE(DimMethod[Method]), DIVIDE(SUMX(FactForecast, ABS(FactForecast[Forecast] - FactForecast[Actual])), SUM(FactForecast[Actual])))
+		formatString: 0.00%
+		lineageTag: dd2d5b83-4cc3-5ce6-ac1a-ada789b61eec
+
+	measure Bias = IF(HASONEVALUE(DimMethod[Method]), DIVIDE(SUMX(FactForecast, FactForecast[Forecast] - FactForecast[Actual]), SUM(FactForecast[Actual])))
+		formatString: +0.00%;-0.00%;0.00%
+		lineageTag: 031f7179-378b-5abb-980c-38acc996edb9
+
+	measure MAE = IF(HASONEVALUE(DimMethod[Method]), AVERAGEX(FactForecast, ABS(FactForecast[Forecast] - FactForecast[Actual])))
+		formatString: #,0
+		lineageTag: 8d7aea68-37eb-5537-87cb-0d405c35227a
+
+	measure 'WAPE B2' = CALCULATE([WAPE], DimMethod[Method] = "B2")
+		formatString: 0.00%
+		lineageTag: c15072d2-8ccf-508f-97e8-80df52fe0fe0
+
+	column Date
+		dataType: dateTime
+		isHidden
+		isAvailableInMdx: false
+		formatString: yyyy-mm-dd
+		lineageTag: 31d233b6-f848-5d94-9970-82219f1d3574
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column SegmentKey
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: 568c1f68-aad4-589b-b688-4606e55bef55
+		summarizeBy: none
+		sourceColumn: SegmentKey
+
+	column Method
+		dataType: string
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: c7643bf5-e047-5f19-b7fc-3be06ea6c099
+		summarizeBy: none
+		sourceColumn: Method
+
+	column Forecast
+		dataType: decimal
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,0
+		lineageTag: 83783496-343c-5983-8174-25e9688aecd5
+		summarizeBy: none
+		sourceColumn: Forecast
+
+	column Actual
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,0
+		lineageTag: 324b1698-8807-55cc-8aed-98bbf5e3044a
+		summarizeBy: none
+		sourceColumn: Actual
+
+	partition FactForecast = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Binary.FromText("RGF0ZSxTZWdtZW50S2V5LE1ldGhvZCxGb3JlY2FzdCxBY3R1YWwKMjAyNS0wMi0xNyxMeWZ0X291dHNpZGUsQjEsOTk2NDMuMCw5ODM0OAoyMDI1LTAyLTE3LEx5ZnRfem9uZSxCMSw0OTYyNy4wLDQ5OTc0CjIwMjUtMDItMTcsVWJlcl9vdXRzaWRlLEIxLDMxNTQ2NS4wLDMwNDMxMwoyMDI1LTAyLTE3LFViZXJfem9uZSxCMSwxNDYyOTcuMCwxMzc4NDUKMjAyNS0wMi0xOCxMeWZ0X291dHNpZGUsQjEsOTgwMzcuMCwxMDI3MjMKMjAyNS0wMi0xOCxMeWZ0X3pvbmUsQjEsNTM3MzMuMCw1NDgwMAoyMDI1LTAyLTE4LFViZXJfb3V0c2lkZSxCMSwzMTY0MjcuMCwzMTYwODcKMjAyNS0wMi0xOCxVYmVyX3pvbmUsQjEsMTY3ODExLjAsMTYwODU0CjIwMjUtMDItMTksTHlmdF9vdXRzaWRlLEIxLDEwNDQzNy4wLDEwMzM5OAoyMDI1LTAyLTE5LEx5ZnRfem9uZSxCMSw1NjU4Mi4wLDU2NDQ0CjIwMjUtMDItMTksVWJlcl9vdXRzaWRlLEIxLDMzNjYxNy4wLDMyMzk4NwoyMDI1LTAyLTE5LFViZXJfem9uZSxCMSwxNzU2MTMuMCwxNzA1MTcKMjAyNS0wMi0yMCxMeWZ0X291dHNpZGUsQjEsMTE2MTQxLjAsMTEzNjI4CjIwMjUtMDItMjAsTHlmdF96b25lLEIxLDYxMzc1LjAsNjQ0NTYKMjAyNS0wMi0yMCxVYmVyX291dHNpZGUsQjEsMzYxNDIyLjAsMzQ4MTA2CjIwMjUtMDItMjAsVWJlcl96b25lLEIxLDE3NjUwNy4wLDE3OTcxOAoyMDI1LTAyLTIxLEx5ZnRfb3V0c2lkZSxCMSwxMzcyNjYuMCwxMzgwMDQKMjAyNS0wMi0yMSxMeWZ0X3pvbmUsQjEsNjU1NzIuMCw3NDkxMAoyMDI1LTAyLTIxLFViZXJfb3V0c2lkZSxCMSw0MjM3MjguMCwzNzU5MjIKMjAyNS0wMi0yMSxVYmVyX3pvbmUsQjEsMTg4NDIyLjAsMTg1MDgzCjIwMjUtMDItMjIsTHlmdF9vdXRzaWRlLEIxLDEzNDc4Ny4wLDEyMjExNwoyMDI1LTAyLTIyLEx5ZnRfem9uZSxCMSw4MTE5OC4wLDcyMzE1CjIwMjUtMDItMjIsVWJlcl9vdXRzaWRlLEIxLDM5Njg2Mi4wLDM5NzQ0NQoyMDI1LTAyLTIyLFViZXJfem9uZSxCMSwyMDQ3ODguMCwyMTA3OTIKMjAyNS0wMi0yMyxMeWZ0X291dHNpZGUsQjEsMTA3ODgzLjAsMTE2OTIzCjIwMjUtMDItMjMsTHlmdF96b25lLEIxLDYxNTI5LjAsNjQ5NDMKMjAyNS0wMi0yMyxVYmVyX291dHNpZGUsQjEsMzQyMTEyLjAsMzI5NjkxCjIwMjUtMDItMjMsVWJlcl96b25lLEIxLDE3MTcyNC4wLDE0Njc5NwoyMDI1LTAyLTE3LEx5ZnRfb3V0c2lkZSxCMiw5NzQwOS41LDk4MzQ4CjIwMjUtMDItMTcsTHlmdF96b25lLEIyLDQ3MzEyLjAsNDk5NzQKMjAyNS0wMi0xNyxVYmVyX291dHNpZGUsQjIsMzA1MDQ5LjAsMzA0MzEzCjIwMjUtMDItMTcsVWJlcl96b25lLEIyLDE0MTg0Ni41LDEzNzg0NQoyMDI1LTAyLTE4LEx5ZnRfb3V0c2lkZSxCMiw5NTg4NC4wLDEwMjcyMwoyMDI1LTAyLTE4LEx5ZnRfem9uZSxCMiw1MTcwMy41LDU0ODAwCjIwMjUtMDItMTgsVWJlcl9vdXRzaWRlLEIyLDMxMTc2Ny4wLDMxNjA4NwoyMDI1LTAyLTE4LFViZXJfem9uZSxCMiwxNjQxNTguMCwxNjA4NTQKMjAyNS0wMi0xOSxMeWZ0X291dHNpZGUsQjIsMTA0NTYwLjAsMTAzMzk4CjIwMjUtMDItMTksTHlmdF96b25lLEIyLDU3NDUzLjAsNTY0NDQKMjAyNS0wMi0xOSxVYmVyX291dHNpZGUsQjIsMzI1Nzk5LjUsMzIzOTg3CjIwMjUtMDItMTksVWJlcl96b25lLEIyLDE3NDkzMy41LDE3MDUxNwoyMDI1LTAyLTIwLEx5ZnRfb3V0c2lkZSxCMiwxMTUyMTYuNSwxMTM2MjgKMjAyNS0wMi0yMCxMeWZ0X3pvbmUsQjIsNjMxMDQuNSw2NDQ1NgoyMDI1LTAyLTIwLFViZXJfb3V0c2lkZSxCMiwzNDg5MzMuMCwzNDgxMDYKMjAyNS0wMi0yMCxVYmVyX3pvbmUsQjIsMTg1NTUwLjUsMTc5NzE4CjIwMjUtMDItMjEsTHlmdF9vdXRzaWRlLEIyLDEzMzk1Ny41LDEzODAwNAoyMDI1LTAyLTIxLEx5ZnRfem9uZSxCMiw2ODg3NC41LDc0OTEwCjIwMjUtMDItMjEsVWJlcl9vdXRzaWRlLEIyLDM5ODI3Ny41LDM3NTkyMgoyMDI1LTAyLTIxLFViZXJfem9uZSxCMiwxOTIyNTQuMCwxODUwODMKMjAyNS0wMi0yMixMeWZ0X291dHNpZGUsQjIsMTI4NDI0LjUsMTIyMTE3CjIwMjUtMDItMjIsTHlmdF96b25lLEIyLDc5NjUyLjUsNzIzMTUKMjAyNS0wMi0yMixVYmVyX291dHNpZGUsQjIsMzg0NDc0LjAsMzk3NDQ1CjIwMjUtMDItMjIsVWJlcl96b25lLEIyLDIwNjcxNy41LDIxMDc5MgoyMDI1LTAyLTIzLEx5ZnRfb3V0c2lkZSxCMiwxMDg5MDEuNSwxMTY5MjMKMjAyNS0wMi0yMyxMeWZ0X3pvbmUsQjIsNjA5ODguNSw2NDk0MwoyMDI1LTAyLTIzLFViZXJfb3V0c2lkZSxCMiwzNDc1MTAuNSwzMjk2OTEKMjAyNS0wMi0yMyxVYmVyX3pvbmUsQjIsMTcwNzU1LjAsMTQ2Nzk3CjIwMjUtMDItMTcsTHlmdF9vdXRzaWRlLEIzLDk2OTM3Ljc1LDk4MzQ4CjIwMjUtMDItMTcsTHlmdF96b25lLEIzLDQ3MTcxLjQ2LDQ5OTc0CjIwMjUtMDItMTcsVWJlcl9vdXRzaWRlLEIzLDMxMDkxNS44MywzMDQzMTMKMjAyNS0wMi0xNyxVYmVyX3pvbmUsQjMsMTM0MTI0LjExLDEzNzg0NQoyMDI1LTAyLTE4LEx5ZnRfb3V0c2lkZSxCMyw5NTg4NC4wLDEwMjcyMwoyMDI1LTAyLTE4LEx5ZnRfem9uZSxCMyw1MTcwMy41LDU0ODAwCjIwMjUtMDItMTgsVWJlcl9vdXRzaWRlLEIzLDMxMTc2Ny4wLDMxNjA4NwoyMDI1LTAyLTE4LFViZXJfem9uZSxCMywxNjQxNTguMCwxNjA4NTQKMjAyNS0wMi0xOSxMeWZ0X291dHNpZGUsQjMsMTA0NTYwLjAsMTAzMzk4CjIwMjUtMDItMTksTHlmdF96b25lLEIzLDU3NDUzLjAsNTY0NDQKMjAyNS0wMi0xOSxVYmVyX291dHNpZGUsQjMsMzI1Nzk5LjUsMzIzOTg3CjIwMjUtMDItMTksVWJlcl96b25lLEIzLDE3NDkzMy41LDE3MDUxNwoyMDI1LTAyLTIwLEx5ZnRfb3V0c2lkZSxCMywxMTUyMTYuNSwxMTM2MjgKMjAyNS0wMi0yMCxMeWZ0X3pvbmUsQjMsNjMxMDQuNSw2NDQ1NgoyMDI1LTAyLTIwLFViZXJfb3V0c2lkZSxCMywzNDg5MzMuMCwzNDgxMDYKMjAyNS0wMi0yMCxVYmVyX3pvbmUsQjMsMTg1NTUwLjUsMTc5NzE4CjIwMjUtMDItMjEsTHlmdF9vdXRzaWRlLEIzLDEzMzk1Ny41LDEzODAwNAoyMDI1LTAyLTIxLEx5ZnRfem9uZSxCMyw2ODg3NC41LDc0OTEwCjIwMjUtMDItMjEsVWJlcl9vdXRzaWRlLEIzLDM5ODI3Ny41LDM3NTkyMgoyMDI1LTAyLTIxLFViZXJfem9uZSxCMywxOTIyNTQuMCwxODUwODMKMjAyNS0wMi0yMixMeWZ0X291dHNpZGUsQjMsMTI4NDI0LjUsMTIyMTE3CjIwMjUtMDItMjIsTHlmdF96b25lLEIzLDc5NjUyLjUsNzIzMTUKMjAyNS0wMi0yMixVYmVyX291dHNpZGUsQjMsMzg0NDc0LjAsMzk3NDQ1CjIwMjUtMDItMjIsVWJlcl96b25lLEIzLDIwNjcxNy41LDIxMDc5MgoyMDI1LTAyLTIzLEx5ZnRfb3V0c2lkZSxCMywxMDg5MDEuNSwxMTY5MjMKMjAyNS0wMi0yMyxMeWZ0X3pvbmUsQjMsNjA5ODguNSw2NDk0MwoyMDI1LTAyLTIzLFViZXJfb3V0c2lkZSxCMywzNDc1MTAuNSwzMjk2OTEKMjAyNS0wMi0yMyxVYmVyX3pvbmUsQjMsMTcwNzU1LjAsMTQ2Nzk3Cg==", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"SegmentKey", type text}, {"Method", type text}, {"Forecast", Currency.Type}, {"Actual", Int64.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

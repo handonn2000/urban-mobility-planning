@@ -1,0 +1,28 @@
+relationship 7d75cb3f-042d-5558-b64a-4655ad01eba5
+	fromColumn: FactDaily.Date
+	toColumn: DimDate.Date
+
+relationship fb50faf3-b7d9-588e-ae1a-5c0fbb50000d
+	fromColumn: FactDaily.SegmentKey
+	toColumn: DimSegment.SegmentKey
+
+relationship 6197c936-30e2-5bd6-b3a7-7bbbcadf68b3
+	fromColumn: FactForecast.Date
+	toColumn: DimDate.Date
+
+relationship 4ee376c9-58b9-5c02-88f5-96a6156b0285
+	fromColumn: FactForecast.SegmentKey
+	toColumn: DimSegment.SegmentKey
+
+relationship c31eeaa4-3cd5-5808-bb2a-d086bd0ceacd
+	fromColumn: FactForecast.Method
+	toColumn: DimMethod.Method
+
+relationship 264e00c9-79b6-5e41-8c1c-c826ea9feb99
+	fromColumn: FactCityForecast.Date
+	toColumn: DimDate.Date
+
+relationship 7e6fe07e-9272-592f-b5ae-f77f4a6fde74
+	fromColumn: FactFeeGap.Date
+	toColumn: DimDate.Date
+

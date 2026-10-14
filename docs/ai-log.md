@@ -98,3 +98,26 @@
 - Chỉ stage source, aggregate và sản phẩm đã kiểm tra; loại toàn bộ data/raw, weather_raw, .venv, cache, ZIP và artifact-tool inspect files. Raw trên máy giữ nguyên.
 - Kiểm tra không có file lớn từ 50 MB hoặc chuỗi credential phổ biến trong tập stage. Thêm Git attributes để bảo toàn byte CSV nguồn và nhận dạng PDF/PNG/XLSX là binary.
 - README giữ trạng thái native Power BI pending, không biến việc đưa source lên GitHub thành bằng chứng đã tạo/kiểm tra PBIX hoặc đã publish Microsoft 365.
+
+## 14/10/2026 - Bổ sung theo cách Grab đo marketplace
+
+- Người dùng yêu cầu đối chiếu nguồn công khai của Grab và bổ sung theo đề xuất. Đọc báo cáo quý 2/2026, tin tuyển dụng GrabFood/GIP Demand Planning, bài Inside Grab về dự báo, cảnh báo, mưa và công cụ thử nghiệm của Grab Tech.
+- Viết `scripts/analyze_marketplace_extensions.py`: kiểm tra trước phí và bootstrap, cây metric số chuyến × giá, chi phí credit/GMV, cảnh báo theo dải dự báo, MDE switchback/holdout và SRM.
+- Phát hiện quan trọng: chênh lệch trong/ngoài vùng đã có trước 05/01. Đếm lại từ raw độc lập trước khi đổi kết luận; ghi rõ giới hạn ba ngày và tuần Tết dương lịch không cân.
+- Dải cảnh báo bản đầu hiệu chỉnh trên 01/2024 quá rộng (±23–36%); sửa: bỏ ngày tham chiếu trong 01–07/01 và ngày lễ, hiệu chỉnh trên ngày không có sự kiện của cả hai năm, nới dải khi chỉ có một ngày tham chiếu. Ghi là in-sample.
+- Kiểm tra giả định ban đầu "chuyến Lyft bị thu phí ≤ chuyến chạm vùng" sai; thay bằng bảng độ phủ nhãn vùng (4,7–5,4% chuyến chịu phí bị gắn ngoài vùng).
+- Chạy lại `prepare_reporting_pack.py` để cập nhật memo; khôi phục CSV Power BI và preview về bản commit vì chỉ khác định dạng số. PDF memo một trang, đã xem ảnh render.
+- Các phép tính holdout theo khách dùng phương sai giả định (TLC không có ID khách), ghi rõ trong bảng và phụ lục. Không commit hoặc đẩy GitHub.
+
+## 14/10/2026 - Viết lại notebook để nộp
+
+- Người dùng yêu cầu review, refactor, chia section theo góc nhìn Specialist GIP Demand Planning, bỏ dấu vết văn phong máy, giữ một notebook tự chứa, tiếng Anh.
+- Đọc lại 7 script để giữ đúng định nghĩa trước khi viết gọn; dựng notebook mới với SQL DuckDB ngắn và bảng/biểu đồ phục vụ kết luận.
+- Đối chiếu từng bảng chính với data/processed trước khi thay notebook cũ; sửa trình bày (định dạng số, nhãn trục, chú thích chồng) sau khi xem từng biểu đồ.
+- Sửa một số liệu trong tóm tắt: chênh lệch trước phí là −13,8% (−13,848%), không phải −13,9%.
+
+## 14/10/2026 - Dựng lại Power BI project
+
+- Người dùng yêu cầu tạo PBIP. Rà bản nháp cũ thấy nội dung lỗi thời; dựng lại bằng script sinh TMDL + PBIR với dữ liệu nhúng.
+- Không dùng gói MCP Power BI của Microsoft vì cần người dùng chấp nhận EULA; kiểm tra bằng schema chính thức, `@pbip-tools/tmdl-parser`, `pbiplint`, đối chiếu tham chiếu và tính lại measure từ dữ liệu nhúng.
+- Sửa theo lint: định dạng %, ẩn cột số của fact, đánh dấu khóa, kiểu thập phân cố định, bỏ cột không dùng.

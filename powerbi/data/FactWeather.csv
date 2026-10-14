@@ -1,0 +1,9 @@
+Study,Weather,Hours,TripsFactor,WaitFactor,SmallSample
+summer 2024,Rain 0.5-2 mm/h,110,1.0307,1.0034,No
+summer 2024,Rain > 2 mm/h,35,1.0772,1.0092,No
+winter 2024,Rain 0.5-2 mm/h,37,1.1009,1.0572,No
+winter 2024,Rain > 2 mm/h,15,1.0286,1.0657,Yes
+winter 2024,Snow,50,1.0897,1.0355,No
+winter 2025,Rain 0.5-2 mm/h,38,1.012,1.0445,No
+winter 2025,Rain > 2 mm/h,4,1.0559,1.0118,Yes
+winter 2025,Snow,94,1.0274,1.0781,No

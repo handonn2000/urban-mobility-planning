@@ -1,0 +1,51 @@
+table FactWeeklyShare
+	lineageTag: 9edee57e-a463-53f1-b65d-ccc065fc0f5b
+
+	measure 'Lyft share' = DIVIDE(SUM(FactWeeklyShare[LyftTrips]), SUM(FactWeeklyShare[MarketTrips]))
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		lineageTag: 275b4a2c-4a49-533a-843b-ced705017a2d
+
+	column WeekStart
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 9513c73c-99cc-54a6-a1ab-4699698f216d
+		summarizeBy: none
+		sourceColumn: WeekStart
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ZoneGroup
+		dataType: string
+		lineageTag: 1fd9e50d-beaf-5696-a034-16908d6a0a1c
+		summarizeBy: none
+		sourceColumn: ZoneGroup
+
+	column LyftTrips
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,0
+		lineageTag: f8d15824-aee2-5a77-94bb-6fcc293db956
+		summarizeBy: none
+		sourceColumn: LyftTrips
+
+	column MarketTrips
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,0
+		lineageTag: 2cf301fe-9659-5adf-9c4b-f9e5ee3e4730
+		summarizeBy: none
+		sourceColumn: MarketTrips
+
+	partition FactWeeklyShare = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Binary.FromText("V2Vla1N0YXJ0LFpvbmVHcm91cCxMeWZ0VHJpcHMsTWFya2V0VHJpcHMKMjAyNC0xMi0zMCxPdXRzaWRlIHRoZSB6b25lLDQ4OTEzMCwyMTI0NDc1CjIwMjQtMTItMzAsVG91Y2hpbmcgdGhlIHpvbmUsMjU1MTgxLDkzOTg4MQoyMDI1LTAxLTA2LE91dHNpZGUgdGhlIHpvbmUsNzY0MDg2LDMwOTA5MzcKMjAyNS0wMS0wNixUb3VjaGluZyB0aGUgem9uZSw0MjE4MzIsMTUxMDEwNAoyMDI1LTAxLTEzLE91dHNpZGUgdGhlIHpvbmUsNzE1MDUxLDMwOTM1ODAKMjAyNS0wMS0xMyxUb3VjaGluZyB0aGUgem9uZSw0MTA1MTQsMTU4NjU3NwoyMDI1LTAxLTIwLE91dHNpZGUgdGhlIHpvbmUsNzUzMTgyLDMxNjQ1NzEKMjAyNS0wMS0yMCxUb3VjaGluZyB0aGUgem9uZSw0NDk4MjUsMTY1MjE4NAoyMDI1LTAxLTI3LE91dHNpZGUgdGhlIHpvbmUsNzQ3MzI2LDMxMjcwNTYKMjAyNS0wMS0yNyxUb3VjaGluZyB0aGUgem9uZSw0Mjk3ODcsMTYwODc0NwoyMDI1LTAyLTAzLE91dHNpZGUgdGhlIHpvbmUsNzcwNTEzLDMxMjE1MDEKMjAyNS0wMi0wMyxUb3VjaGluZyB0aGUgem9uZSw0Mjg1NjEsMTY2OTgyOQoyMDI1LTAyLTEwLE91dHNpZGUgdGhlIHpvbmUsNzk5Nzk5LDMyOTc0OTIKMjAyNS0wMi0xMCxUb3VjaGluZyB0aGUgem9uZSw0MzA1MDYsMTY2NDA3NAoyMDI1LTAyLTE3LE91dHNpZGUgdGhlIHpvbmUsNzk1MTQxLDMxOTA2OTIKMjAyNS0wMi0xNyxUb3VjaGluZyB0aGUgem9uZSw0Mzc4NDIsMTYyOTQ0OAoyMDI1LTAyLTI0LE91dHNpZGUgdGhlIHpvbmUsNTc4MDEzLDIyMjUxNjQKMjAyNS0wMi0yNCxUb3VjaGluZyB0aGUgem9uZSwyOTI0NDQsMTA0NzYzMgo=", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"WeekStart", type date}, {"ZoneGroup", type text}, {"LyftTrips", Int64.Type}, {"MarketTrips", Int64.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

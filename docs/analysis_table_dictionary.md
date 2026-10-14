@@ -36,3 +36,20 @@ hourly_city thêm request_date, hour, source_trips, temperature_c, rain_mm, snow
 ## Tổng hợp đúng
 
 Số chuyến, số mẫu và hai tổng tiền có thể cộng. Median không thể lấy trung bình giữa các nhóm để ra median chung; dùng bảng giờ đã tính trực tiếp cho phân tích chờ toàn thành phố. Tổng các tỷ lệ cũng không có nghĩa: cộng tử/mẫu trước khi tính lại tỷ lệ.
+
+## Bảng bổ sung về marketplace
+
+| Bảng | Khóa / nội dung |
+|---|---|
+| fee_matched_day_gaps | Một ngày 02–29/01/2025 ghép D−364; số chuyến trong/ngoài vùng hai năm và chênh lệch theo hãng |
+| fee_pre_period_check | Chênh lệch gộp 02–04/01 so với cửa sổ 06–26/01 theo hãng |
+| fee_gap_bootstrap | Khoảng 95% bootstrap theo ngày cho cửa sổ chính; chỉ đo dao động giữa ngày |
+| fee_label_coverage | Chuyến và chuyến bị thu phí theo hãng × nhãn vùng, 06–26/01/2025, đếm từ raw |
+| marketplace_economics_windows | Cửa sổ × phân khúc: chuyến, giá TB, tiền tài xế/chuyến, tỷ lệ giữ lại ước tính, GMV proxy = chuyến × giá TB |
+| gmv_volume_price_decomposition | Thay đổi GMV proxy tách thành log điểm do số chuyến và do giá TB |
+| lyft_credit_cost_vs_gmv | Chi phí credit tối đa theo tỷ lệ sử dụng, chia cho GMV proxy Lyft |
+| forecast_band_alerts | Ngày × phân khúc: kỳ vọng, z-score robust, trạng thái cảnh báo, thời tiết ngày đó và ngày tham chiếu |
+| forecast_band_parameters / forecast_band_sensitivity / alert_rule_comparison | Tham số dải, độ nhạy theo k, so với watchlist cũ |
+| experiment_power_switchback / experiment_power_user_holdout / experiment_srm_examples | MDE và ví dụ kiểm tra SRM |
+
+GMV proxy dùng base_passenger_fare, không gồm phí vùng, thuế, tip; không phải GMV kế toán.

@@ -6,7 +6,7 @@ Plan **4,871,468 completed Uber + Lyft trips** for 17-23 February using the two-
 
 ## Evidence available at cutoff
 
-In the matched January windows, zone-touching volume was 9.49% below its comparison-based counterfactual. This is an observational relative gap, not an identified causal fee effect. Outside-zone trips can be affected by spillovers and through-zone fees.
+In the matched January windows, zone-touching volume was 9.49% below its comparison-based counterfactual (95% day-bootstrap -10.9% to -8.0%). The same zone-versus-outside gap was already -13.85% on 2-4 January, before the fee began, so this design cannot attribute the January gap to the fee. Treat it as a level difference to explain, not a fee effect; a clean estimate needs November-December pre-period data.
 Lyft had 27.00% of completed Uber + Lyft zone trips in 6-26 January. Its $1.50 offer was future credit, not cash reimbursement. Redemption and campaign incrementality are unmeasured; the January-February share estimate is excluded because it uses data after this decision time.
 
 ## Plan and action

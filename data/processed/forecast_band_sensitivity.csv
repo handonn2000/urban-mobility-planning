@@ -1,0 +1,4 @@
+k,expected_false_alarm_rate_if_normal,days_with_expectation,outside_band,explained_by_known_event,needs_investigation
+2.0,0.04550026389635844,248,21,2,19
+2.5,0.012419330651552278,248,9,2,7
+3.0,0.0026997960632601913,248,3,0,3

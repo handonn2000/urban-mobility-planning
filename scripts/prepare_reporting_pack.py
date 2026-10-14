@@ -13,7 +13,7 @@ def reporting_segment_key(operator, zone):
 
 def prepare_report_tables(root):
     root = Path(root)
-    out = root / "powerbi/data"
+    out = root / "data/reporting"
     out.mkdir(parents=True, exist_ok=True)
     daily = pd.read_csv(root / "data/processed/daily_segment.csv", parse_dates=["request_date"])
     hourly = pd.read_csv(root / "data/processed/hourly_city.csv", parse_dates=["request_date", "request_hour"])
@@ -80,7 +80,7 @@ def prepare_report_tables(root):
             dtype = frame[column].dtype
             types[column] = "dateTime" if pd.api.types.is_datetime64_any_dtype(dtype) else "boolean" if pd.api.types.is_bool_dtype(dtype) else "int64" if pd.api.types.is_integer_dtype(dtype) else "double" if pd.api.types.is_float_dtype(dtype) else "string"
         contract.append({"table": name, "csv": f"data/{name}.csv", "rows": len(frame), "columns": types})
-    (root / "powerbi/data_contract.json").write_text(json.dumps(contract, indent=2) + "\n")
+    (root / "data/reporting/data_contract.json").write_text(json.dumps(contract, indent=2) + "\n")
     return facts
 
 
@@ -154,10 +154,14 @@ def write_portfolio_memos(root, facts):
     jan = facts["FactDaily"][facts["FactDaily"].Date.between("2025-01-06", "2025-01-26")]
     zone = jan[jan.SegmentKey.str.endswith("_zone")]
     share = zone.loc[zone.SegmentKey.eq("Lyft_zone"), "Trips"].sum() / zone.Trips.sum()
+    pre_check = pd.read_csv(root / "data/processed/fee_pre_period_check.csv")
+    pre = pre_check[pre_check.operator.eq("All")].iloc[0]
+    bootstrap = pd.read_csv(root / "data/processed/fee_gap_bootstrap.csv")
+    boot = bootstrap[bootstrap.operator.eq("All") & bootstrap.method.eq("day_pairs")].iloc[0]
     memo = ["# January Review and Feb 17-23 Demand Plan", "", "**Decision time: end of 16 February 2025, New York. Historical planning simulation.**", "",
             f"Plan **{plan.B2.sum():,.0f} completed Uber + Lyft trips** for 17-23 February using the two-week same-weekday mean (B2). Treat the MLK adjustment as a holiday scenario, not a proven improvement.", "",
             "## Evidence available at cutoff", "",
-            f"In the matched January windows, zone-touching volume was {abs(pooled.RelativeGrowthGap):.2%} below its comparison-based counterfactual. This is an observational relative gap, not an identified causal fee effect. Outside-zone trips can be affected by spillovers and through-zone fees.",
+            f"In the matched January windows, zone-touching volume was {abs(pooled.RelativeGrowthGap):.2%} below its comparison-based counterfactual (95% day-bootstrap {boot.ci_low_2_5:.1%} to {boot.ci_high_97_5:.1%}). The same zone-versus-outside gap was already {pre.pre_fee_gap:.2%} on 2-4 January, before the fee began, so this design cannot attribute the January gap to the fee. Treat it as a level difference to explain, not a fee effect; a clean estimate needs November-December pre-period data.",
             f"Lyft had {share:.2%} of completed Uber + Lyft zone trips in 6-26 January. Its $1.50 offer was future credit, not cash reimbursement. Redemption and campaign incrementality are unmeasured; the January-February share estimate is excluded because it uses data after this decision time.", "",
             "## Plan and action", "",
             f"Use B2 as the provisional baseline, fixed before evaluation. The B3 holiday scenario totals {plan.B3.sum():,.0f} trips and changes only 17 February. Keep the segment forecasts visible; the four MLK responses differ.",
@@ -169,7 +173,7 @@ def write_portfolio_memos(root, facts):
     credit = facts["FactCreditSummary"].iloc[0]
     evaluation = facts["FactForecast"]
     review = ["# Retrospective evidence and learning", "", "**Includes trip outcomes through 23 February 2025. Separate from the 16 February planning memo.**", "",
-              f"January fee comparison: relative zone gap {pooled.RelativeGrowthGap:+.2%}; observational assumptions remain unverified.",
+              f"January fee comparison: relative zone gap {pooled.RelativeGrowthGap:+.2%} (day-bootstrap {boot.ci_low_2_5:+.1%} to {boot.ci_high_97_5:+.1%}); the pre-fee gap on 2-4 January was {pre.pre_fee_gap:+.2%}, so the comparison does not isolate a fee effect.",
               f"Credit comparison: adjusted Lyft share gap {credit.ShareGapPP:+.3f} percentage points; uplift proxy {credit.UpliftProxy:.2%}. Under $6 margin and 100% redemption assumptions, expected credit cost per extra trip is ${credit.CostPerExtraTrip:.2f}; this is not observed campaign ROI.", "",
               "| Method | Weekly WAPE | Weekly bias |", "|---|---:|---:|"]
     for method, frame in evaluation.groupby("Method"):
@@ -180,6 +184,9 @@ def write_portfolio_memos(root, facts):
     claims = [{"claim": "planned_week_trips_B2", "value": float(plan.B2.sum()), "source": "data/processed/forecast_week.csv", "selection": "sum B2, 2025-02-17 through 2025-02-23", "known_at_cutoff": True},
               {"claim": "holiday_scenario_week_trips_B3", "value": float(plan.B3.sum()), "source": "data/processed/forecast_week.csv", "selection": "sum B3", "known_at_cutoff": True},
               {"claim": "January_relative_zone_gap", "value": float(pooled.RelativeGrowthGap), "source": "data/processed/fee_effect.csv", "selection": "operator=All, trip_group=all_trips", "known_at_cutoff": True},
+              {"claim": "pre_fee_relative_zone_gap", "value": float(pre.pre_fee_gap), "source": "data/processed/fee_pre_period_check.csv", "selection": "operator=All; 2025-01-02..04 vs same weekdays 2024", "known_at_cutoff": True},
+              {"claim": "January_gap_bootstrap_low", "value": float(boot.ci_low_2_5), "source": "data/processed/fee_gap_bootstrap.csv", "selection": "operator=All, method=day_pairs", "known_at_cutoff": True},
+              {"claim": "January_gap_bootstrap_high", "value": float(boot.ci_high_97_5), "source": "data/processed/fee_gap_bootstrap.csv", "selection": "operator=All, method=day_pairs", "known_at_cutoff": True},
               {"claim": "January_Lyft_zone_share", "value": float(share), "source": "data/processed/daily_segment.csv", "selection": "2025-01-06 through 2025-01-26, touches_zone=True", "known_at_cutoff": True},
               {"claim": "credit_cost_per_extra_trip_scenario", "value": float(credit.CostPerExtraTrip), "source": "docs/lyft_credit_analysis.json", "selection": "default_economics.cost_per_incremental_trip_usd; retrospective review only", "known_at_cutoff": False},
               {"claim": "illustrative_eligible_breakeven", "value": 1 / 3, "source": "data/processed/credit_economics_hand_examples.csv", "selection": "targeted example, breakeven_eligible_uplift; assumed economics, independent of observed uplift", "known_at_cutoff": True},

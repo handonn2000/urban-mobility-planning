@@ -1,0 +1,110 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "fee_groups",
+  "position": {
+    "x": 660,
+    "y": 176,
+    "z": 6000,
+    "height": 196,
+    "width": 600,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactFeeEffect"
+                    }
+                  },
+                  "Property": "TripGroup"
+                }
+              },
+              "queryRef": "FactFeeEffect.TripGroup",
+              "nativeQueryRef": "TripGroup",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactFeeEffect"
+                    }
+                  },
+                  "Property": "Operator"
+                }
+              },
+              "queryRef": "FactFeeEffect.Operator",
+              "nativeQueryRef": "Operator"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactFeeEffect"
+                    }
+                  },
+                  "Property": "Zone vs outside gap"
+                }
+              },
+              "queryRef": "FactFeeEffect.Zone vs outside gap",
+              "nativeQueryRef": "Zone vs outside gap"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Bar chart of the relative gap by operator and trip group'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Zone vs outside gap by trip group, 6-26 Jan 2025 vs 8-28 Jan 2024'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

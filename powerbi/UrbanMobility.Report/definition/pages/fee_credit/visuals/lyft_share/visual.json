@@ -1,0 +1,110 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "lyft_share",
+  "position": {
+    "x": 660,
+    "y": 382,
+    "z": 8000,
+    "height": 220,
+    "width": 600,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeeklyShare"
+                    }
+                  },
+                  "Property": "WeekStart"
+                }
+              },
+              "queryRef": "FactWeeklyShare.WeekStart",
+              "nativeQueryRef": "WeekStart",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeeklyShare"
+                    }
+                  },
+                  "Property": "Lyft share"
+                }
+              },
+              "queryRef": "FactWeeklyShare.Lyft share",
+              "nativeQueryRef": "Lyft share"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeeklyShare"
+                    }
+                  },
+                  "Property": "ZoneGroup"
+                }
+              },
+              "queryRef": "FactWeeklyShare.ZoneGroup",
+              "nativeQueryRef": "ZoneGroup"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Line chart of Lyft weekly share inside and outside the zone'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Lyft weekly share (credit issued 5-31 Jan; first and last weeks partial)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

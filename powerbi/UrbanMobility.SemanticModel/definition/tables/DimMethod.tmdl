@@ -1,0 +1,36 @@
+table DimMethod
+	lineageTag: 6db5459d-f7a9-5a56-896a-1fe0e0901f9f
+
+	column Method
+		dataType: string
+		isKey
+		lineageTag: b8487ca6-ee2d-5e5c-a40a-0f78c6d62861
+		summarizeBy: none
+		sourceColumn: Method
+		sortByColumn: SortOrder
+
+	column Description
+		dataType: string
+		lineageTag: 6d51dbcb-e5e4-58c9-8c25-433c567bfd34
+		summarizeBy: none
+		sourceColumn: Description
+
+	column SortOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c008b00c-6cf9-5cfb-ac5a-2d748a61df97
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+	partition DimMethod = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Binary.FromText("TWV0aG9kLERlc2NyaXB0aW9uLFNvcnRPcmRlcgpCMSxTYW1lIHdlZWtkYXkgbGFzdCB3ZWVrLDEKQjIsTWVhbiBvZiB0aGUgbGFzdCB0d28gc2FtZSB3ZWVrZGF5cyAocGxhbiksMgpCMyxCMiB3aXRoIHRoZSBNTEsgZmFjdG9yIG9uIDE3IEZlYiAoc2NlbmFyaW8pLDMK", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Method", type text}, {"Description", type text}, {"SortOrder", Int64.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

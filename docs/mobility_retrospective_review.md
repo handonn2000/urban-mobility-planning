@@ -2,7 +2,7 @@
 
 **Includes trip outcomes through 23 February 2025. Separate from the 16 February planning memo.**
 
-January fee comparison: relative zone gap -9.49%; observational assumptions remain unverified.
+January fee comparison: relative zone gap -9.49% (day-bootstrap -10.9% to -8.0%); the pre-fee gap on 2-4 January was -13.85%, so the comparison does not isolate a fee effect.
 Credit comparison: adjusted Lyft share gap +1.608 percentage points; uplift proxy 6.15%. Under $6 margin and 100% redemption assumptions, expected credit cost per extra trip is $25.88; this is not observed campaign ROI.
 
 | Method | Weekly WAPE | Weekly bias |

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "recommendations",
+  "position": {
+    "x": 840,
+    "y": 330,
+    "z": 11000,
+    "height": 380,
+    "width": 420,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Recommendations",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Plan 4.87 M trips for 17-23 Feb with B2 and keep B3 as the holiday scenario."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Replace blanket credit with a targeted test and a 10% randomized holdout."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Move daily monitoring to the forecast band and skip bad-weather reference days."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Add Nov-Dec 2023 and 2024 before quoting any fee effect."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Treat rain as an operations trigger, not a demand multiplier."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Recommendations'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

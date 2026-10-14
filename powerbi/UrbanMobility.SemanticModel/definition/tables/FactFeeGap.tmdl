@@ -1,0 +1,55 @@
+table FactFeeGap
+	lineageTag: 062865c6-cea4-52bb-adbb-98f9d8242107
+
+	measure 'Gap before fee' = CALCULATE(AVERAGE(FactFeeGap[GapAll]), FactFeeGap[BeforeFee] = 1)
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		lineageTag: 79c7cf3d-c58d-5903-b55b-fa573ab86152
+
+	measure 'Gap with fee' = CALCULATE(AVERAGE(FactFeeGap[GapAll]), FactFeeGap[BeforeFee] = 0)
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		lineageTag: 8af84a2c-3b41-542f-8c6a-cf189bf6dd6f
+
+	measure 'Window estimate' = IF(NOT ISEMPTY(FactFeeGap) && MAX(DimDate[Date]) >= DATE(2025, 1, 6) && MIN(DimDate[Date]) <= DATE(2025, 1, 26), MAX(FactKPI[GapWithFee]))
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		lineageTag: f30c2fe9-0f88-54d4-8cce-52b6a3d9de5c
+
+	column Date
+		dataType: dateTime
+		isHidden
+		isAvailableInMdx: false
+		formatString: yyyy-mm-dd
+		lineageTag: 3e83b218-2a2d-57cb-b7e6-6804f26e1fd1
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column BeforeFee
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		formatString: 0
+		lineageTag: 9125d9b2-a379-5499-9b52-dd2ab6fd3375
+		summarizeBy: none
+		sourceColumn: BeforeFee
+
+	column GapAll
+		dataType: decimal
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		lineageTag: 7940420d-4f79-5ea9-b38c-5c6b66d3a551
+		summarizeBy: none
+		sourceColumn: GapAll
+
+	partition FactFeeGap = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Binary.FromText("RGF0ZSxCZWZvcmVGZWUsR2FwQWxsCjIwMjUtMDEtMDIsMSwtMC4xODIyMTYKMjAyNS0wMS0wMywxLC0wLjExNzczNQoyMDI1LTAxLTA0LDEsLTAuMTI2NTA3CjIwMjUtMDEtMDUsMCwtMC4xMDU3MjIKMjAyNS0wMS0wNiwwLC0wLjEwODQ4NwoyMDI1LTAxLTA3LDAsLTAuMTI4NDE1CjIwMjUtMDEtMDgsMCwtMC4xMTM5ODEKMjAyNS0wMS0wOSwwLC0wLjExODA0NQoyMDI1LTAxLTEwLDAsLTAuMDU0MDg5CjIwMjUtMDEtMTEsMCwtMC4wNDQ5MDgKMjAyNS0wMS0xMiwwLC0wLjExMjAyMgoyMDI1LTAxLTEzLDAsLTAuMTA3OTQyCjIwMjUtMDEtMTQsMCwtMC4wMjA2MTkKMjAyNS0wMS0xNSwwLC0wLjA2MTU2MQoyMDI1LTAxLTE2LDAsLTAuMDg4NjM2CjIwMjUtMDEtMTcsMCwtMC4xMDUzNTUKMjAyNS0wMS0xOCwwLC0wLjE0MzUwOQoyMDI1LTAxLTE5LDAsLTAuMTE4NjEKMjAyNS0wMS0yMCwwLC0wLjA3NjYzCjIwMjUtMDEtMjEsMCwtMC4xMzkzNDIKMjAyNS0wMS0yMiwwLC0wLjA5OTcwMQoyMDI1LTAxLTIzLDAsLTAuMDg5MDYyCjIwMjUtMDEtMjQsMCwtMC4wNjMwNTEKMjAyNS0wMS0yNSwwLC0wLjA2ODY2NQoyMDI1LTAxLTI2LDAsLTAuMTExMDk1CjIwMjUtMDEtMjcsMCwtMC4wNjU0MjcKMjAyNS0wMS0yOCwwLC0wLjA5MjI4CjIwMjUtMDEtMjksMCwtMC4wMjExNDMK", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"BeforeFee", Int64.Type}, {"GapAll", Currency.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

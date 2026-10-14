@@ -1,0 +1,6 @@
+Segment,SortOrder,TripGrowth,FareGrowth,GMVGrowth
+Uber zone,1,-0.077606,0.091782,0.007054
+Uber outside,2,0.102104,-0.012294,0.088555
+Lyft zone,3,0.058437,-0.058349,-0.003321
+Lyft outside,4,-0.06903,-0.007004,-0.07555
+All trips,5,0.019742,0.00733,0.027216

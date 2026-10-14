@@ -1,0 +1,10 @@
+Date,Segment,Trips,Expected,ZScore,Reason,ReferenceDays
+2024-01-15,Lyft zone,50171,40718,2.89,Holiday,"08 Jan: rain 0h, snow 0h"
+2024-01-15,Uber zone,150028,119767,2.77,Holiday,"08 Jan: rain 0h, snow 0h"
+2024-01-17,Uber outside,316435,267023,3.12,Bad weather on a reference day,"10 Jan: rain 4h, snow 0h"
+2024-01-17,Uber zone,185352,147417,2.82,Bad weather on a reference day,"10 Jan: rain 4h, snow 0h"
+2024-01-23,Lyft outside,96470,113670,-3.13,Bad weather on a reference day,"16 Jan: rain 1h, snow 18h; 09 Jan: rain 10h, snow 0h"
+2024-01-27,Lyft outside,117541,133649,-2.56,Bad weather on a reference day,"20 Jan: rain 0h, snow 0h; 13 Jan: rain 7h, snow 0h"
+2025-01-15,Lyft outside,92806,114609,-3.37,Unexplained,"08 Jan: rain 0h, snow 0h"
+2025-02-23,Uber zone,146797,171958,-2.72,Bad weather on a reference day,"16 Feb: rain 17h, snow 0h; 09 Feb: rain 3h, snow 9h"
+2025-02-28,Uber zone,160228,186752,-2.65,Unexplained,"21 Feb: rain 0h, snow 0h; 14 Feb: rain 0h, snow 0h"

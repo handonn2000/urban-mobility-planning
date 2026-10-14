@@ -1,4 +1,4 @@
-Method,SortOrder
-B1,1
-B2,2
-B3,3
+Method,Description,SortOrder
+B1,Same weekday last week,1
+B2,Mean of the last two same weekdays (plan),2
+B3,B2 with the MLK factor on 17 Feb (scenario),3

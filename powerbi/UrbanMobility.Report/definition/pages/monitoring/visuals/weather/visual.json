@@ -1,0 +1,143 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "weather",
+  "position": {
+    "x": 800,
+    "y": 570,
+    "z": 9000,
+    "height": 142,
+    "width": 460,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeather"
+                    }
+                  },
+                  "Property": "Study"
+                }
+              },
+              "queryRef": "FactWeather.Study",
+              "nativeQueryRef": "Study"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeather"
+                    }
+                  },
+                  "Property": "Weather"
+                }
+              },
+              "queryRef": "FactWeather.Weather",
+              "nativeQueryRef": "Weather"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeather"
+                    }
+                  },
+                  "Property": "Hours"
+                }
+              },
+              "queryRef": "FactWeather.Hours",
+              "nativeQueryRef": "Hours"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeather"
+                    }
+                  },
+                  "Property": "TripsFactor"
+                }
+              },
+              "queryRef": "FactWeather.TripsFactor",
+              "nativeQueryRef": "TripsFactor"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeather"
+                    }
+                  },
+                  "Property": "WaitFactor"
+                }
+              },
+              "queryRef": "FactWeather.WaitFactor",
+              "nativeQueryRef": "WaitFactor"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeather"
+                    }
+                  },
+                  "Property": "SmallSample"
+                }
+              },
+              "queryRef": "FactWeather.SmallSample",
+              "nativeQueryRef": "SmallSample"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table of trip and wait ratios by weather group'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Weather factors vs matched dry hours'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

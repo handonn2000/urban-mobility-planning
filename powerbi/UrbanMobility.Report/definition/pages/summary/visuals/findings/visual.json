@@ -1,0 +1,113 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "findings",
+  "position": {
+    "x": 20,
+    "y": 330,
+    "z": 10000,
+    "height": 380,
+    "width": 800,
+    "tabOrder": 10000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "What happened in January",
+                    "textStyle": {
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Demand grew through volume: trips +2.0% year on year, average base fare +0.7%."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Zone-touching trips grew 9.5% slower than outside trips, but the gap was already -13.8% on 2-4 January, before the fee. This comparison cannot attribute the gap to the $1.50 fee."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Inside the zone Uber's average fare rose 9.2% while Lyft's fell 5.8%, a competing explanation for the shift between platforms."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Lyft's zone share rose 1.6 pp while its credit ran (uplift proxy about 6%). At a $6 contribution each extra trip cost about $26 in credit."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Heavy rain (> 2 mm/h) lifts trips about 8% and median wait about 1%."
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "A fixed 7% alert rule fires on 118 of 360 segment-days; a forecast band fires on 9, and 7 of those are explained."
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Key findings'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,26 +1,44 @@
-# Bàn giao Power BI và bước Microsoft 365
+# Power BI project (PBIP)
 
-## Đã có trên Mac
+`powerbi/UrbanMobility.pbip` là dự án Power BI dạng PBIP: semantic model viết bằng TMDL (`UrbanMobility.SemanticModel/definition/`) và báo cáo dạng PBIR (`UrbanMobility.Report/definition/`). Tạo lại bằng `scripts/build_powerbi_project.py` từ các bảng trong `data/processed`.
 
-`powerbi/draft/UrbanMobility.pbip` là bản nguồn dự thảo: semantic model TMSL, Power Query snapshot nhúng, 27 measures, 16 quan hệ một chiều và hai trang PBIR/19 visuals. `powerbi/data` chứa CSV để đối chiếu. Hai PNG trong reports là preview local từ số thật; PDF memo có một trang.
+## Mở trên Windows
 
-`powerbi_source_validation.json` ghi 27 file hợp lệ theo 11 schema công khai Microsoft, field references và embedded bytes khớp nguồn. `reporting_pack_validation.json` đối chiếu grain/tổng/một ngày/phân khúc và mẫu số. Các kiểm tra đó không xác nhận native DAX, Power Query hoặc rendering.
+1. Cài Power BI Desktop bản mới (đã bật mặc định định dạng PBIP/TMDL/PBIR).
+2. Mở `powerbi/UrbanMobility.pbip`; giữ nguyên cấu trúc thư mục vì báo cáo trỏ tới model bằng đường dẫn tương đối.
+3. Bấm **Refresh**. Dữ liệu được nhúng sẵn trong Power Query (CSV mã hóa base64), không cần trỏ lại đường dẫn file. Bản CSV dễ đọc nằm trong `powerbi/data/`.
+4. Muốn có file `.pbix` để nộp hoặc đưa lên Microsoft 365: **File → Save as → .pbix**.
 
-## Phần còn cần môi trường Power BI phù hợp
+## Model
 
-1. Mở PBIP bằng Power BI Desktop hỗ trợ project/report format. Cần mở cả folder, giữ nguyên đường dẫn tương đối Report→SemanticModel. Bản nguồn có dữ liệu nhúng nên không cần tìm lại CSV tại đường dẫn Mac.
-2. Refresh/apply model. Nếu phiên bản Desktop không hỗ trợ nguồn hoặc visual configuration, dùng CSV, measures.dax và report_visual_spec.json để dựng theo cùng contract; không đổi định nghĩa/mẫu số chỉ để visual chạy.
-3. Xác nhận DimDate là date table, sort DayName theo Weekday, relationships single direction và không có đường từ segment/zone tới city weather.
-4. Kiểm tra default 06-26/01/2025: Trips 14.097.953; prior 13.825.022; change +1,974181%; Lyft share 24,929080%; alert rows 45. Chọn 21/01/2025 + Lyft_zone: Trips 58.431. Đối chiếu tiền/chờ nếu thêm visual bằng đúng sample/grain.
-5. Chọn Uber/zone rồi Lyft/zone: share vẫn dùng cả hai hãng trên selected zone; city heatmap/weather card giữ grain và không đổi theo segment. Thử chọn cả Jan2025: prior-year result unavailable vì thiếu reference 01-02/02/2024; không xuất tỷ lệ từ partial coverage.
-6. Forecast từng method: WAPE B1 4,4497%, B2 3,4843%, B3 3,6129%. Total actual chỉ 4.820.140, không nhân ba. Kiểm tra cùng một ngày/segment với forecast_evaluation.csv; không trung bình WAPE nhóm.
-7. Áp background color scale cho matrix City average hourly trips; kiểm tra slicer/filter interactions, các title/sample/assumptions, font và clipping. Capture hai trang từ Power BI thực tế sau khi đối chiếu.
-8. Save As PBIX, rồi mở lại PBIX và kiểm tra model/report. Chỉ lúc đó mới ghi PBIX hoàn thành.
+13 bảng, 7 quan hệ một chiều nhiều-một, 42 measure.
 
-## Khi đưa lên Microsoft 365 / Power BI service
+| Bảng | Grain | Dùng cho |
+|---|---|---|
+| DimDate | 1 ngày, 01/01/2024–28/02/2025 (liên tục, đánh dấu date table) | Trục thời gian, so cùng thứ năm trước (-364 ngày) |
+| DimSegment, DimMethod | Hãng × vùng; B1/B2/B3 | Slicer, chú giải |
+| FactDaily | Ngày × phân khúc | Chuyến, giá trung bình, tỷ lệ giữ lại |
+| FactCityForecast | Ngày, toàn thành phố | Thực tế, dự báo hai tuần, dải cảnh báo 2,5 SD |
+| FactAlertList | 9 ngày-phân khúc ngoài dải | Bảng cảnh báo và lý do |
+| FactFeeGap, FactFeeEffect | Ngày 02–29/01/2025; hãng × nhóm chuyến | Chênh lệch trong/ngoài vùng |
+| FactGrowth, FactWeeklyShare | Phân khúc; tuần × vùng | Số chuyến vs giá; thị phần Lyft |
+| FactForecast | Ngày × phân khúc × phương án (84 dòng) | Kế hoạch, backtest, WAPE |
+| FactWeather, FactKPI | Nhóm thời tiết; 1 dòng | Hệ số mưa; chỉ số tóm tắt từ phân tích |
 
-Người dùng dự định tải lên cloud sau; hiện chưa có thao tác publish. PBIP source draft không phải PBIX để upload. Sau khi có PBIX đã kiểm tra, chọn đúng Power BI workspace trong tenant Microsoft 365, kiểm tra quyền người xem và tính năng/license đang có trước khi import/publish. Không dùng Publish to web để thay cho chia sẻ nội bộ.
+## Trang báo cáo
 
-Mô hình này là embedded snapshot, không cần thông tin đăng nhập nguồn. Không có scheduled refresh hoặc gateway được cấu hình; Refresh không tự cập nhật TLC. Nếu muốn nguồn tự cập nhật, đó là thay đổi riêng cần thiết kế access/refresh và kiểm tra lại.
+1. **Summary**: 8 thẻ KPI, phát hiện chính và đề xuất.
+2. **Demand monitoring**: chuyến theo phân khúc, dự báo và dải cảnh báo toàn thành phố, bảng 9 cảnh báo, hệ số thời tiết (lọc năm 2025 trong filter pane).
+3. **Fee and credit**: chênh lệch theo ngày trước/sau 05/01, theo nhóm chuyến, tăng trưởng số chuyến vs giá, thị phần Lyft theo tuần, chỉ số credit.
+4. **Holiday-week plan**: kế hoạch B2 theo ngày, thực tế vs ba phương án, bảng WAPE/bias/MAE.
 
-Hướng dẫn chính thức: [Power BI projects](https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-overview), [report source](https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-report), [semantic model source](https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-dataset). Trạng thái bàn giao: Mac artifacts checked; native validation và PBIX pending.
+## Đã kiểm tra (không có Power BI Desktop)
+
+- 16 file TMDL đọc được bằng `@pbip-tools/tmdl-parser`, không cảnh báo.
+- 50 file JSON (PBIP/PBIR) hợp lệ theo schema chính thức của Microsoft; bộ kiểm tra bắt được lỗi cố ý.
+- `pbiplint`: 0 lỗi; cảnh báo còn lại là định dạng % có chủ ý (WAPE 2 chữ số) và báo nhầm khóa ngoại theo tên cột.
+- 67 tham chiếu trường trên visual và mọi tham chiếu DAX đều tồn tại trong model; 40 visual nằm trong khung 1280×720, không chồng nhau.
+- Dữ liệu nhúng trùng CSV; tính lại: 59.407.013 chuyến, kế hoạch B2 4.871.468, WAPE B2 3,48%, B3 3,61%, 9 cảnh báo.
+- Script chạy lại trên máy khác cho file giống hệt.
+
+Chưa kiểm tra được: Power Query refresh, kết quả DAX và hiển thị visual trong Power BI Desktop. Nếu Desktop báo lỗi khi mở, ghi lại thông báo và sửa trong script dựng, không sửa tay file sinh ra.

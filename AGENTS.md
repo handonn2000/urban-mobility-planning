@@ -13,6 +13,7 @@
 - Không đăng GitHub hay xuất bản khi chưa được yêu cầu.
 
 - Notebook phải tự chứa và chạy được khi chỉ upload notebook lên Google Colab: cài thư viện, tạo thư mục, tải dữ liệu, phân tích và kiểm tra. Không đọc script/file trong repo làm điều kiện tiên quyết.
+- Notebook là bản trình bày cho nhà tuyển dụng: tiếng Anh, gọn, theo câu hỏi nghiệp vụ. Không nhúng nguyên các hàm CLI; quy tắc xử lý phải giống script và số chính phải khớp bảng trong data/processed (ghi trong docs/notebook_execution.json).
 - Đặt tên file theo nội dung nghiệp vụ, không dùng m0/m1/m2.
 - Không nhắc module hoặc G1/G2/G3 và trạng thái gate trong code/notebook. Tiêu chí chỉ nằm trong tài liệu kế hoạch nội bộ.
 

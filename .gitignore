@@ -16,3 +16,4 @@ data/weather_raw/
 **/.pbi/cache.abf
 delivery/
 *.inspect.ndjson
+urban-mobility-data/

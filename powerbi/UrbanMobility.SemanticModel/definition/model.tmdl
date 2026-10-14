@@ -1,0 +1,26 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["DimDate","DimSegment","DimMethod","FactDaily","FactForecast","FactCityForecast","FactAlertList","FactFeeGap","FactFeeEffect","FactGrowth","FactWeeklyShare","FactWeather","FactKPI"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DimDate
+ref table DimSegment
+ref table DimMethod
+ref table FactDaily
+ref table FactForecast
+ref table FactCityForecast
+ref table FactAlertList
+ref table FactFeeGap
+ref table FactFeeEffect
+ref table FactGrowth
+ref table FactWeeklyShare
+ref table FactWeather
+ref table FactKPI
+

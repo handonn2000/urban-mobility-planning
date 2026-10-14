@@ -1,0 +1,50 @@
+table DimSegment
+	lineageTag: af70bc07-25e4-5631-8f05-8f6de9af16cc
+
+	column SegmentKey
+		dataType: string
+		isKey
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: d837e66c-6b58-5778-b074-02772dda75c8
+		summarizeBy: none
+		sourceColumn: SegmentKey
+
+	column Operator
+		dataType: string
+		lineageTag: b82c0122-ead5-5f30-afdf-314b88dad6e2
+		summarizeBy: none
+		sourceColumn: Operator
+
+	column ZoneFlag
+		dataType: string
+		lineageTag: 2e6abd34-5e3b-5d93-9a3a-f71640176e11
+		summarizeBy: none
+		sourceColumn: ZoneFlag
+
+	column Segment
+		dataType: string
+		lineageTag: b8181a60-e57f-5659-b0e1-c650c53cac8d
+		summarizeBy: none
+		sourceColumn: Segment
+		sortByColumn: SortOrder
+
+	column SortOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1bb2062f-9aba-5f63-9177-a7e1bd1e5f0a
+		summarizeBy: none
+		sourceColumn: SortOrder
+
+	partition DimSegment = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Binary.FromText("U2VnbWVudEtleSxPcGVyYXRvcixab25lRmxhZyxTZWdtZW50LFNvcnRPcmRlcgpVYmVyX3pvbmUsVWJlcixab25lLFViZXIgem9uZSwxClViZXJfb3V0c2lkZSxVYmVyLE91dHNpZGUsVWJlciBvdXRzaWRlLDIKTHlmdF96b25lLEx5ZnQsWm9uZSxMeWZ0IHpvbmUsMwpMeWZ0X291dHNpZGUsTHlmdCxPdXRzaWRlLEx5ZnQgb3V0c2lkZSw0Cg==", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"SegmentKey", type text}, {"Operator", type text}, {"ZoneFlag", type text}, {"Segment", type text}, {"SortOrder", Int64.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

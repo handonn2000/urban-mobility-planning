@@ -1,0 +1,129 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "alerts",
+  "position": {
+    "x": 800,
+    "y": 382,
+    "z": 8000,
+    "height": 180,
+    "width": 460,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactAlertList"
+                    }
+                  },
+                  "Property": "Date"
+                }
+              },
+              "queryRef": "FactAlertList.Date",
+              "nativeQueryRef": "Date"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactAlertList"
+                    }
+                  },
+                  "Property": "Segment"
+                }
+              },
+              "queryRef": "FactAlertList.Segment",
+              "nativeQueryRef": "Segment"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactAlertList"
+                    }
+                  },
+                  "Property": "ZScore"
+                }
+              },
+              "queryRef": "FactAlertList.ZScore",
+              "nativeQueryRef": "ZScore"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactAlertList"
+                    }
+                  },
+                  "Property": "Reason"
+                }
+              },
+              "queryRef": "FactAlertList.Reason",
+              "nativeQueryRef": "Reason"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactAlertList"
+                    }
+                  },
+                  "Property": "ReferenceDays"
+                }
+              },
+              "queryRef": "FactAlertList.ReferenceDays",
+              "nativeQueryRef": "ReferenceDays"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Table of the nine segment-days outside the forecast band'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Band alerts (Jan 2024 and Jan-Feb 2025)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
