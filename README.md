@@ -1,6 +1,6 @@
 # Urban Mobility Demand Planning
 
-Portfolio chuyến hoàn thành Uber/Lyft tại NYC: phí vùng trung tâm, credit, thời tiết và dự báo tuần có lễ. Có notebook tự chứa, Excel hòa vốn, hai trang preview, memo tiếng Anh và bản nguồn Power BI. **PBIX và kiểm tra Power BI native còn chờ môi trường phù hợp; chưa xuất bản Power BI/Microsoft 365.** Repository GitHub được tạo ở chế độ private: [handonn2000/urban-mobility-planning](https://github.com/handonn2000/urban-mobility-planning).
+Portfolio chuyến hoàn thành Uber/Lyft tại NYC: phí vùng trung tâm, credit, thời tiết và dự báo tuần có lễ. Có notebook tự chứa, Excel hòa vốn, hai trang preview, memo tiếng Anh và bản nguồn Power BI. **PBIX và kiểm tra Power BI native còn chờ môi trường phù hợp; chưa xuất bản Power BI/Microsoft 365.** Repository GitHub public: [handonn2000/urban-mobility-planning](https://github.com/handonn2000/urban-mobility-planning).
 
 ## 1. Câu hỏi và bối cảnh
 
@@ -96,7 +96,7 @@ Không có booking hủy/thất bại, số tài xế, customer ID, redemption, 
 
 Forecast giả định record đã có tại cutoff; TLC monthly release không phải live feed. Hệ số MLK dựa trên một ngày và chỉ có một tuần test. ERA5 là hồi cứu, không phải forecast có sẵn tại cutoff.
 
-Trên Mac đã kiểm tra CSV, grain, mẫu số, schema JSON và ảnh/PDF. **DAX, Power Query, slicer, heatmap formatting và lưu PBIX cần kiểm tra Power BI native.** GitHub repository ở chế độ private; chưa xuất bản Power BI/Microsoft 365. [Tiến độ](docs/progress.md), [kiểm tra bảng](docs/reporting_pack_validation.json), [kiểm tra bản nguồn](docs/powerbi_source_validation.json).
+Trên Mac đã kiểm tra CSV, grain, mẫu số, schema JSON và ảnh/PDF. **DAX, Power Query, slicer, heatmap formatting và lưu PBIX cần kiểm tra Power BI native.** GitHub repository ở chế độ public; chưa xuất bản Power BI/Microsoft 365. [Tiến độ](docs/progress.md), [kiểm tra bảng](docs/reporting_pack_validation.json), [kiểm tra bản nguồn](docs/powerbi_source_validation.json).
 
 ## 8. Cách dùng AI và kiểm chứng
 
