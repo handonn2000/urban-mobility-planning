@@ -137,3 +137,19 @@ Không dùng trạng thái này thay cho file kết quả kiểm tra từng gate
 - Thay bản PBIP nháp (TMSL, 2 trang, thẻ "Fee all-trip gap", 118 cảnh báo ±7%) bằng PBIP mới: model TMDL 13 bảng/42 measure, báo cáo PBIR 4 trang theo kết luận mới (−9,5% không phải tác động phí; cảnh báo theo dải dự báo; số chuyến vs giá).
 - `scripts/build_powerbi_project.py` viết lại; `prepare_reporting_pack.py` chuyển đầu ra sang `data/reporting/` để không ghi đè `powerbi/`.
 - Kiểm tra: TMDL parser, schema Microsoft cho 50 file JSON, pbiplint 0 lỗi, đối chiếu tham chiếu và số liệu, chạy lại trên máy người dùng cho file giống hệt. Chưa mở bằng Power BI Desktop.
+
+## Current-state review — 15/10/2026
+
+- Chạy lại toàn bộ notebook trong kernel mới/thư mục độc lập: 31/31 code cells, 0 lỗi, 0 stderr; 14 source hashes khớp manifest. Dùng cache và môi trường sẵn có, không retest tải/cài hoặc Colab.
+- Đối chiếu 13 nhóm bảng chính khớp, có ánh xạ schema; bằng chứng trong notebook_execution.json.
+- Báo cáo docs/current_state_review.md ghi các vấn đề: ZIP cũ chưa có TMDL/slide, alert calibration toàn mẫu và coverage khác nhau, power statement quá rộng, trạng thái Power BI/validation chưa đồng bộ, framing cutoff và retrospective trong notebook.
+- Không sửa phương pháp hay kết luận trong notebook; chỉ cập nhật outputs. Không sửa raw, không mở rộng dữ liệu, không commit/push/publish.
+
+## Rút gọn notebook theo slide báo cáo — 17/10/2026
+
+- Đối chiếu notebook với `UrbanMobility_Report.pdf` (16 slide). Giữ đúng các phần có trên slide: dữ liệu và 4 nhóm, phí (so với nhóm ngoài vùng + kiểm tra trước phí), credit Lyft (thị phần + chi phí mỗi chuyến tăng thêm), mưa mùa hè 2024, cảnh báo 118 → 9, dự báo B1/B2/B3 và đề xuất.
+- Bỏ phần không có trên slide: biểu đồ nhu cầu theo ngày, phân rã GMV, chuyến ngắn/giá thấp, ngưỡng vùng 90/99% và tuần mưa nhiều nhất, bootstrap CI, độ phủ phí, thị phần theo tuần, lưới kịch bản credit, chi phí credit/GMV, cỡ mẫu holdout/switchback/SRM, hệ số mưa mùa đông, độ nhạy k và biểu đồ dải toàn thành phố, WAPE theo nhóm/ngày lễ.
+- Thêm phần slide có mà notebook cũ thiếu: số chuyến raw 59.409.057 và 2.044 chuyến bị loại, bảng 4 nhóm 06–26/01/2025, các bước 8,86 → 9,35 triệu / 5,25 triệu dự kiến, bảng 4 bước $25,88 và mức $12,94 khi dùng 50%, phân loại tự động 9 cảnh báo (2 lễ, 5 thời tiết ngày tham chiếu, 2 chưa giải thích), ví dụ thứ Bảy 22/02, lệch kế hoạch theo từng ngày và thời tiết 09/02, 16/02, 23/02.
+- SQL dùng tên cột trong GROUP BY, không còn GROUP BY ALL. Quy tắc làm sạch, vùng ≥95%, cửa sổ mưa, quy tắc cảnh báo và cutoff giữ nguyên.
+- 58 → 41 ô, 31 → 19 ô code. Chạy lại bằng kernel mới trong thư mục tạm chỉ có nguồn đã cache: 19/19 ô, 0 lỗi, 0 stderr. 8 nhóm bảng khớp data/processed (rtol 1e-9), hash 14 nguồn khớp bản ghi cũ. Chưa chạy trên Colab; chưa commit.
+- Ghi chú: ví dụ 22/02 cho ra đúng 799.268,5 nên slide làm tròn thành 799.269; notebook in cả hai.

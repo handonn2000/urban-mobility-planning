@@ -1,198 +1,147 @@
 {
-  "executed_at_utc": "2026-10-14T16:40:00+00:00",
+  "executed_at_utc": "2026-10-17T09:57:19.321684+00:00",
   "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-  "version": "Condensed English analysis notebook (58 cells, 31 code cells); replaces the 139-cell notebook that embedded every CLI function",
-  "code_cells": 31,
-  "all_cells_executed": true,
+  "version": "Simplified to the numbers in reports UrbanMobility_Report.pdf (16 slides); analyses not shown in the slides removed.",
+  "cells": 41,
+  "code_cells": 19,
+  "executed_code_cells": 19,
   "errors": 0,
   "stderr_outputs": 0,
-  "test_environment": "Empty directory, fresh Python 3.13 venv with only Jupyter; the notebook installed duckdb, holidays, pandas, matplotlib and requests itself. Only the verified source cache (6 Parquet files, zone lookup, weather JSON) was supplied.",
-  "matches_repository_tables": {
-    "daily_segment (trips, short, low fare, economics trips, fare and pay sums, median wait)": true,
-    "hourly_city (trips, median wait, rain)": true,
-    "crz_zones (38 zones)": true,
-    "rain_factors (11 groups)": true,
-    "fee_effect (9 rows) and fee_sensitivity (54 rows)": true,
-    "fee_pre_period_check": true,
-    "gmv_volume_price_decomposition": true,
-    "lyft_credit_period_comparison shares": true,
-    "forecast_week (28 rows, B1/B2/B3)": true,
-    "forecast_scores WAPE and bias": true,
-    "forecast band alerts (9, same rows)": true,
-    "switchback power": true
-  },
-  "tolerance": "relative 1e-9",
-  "known_difference": "Bootstrap CI uses one random stream instead of two; bounds move in the fourth decimal (-10.90%/-7.97% vs -10.91%/-8.03%), same when rounded to 0.1 pp",
-  "not_in_notebook": "Power BI pack, memo PDF, Excel workbook, validation JSON and docs writers stay in scripts/",
+  "python_version": "3.12.14",
+  "test_environment": "New Jupyter kernel via nbconvert; separate scratch working directory with links to the cached raw/external source files only; no repository scripts or processed tables available to the notebook. Downloads, dependency installation and Google Colab not retested.",
   "colab_runtime_tested": false,
-  "previous_verification": {
-    "executed_at_utc": "2026-10-14T15:50:18+00:00",
-    "started_at_utc": "2026-10-14T15:47:58+00:00",
-    "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-    "code_cells": 73,
-    "all_cells_executed": true,
-    "errors": 0,
-    "stderr_outputs": 0,
-    "test_environment": "Isolated directory, fresh Python 3.13 venv with only Jupyter; notebook installed its own data libraries (pandas 3.0.6, duckdb 1.5.6). Only the notebook and the verified source cache (14 files, SHA-256 matched manifest) were supplied. No repository scripts or processed inputs.",
-    "prior_csv_tables_compared": 62,
-    "identical_bytes": 45,
-    "numerically_equal_float_formatting_only": 17,
-    "max_abs_difference_non_money": "<1e-9",
-    "money_total_reconciliation_residual_usd_max": 0.003,
-    "not_produced_by_notebook": [
-      "fee_raw_count_verification.csv",
-      "forecast_raw_reference_verification.csv",
-      "independent_raw_reconciliation.csv"
-    ],
-    "memos_identical": [
-      "mobility_planning_memo.md",
-      "mobility_retrospective_review.md",
-      "holiday_week_planning_memo.md"
-    ],
-    "watchlist_alerts": 118,
-    "colab_runtime_tested": false,
-    "previous_standalone_verification": {
-      "executed_at_utc": "2026-10-14T12:27:46.912267+00:00",
-      "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-      "code_cells": 62,
-      "all_cells_executed": true,
-      "errors": 0,
-      "embedded_credit_functions_match_cli": true,
-      "embedded_forecast_functions_match_cli": true,
-      "embedded_reporting_functions_match_cli": true,
-      "prior_csv_tables_compared": 46,
-      "prior_outputs_unchanged": true,
-      "test_environment": "Isolated directory, fresh Jupyter kernel, only notebook and verified downloaded source cache. No repository scripts or processed inputs supplied.",
-      "colab_runtime_tested": false,
-      "credit_weekly_rows": 18,
-      "credit_scenario_rows": 24,
-      "forecast_rows": 28,
-      "forecast_score_rows": 45,
-      "previous_standalone_verification": {
-        "executed_at_utc": "2026-10-14T12:21:34.022494+00:00",
-        "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-        "code_cells": 62,
-        "all_cells_executed": true,
-        "errors": 0,
-        "embedded_credit_functions_match_cli": true,
-        "embedded_forecast_functions_match_cli": true,
-        "embedded_reporting_functions_match_cli": true,
-        "prior_csv_tables_compared": 46,
-        "prior_outputs_unchanged": true,
-        "test_environment": "Isolated directory, fresh Jupyter kernel, only notebook and verified downloaded source cache. No repository scripts or processed inputs supplied.",
-        "colab_runtime_tested": false,
-        "credit_weekly_rows": 18,
-        "credit_scenario_rows": 24,
-        "forecast_rows": 28,
-        "forecast_score_rows": 45,
-        "previous_standalone_verification": {
-          "executed_at_utc": "2026-10-14T11:48:45.404349+00:00",
-          "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-          "code_cells": 56,
-          "all_cells_executed": true,
-          "errors": 0,
-          "embedded_credit_functions_match_cli": true,
-          "embedded_forecast_functions_match_cli": true,
-          "prior_csv_tables_compared": 44,
-          "prior_outputs_unchanged": true,
-          "test_environment": "Isolated directory, fresh Jupyter kernel, only notebook and verified downloaded source cache. No repository scripts or processed inputs supplied.",
-          "colab_runtime_tested": false,
-          "credit_weekly_rows": 18,
-          "credit_scenario_rows": 24,
-          "forecast_rows": 28,
-          "forecast_score_rows": 45,
-          "previous_standalone_verification": {
-            "executed_at_utc": "2026-10-14T11:29:09.020467+00:00",
-            "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-            "code_cells": 46,
-            "all_cells_executed": true,
-            "errors": 0,
-            "embedded_credit_functions_match_cli": true,
-            "prior_csv_tables_compared": 36,
-            "prior_outputs_unchanged": true,
-            "test_environment": "Isolated directory, fresh Jupyter kernel, only notebook and verified downloaded source cache. No repository scripts or processed inputs supplied.",
-            "colab_runtime_tested": false,
-            "credit_weekly_rows": 18,
-            "credit_scenario_rows": 24,
-            "previous_standalone_verification": {
-              "executed_at_utc": "2026-10-14T09:42:09.258757+00:00",
-              "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-              "code_cells": 39,
-              "all_cells_executed": true,
-              "errors": 0,
-              "embedded_functions_match_cli": true,
-              "inline_code_comments": 0,
-              "prior_outputs_unchanged": true,
-              "fee_main_rows": 9,
-              "fee_sensitivity_rows": 54,
-              "raw_comparison_cells_independently_verified": 4,
-              "colab_runtime_tested": false,
-              "previous_standalone_verification": {
-                "executed_at_utc": "2026-10-14T09:24:58.392489+00:00",
-                "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-                "code_cells": 31,
-                "all_cells_executed": true,
-                "errors": 0,
-                "embedded_functions_match_cli": true,
-                "inline_code_comments": 0,
-                "core_tables_unchanged": true,
-                "weather_study_hourly_rows": 2208,
-                "weather_window": "2024-06-01 to 2024-08-31",
-                "alert_rows": 118,
-                "reviewed_cases": 2,
-                "colab_runtime_tested": false,
-                "test_environment": "Fresh Jupyter kernel; Run all from notebook using verified source cache. Sources/bootstrap had been tested from an empty working directory earlier.",
-                "previous_standalone_verification": {
-                  "executed_at_utc": "2026-10-14T08:55:13.703756+00:00",
-                  "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-                  "code_cells": 22,
-                  "all_cells_executed": true,
-                  "errors": 0,
-                  "test_environment": "Fresh Jupyter kernel; Run all using verified local source cache.",
-                  "baseline_csv_tables_compared": 15,
-                  "outputs_match_before_refactor": true,
-                  "embedded_functions_match_cli": true,
-                  "inline_code_comments": 0,
-                  "colab_runtime_tested": false,
-                  "previous_standalone_verification": {
-                    "executed_at_utc": "2026-10-14T08:32:27.235558+00:00",
-                    "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-                    "code_cells": 18,
-                    "all_cells_executed": true,
-                    "errors": 0,
-                    "test_environment": "Isolated working directory and fresh Jupyter kernel; only the notebook and verified raw Parquet cache supplied.",
-                    "repository_scripts_used": false,
-                    "processed_inputs_supplied": false,
-                    "external_sources_downloaded_by_notebook": true,
-                    "daily_rows": 360,
-                    "hourly_rows": 2160,
-                    "retained_trips": 59407013,
-                    "outputs_match_cli": true,
-                    "colab_runtime_tested": false,
-                    "previous_cold_bootstrap_verification": {
-                      "executed_at_utc": "2026-10-14T08:08:26.493429+00:00",
-                      "notebook": "notebooks/urban_mobility_demand_analysis.ipynb",
-                      "code_cells": 10,
-                      "all_cells_executed": true,
-                      "errors": 0,
-                      "test_environment": "Fresh Python virtual environment and empty working directory; only the notebook was copied.",
-                      "initial_data_files": 0,
-                      "repository_scripts_used": false,
-                      "dependencies_installed_by_notebook": true,
-                      "sources_downloaded_by_notebook": true,
-                      "trip_rows": 59409057,
-                      "weather_hours": 2160,
-                      "outputs_match_existing_inventory": true,
-                      "colab_runtime_tested": false,
-                      "colab_note": "Self-contained standard Python/Jupyter notebook; actual Google Colab was not accessed."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+  "source_files_verified": [
+    {
+      "path": "data/raw/fhvhv_tripdata_2024-01.parquet",
+      "sha256": "9897de352aa52cea36b70348cc6721b8d4494327ce39c85f0dba83d86ecaa098",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/raw/fhvhv_tripdata_2025-01.parquet",
+      "sha256": "fcdef276f4e9887f2beab30590165cdea74caef50a1313d71fa01ff6afacca3a",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/raw/fhvhv_tripdata_2025-02.parquet",
+      "sha256": "2077477d4d841b8ec40a3839b629f08f45f6802ca016adc1e01d6d8cffd2cf23",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/external/taxi_zone_lookup.csv",
+      "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/external/weather_2024-01.json",
+      "sha256": "ff1241d2c06d193fcbe9631ac03902a93e03fea7bd625757caac5ff26d81635a",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/external/weather_2025-01.json",
+      "sha256": "1695471dc82f243a7ce7c7480321ff4aea97aa4059d176cda3c3330c592d8318",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/external/weather_2025-02.json",
+      "sha256": "69fe6003cedd0fabc9547c6ced85b4cf64ecf8a8a08b9901dfb78543edc04267",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/external/weather_2024_full_year.json",
+      "sha256": "eb86b5e0f8cdb00b2f7dedaf09012d880568250a76fd1d30e19d0778f5eee1f5",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/weather_raw/fhvhv_tripdata_2024-06.parquet",
+      "sha256": "4772ee1ab01e639a5db74169b49049f74f0f46a0c925fd3b67f9f068221f6373",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/external/weather_2024-06.json",
+      "sha256": "597d2065f8db56360c85c09ccf8c8d718b930d94578143ba2bc89ec878b7a467",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/weather_raw/fhvhv_tripdata_2024-07.parquet",
+      "sha256": "3a511a8df72441d72b32f6ce9829e29f5d61666e37f1b40b8d352cc5830c81e1",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/external/weather_2024-07.json",
+      "sha256": "44f85744515042252cfd659dffba5f5cf5084c0e133c263f84ddd172b7aa89a2",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/weather_raw/fhvhv_tripdata_2024-08.parquet",
+      "sha256": "99fd2913d2c8935e4c1d166f229290a90971b6564c490a8ba2a257de9e08fae2",
+      "matches_previous_record": true
+    },
+    {
+      "path": "data/external/weather_2024-08.json",
+      "sha256": "43b175c124789b7e17b8b320f44abd360b0024dceaa24759c0e2c2d4c048d3b1",
+      "matches_previous_record": true
     }
+  ],
+  "matches_repository_tables": {
+    "daily_segment": true,
+    "crz_zones": true,
+    "forecast_week": true,
+    "forecast_scores": true,
+    "rain_factors": true,
+    "fee_pre_period_check": true,
+    "credit_periods": true,
+    "forecast_band_alerts": true
+  },
+  "comparison_details": {
+    "daily_segment": {
+      "rows": 360,
+      "matches": true
+    },
+    "crz_zones": {
+      "rows": 38,
+      "matches": true
+    },
+    "forecast_week": {
+      "rows": 28,
+      "matches": true
+    },
+    "forecast_scores": {
+      "rows": 3,
+      "matches": true
+    },
+    "rain_factors": {
+      "rows": 2,
+      "matches": true
+    },
+    "fee_pre_period_check": {
+      "rows": 1,
+      "matches": true
+    },
+    "credit_periods": {
+      "rows": 4,
+      "matches": true
+    },
+    "forecast_band_alerts": {
+      "rows": 360,
+      "matches": true
+    }
+  },
+  "tolerance": "rtol=1e-9, atol=1e-9; exact counts; mapped equivalent columns.",
+  "slide_numbers_reproduced": {
+    "uber_lyft_trips_in_files": 59409057,
+    "removed": 2044,
+    "trips_analysed": 59407013,
+    "fee_zones": 38,
+    "segments_6_26_jan_2025": {
+      "Uber zone": 3466694,
+      "Uber outside": 7116769,
+      "Lyft zone": 1282171,
+      "Lyft outside": 2232319
+    },
+    "fee": "outside 8.86M->9.35M (+5.6%); zone 4.97M, expected 5.25M, actual 4.75M; gap -9.5%; pre-fee gap -13.8%",
+    "credit": "Lyft share zone 27.0%->26.1%, outside 23.9%->24.6%; +1.6 pp; uplift 6.15%; .88 per extra trip; break-even 33%; .94 at 50% redemption",
+    "rain": "summer 2024 window 06-08, 35 heavy hours, 14 events; light x1.031 / wait x1.003; heavy x1.077 / wait x1.009",
+    "alerts": "fixed rule 118; band 9 = 2 holiday, 5 reference-day weather, 2 unexplained; robust SD 4.8-6.5%",
+    "forecast": "9,961 trips after cutoff excluded; 22 Feb example 799,268.5; B2 plan 4,871,468; actual 4,820,140; bias +1.1%; WAPE B1 4.4% / B2 3.5% (167,950 / 4,820,140) / B3 3.6%; daily plan vs actual +0.2, -1.7, +1.3, +1.0, +2.5, -0.4, +4.5%"
   }
 }

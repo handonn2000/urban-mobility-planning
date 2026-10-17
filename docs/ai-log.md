@@ -121,3 +121,14 @@
 - Người dùng yêu cầu tạo PBIP. Rà bản nháp cũ thấy nội dung lỗi thời; dựng lại bằng script sinh TMDL + PBIR với dữ liệu nhúng.
 - Không dùng gói MCP Power BI của Microsoft vì cần người dùng chấp nhận EULA; kiểm tra bằng schema chính thức, `@pbip-tools/tmdl-parser`, `pbiplint`, đối chiếu tham chiếu và tính lại measure từ dữ liệu nhúng.
 - Sửa theo lint: định dạng %, ẩn cột số của fact, đánh dấu khóa, kiểu thập phân cố định, bỏ cột không dùng.
+
+## 15/10/2026 — Current-state audit after a full notebook rerun
+
+Ran the single notebook end to end in a new kernel and isolated working directory with 14 SHA-256 verified cached sources: 31/31 code cells, no cell errors/stderr. Compared 13 corresponding table groups with mapped schemas, exact counts and 1e-9 floating tolerance. Existing dependencies/cache were reused; Colab, network downloads and clean dependency installation were not retested. Outputs and execution evidence refreshed. Review recorded in current_state_review.md: stale delivery archives, retrospective alert calibration and unequal coverage/metrics, overstated power narrative, version-specific Power BI validation gaps and retrospective/cutoff framing. Analysis source and raw files unchanged; no publication.
+
+## 17/10/2026 — Rút gọn notebook khớp slide báo cáo
+
+- Người dùng gửi `UrbanMobility_Report.pdf` và yêu cầu notebook chỉ cần khớp số liệu trên slide, không phân tích thừa. Đọc 16 slide và từng ô notebook, lập bảng đối chiếu số trên slide với output.
+- Viết lại notebook (41 ô) theo thứ tự slide; bỏ các phân tích không xuất hiện trên slide; thêm các bước tính mà slide trình bày nhưng notebook cũ chưa in ra. Cảnh báo được phân loại bằng quy tắc trong code (ngày lễ; ngày tham chiếu có ≥3 giờ mưa/tuyết), không gõ tay.
+- Giữ quy tắc cũ ±7% kèm điều kiện thời gian chờ ±20% vì 118 trên slide gồm cả 4 cảnh báo chỉ do thời gian chờ; ghi rõ trong Markdown.
+- Kiểm tra: chạy toàn bộ trong thư mục độc lập, so 8 bảng với data/processed, xem lại 4 biểu đồ. Cập nhật notebook_execution.json. Không sửa raw, không commit/push.

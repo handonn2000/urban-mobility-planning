@@ -49,9 +49,9 @@ docs/              phương pháp, bằng chứng, memo, demo
 
 ## 5. Cách chạy lại
 
-**Colab/Jupyter:** upload riêng [notebook](notebooks/urban_mobility_demand_analysis.ipynb) (tiếng Anh, 6 phần: dữ liệu, theo dõi nhu cầu, phí, credit, dự báo, đề xuất), chọn **Run all**. Notebook tự cài thư viện còn thiếu, tải khoảng 2,9 GB dữ liệu công khai vào `urban-mobility-data/` ở lần chạy đầu, dùng lại ở các lần sau, và xuất các bảng chính vào `urban-mobility-data/outputs/`. Không cần clone repo; trên Colab, mount Drive và đổi `ROOT` nếu muốn giữ dữ liệu giữa các phiên.
+**Colab/Jupyter:** upload riêng [notebook](notebooks/urban_mobility_demand_analysis.ipynb) (tiếng Anh, theo thứ tự slide báo cáo: dữ liệu, phí, credit, thời tiết và cảnh báo, dự báo, đề xuất), chọn **Run all**. Notebook tự cài thư viện còn thiếu, tải khoảng 2,9 GB dữ liệu công khai vào `urban-mobility-data/` ở lần chạy đầu, dùng lại ở các lần sau, và xuất các bảng chính vào `urban-mobility-data/outputs/`. Không cần clone repo; trên Colab, mount Drive và đổi `ROOT` nếu muốn giữ dữ liệu giữa các phiên.
 
-Notebook tái lập các số chính của repo (bảng ngày/giờ, nhãn vùng, hệ số mưa, phí, credit, cảnh báo, dự báo); các phần đóng gói như Power BI, memo PDF, Excel và file kiểm tra nằm trong `scripts/`.
+Notebook chỉ tái lập các số có trong slide báo cáo (bảng ngày, nhãn vùng, phí, credit, hệ số mưa mùa hè, cảnh báo, dự báo); phân tích mở rộng (GMV, bootstrap, cỡ mẫu thử nghiệm) và các phần đóng gói như Power BI, memo PDF, Excel và file kiểm tra nằm trong `scripts/`.
 
 **CLI:**
 
