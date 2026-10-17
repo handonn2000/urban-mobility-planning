@@ -159,3 +159,8 @@ Không dùng trạng thái này thay cho file kết quả kiểm tra từng gate
 - Viết lại `build_tables`, measure và trang trong `scripts/build_powerbi_project.py` để 4 trang đi theo các bước trên slide: Summary, Fee and credit, Weather and alerts, Holiday-week plan. 13 → 11 bảng, 42 → 22 measure, 40 → 38 visual.
 - Bỏ phần không có trên slide (GMV, nhóm chuyến, bootstrap, thị phần theo tuần, dải cảnh báo thành phố, mưa mùa đông, MAE, credit/GMV, bộ lọc năm). Thêm phần slide có: cột 2024/dự kiến/thực tế, thị phần Lyft theo giai đoạn, thẻ 33% hòa vốn và +7,7%, lý do cảnh báo theo quy tắc ≥3 giờ mưa/tuyết như notebook, lệch kế hoạch theo ngày.
 - Kiểm tra: TMDL parser 0 cảnh báo, pbiplint 0 lỗi, tham chiếu trường/DAX và bố cục sạch, số tính lại từ dữ liệu nhúng khớp slide. Chưa mở bằng Power BI Desktop; chưa kiểm tra lại schema JSON; chưa commit.
+
+## Màu sắc Power BI — 17/10/2026
+
+- Thêm theme riêng theo bảng màu slide (nền be, khung trắng bo góc, tiêu đề navy, thẻ chữ teal) và màu cố định theo ý nghĩa cho 6 biểu đồ, có nhãn số. Màu dùng tham chiếu theme (ThemeDataColor).
+- Kiểm tra: 48 file hợp lệ theo schema Microsoft, theme hợp lệ theo schema theme 2.159, pbiplint 0 lỗi (hết cảnh báo màu cứng), 65 tham chiếu trường và giá trị trong bộ chọn màu đều tồn tại. Chưa xem trong Power BI Desktop; chưa commit.

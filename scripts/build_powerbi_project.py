@@ -394,13 +394,71 @@ def slicer(entity, prop, title):
     return visual
 
 
+# ---------------------------------------------------------------- colours (same palette as the report slides)
+
+NAVY, TEAL, TEAL_LIGHT, ORANGE, SAND = "#1B2430", "#0F7B6C", "#7FC4B5", "#D2632A", "#F4F1EA"
+INK, MUTED, GREY, BORDER = "#1F2933", "#5B6670", "#A7B0BA", "#E3DED2"
+solid = lambda color: {"solid": {"color": color}}
+
+THEME = {
+    "name": "UrbanMobility",
+    "dataColors": [TEAL, ORANGE, NAVY, TEAL_LIGHT, "#E9B98A", GREY, "#4F9D8F", "#8C5A3C"],
+    "foreground": INK, "background": "#FFFFFF", "tableAccent": TEAL, "good": TEAL, "neutral": "#E9B98A", "bad": ORANGE,
+    "textClasses": {"title": {"fontFace": "Segoe UI Semibold", "fontSize": 11, "color": INK},
+                    "label": {"fontFace": "Segoe UI", "fontSize": 10, "color": MUTED}},
+    "visualStyles": {
+        "page": {"*": {"background": [{"color": solid(SAND), "transparency": 0}],
+                       "outspace": [{"color": solid(SAND), "transparency": 0}]}},
+        "*": {"*": {"background": [{"show": True, "color": solid("#FFFFFF"), "transparency": 0}],
+                    "border": [{"show": True, "color": solid(BORDER), "radius": 8}]}},
+        "cardVisual": {"*": {"value": [{"fontColor": solid(TEAL), "fontSize": 24}],
+                             "accentBar": [{"show": True, "color": solid(TEAL), "width": 4}]}},
+        "tableEx": {"*": {"columnHeaders": [{"backColor": solid(NAVY), "fontColor": solid("#FFFFFF"), "bold": True}],
+                          "values": [{"backColorPrimary": solid("#FFFFFF"), "backColorSecondary": solid("#F7F4EE"),
+                                      "fontColorPrimary": solid(INK), "fontColorSecondary": solid(INK)}]}},
+    },
+}
+
+
+def color_lit(color):
+    """Reference the theme palette, so changing the theme recolours the whole report."""
+    return {"solid": {"color": {"expr": {"ThemeDataColor": {"ColorId": THEME["dataColors"].index(color), "Percent": 0}}}}}
+
+
+def color_values(visual, entity, prop, colors):
+    """Fix the colour of each value of a category or series column, e.g. Before fee = orange."""
+    visual.setdefault("objects", {})["dataPoint"] = [
+        {"properties": {"fill": color_lit(color)},
+         "selector": {"data": [{"scopeId": {"Comparison": {"ComparisonKind": 0, "Left": column(entity, prop),
+                                                            "Right": {"Literal": {"Value": f"'{value}'"}}}}}]}}
+        for value, color in colors.items()]
+    return with_labels(visual)
+
+
+def color_measures(visual, entity, colors):
+    """Fix the colour of each measure on the Y axis."""
+    visual.setdefault("objects", {})["dataPoint"] = [
+        {"properties": {"fill": color_lit(color)}, "selector": {"metadata": f"{entity}.{name}"}} for name, color in colors.items()]
+    return visual
+
+
+def with_labels(visual):
+    visual.setdefault("objects", {})["labels"] = [{"properties": {"show": lit("true")}}]
+    return visual
+
 
 BOLD = {"fontWeight": "bold"}
-HEADER = {"fontWeight": "bold", "fontSize": "16pt"}
+ACCENT = {"fontWeight": "bold", "color": TEAL}
+HEADER = {"fontWeight": "bold", "fontSize": "16pt", "color": "#FFFFFF"}
+SUBTITLE = {"color": "#D8E3E0"}
 
 
 def header(page, title, subtitle, width=1240):
-    page.add("header", 20, 4, width, 66, textbox([[(title, HEADER)], subtitle], "Page title and reading guide"))
+    visual = textbox([[(title, HEADER)], [(subtitle, SUBTITLE)]], "Page title and reading guide")
+    visual["visualContainerObjects"]["background"] = [{"properties": {"show": lit("true"), "color": color_lit(NAVY),
+                                                                      "transparency": lit("0D")}}]
+    visual["visualContainerObjects"]["border"] = [{"properties": {"show": lit("false")}}]
+    page.add("header", 20, 4, width, 66, visual)
 
 
 def build_pages():
@@ -420,14 +478,14 @@ def build_pages():
     for i, (title, entity, prop, units) in enumerate(cards):
         p.add(f"kpi_{i + 1}", 20 + (i % 4) * 312, 76 + (i // 4) * 122, 296, 110, card(title, entity, prop, units=units))
     p.add("findings", 20, 330, 800, 380, textbox([
-        [("Results", BOLD)],
+        [("Results", ACCENT)],
         "Fee: zone trips came in 9.5% below the expected level, but the gap was already -13.8% before the fee. Not proven.",
         "Credit: Lyft's zone share rose 1.6 points (about 6% more trips), at $25.88 per extra trip against a ~$6 margin.",
         "Rain: heavy rain lifts trips 7.7%; waiting time barely changes.",
         "Alerts: 118 with a fixed ±7% rule, 9 with a band per segment; 7 of the 9 are explained.",
         "Forecast: plan 4.87 M trips; actual 4.82 M; WAPE 3.5%."], "Results"))
     p.add("recommendations", 840, 330, 420, 380, textbox([
-        [("Recommendations at 16 Feb", BOLD)],
+        [("Recommendations at 16 Feb", ACCENT)],
         "1. Plan 4.87 M trips with B2. Watch the 17 Feb holiday and keep a plan for rain or snow.",
         "2. Do not give the credit to everyone: test on selected riders with a 10% holdout for at least 14 days.",
         "3. Switch to the segment band for alerts; get Nov-Dec 2024 data before measuring the fee again."], "Recommendations"))
@@ -436,25 +494,28 @@ def build_pages():
     p = Page("fee_credit", "Fee and credit")
     header(p, "Step 1-2: congestion fee and Lyft credit",
            "Both are measured against a comparison group: trips outside the zone. Observational, not an experiment.")
-    p.add("fee_window", 20, 72, 400, 300, chart("clusteredColumnChart", {
+    p.add("fee_window", 20, 72, 400, 300, color_values(chart("clusteredColumnChart", {
         "Category": [projection(column("FactFeeWindow", "Bar"), active=True)],
         "Y": [projection(measure("FactFeeWindow", "Zone trips"))]},
-        "Zone trips in 21 days vs the expected level", "Column chart of zone trips in 2024, expected 2025 and actual 2025"))
-    p.add("fee_gap_daily", 440, 72, 620, 300, chart("clusteredColumnChart", {
+        "Zone trips in 21 days vs the expected level", "Column chart of zone trips in 2024, expected 2025 and actual 2025"),
+        "FactFeeWindow", "Bar", {"2024 (8-28 Jan)": GREY, "Expected 2025": TEAL_LIGHT, "Actual 2025 (6-26 Jan)": ORANGE}))
+    p.add("fee_gap_daily", 440, 72, 620, 300, color_values(chart("clusteredColumnChart", {
         "Category": [projection(column("DimDate", "Date"), active=True)],
         "Series": [projection(column("FactFeeGap", "Period"))],
         "Y": [projection(measure("FactFeeGap", "Daily gap"))]},
         "Daily zone vs outside gap, 2025 vs same weekday 2024 (fee from 5 Jan)",
-        "Column chart of the daily gap before and after the fee start"))
+        "Column chart of the daily gap before and after the fee start"),
+        "FactFeeGap", "Period", {"Before fee": ORANGE, "With fee": TEAL}))
     for i, (title, prop) in enumerate([("Outside zone growth", "Outside trip growth"), ("Gap 6-26 Jan", "Gap 6-26 Jan"),
                                        ("Gap 2-4 Jan (no fee yet)", "Gap before fee 2-4 Jan")]):
         p.add(f"fee_kpi_{i + 1}", 1080, 72 + i * 102, 180, 94, card(title, "FactKPI", prop))
-    p.add("lyft_share", 20, 382, 620, 330, chart("clusteredColumnChart", {
+    p.add("lyft_share", 20, 382, 620, 330, color_values(chart("clusteredColumnChart", {
         "Category": [projection(column("FactLyftShare", "ZoneGroup"), active=True)],
         "Series": [projection(column("FactLyftShare", "Period"))],
         "Y": [projection(measure("FactLyftShare", "Lyft share"))]},
         "Lyft share of Uber + Lyft trips, with and after the credit",
-        "Column chart of Lyft share inside and outside the zone in the two periods"))
+        "Column chart of Lyft share inside and outside the zone in the two periods"),
+        "FactLyftShare", "Period", {"With credit (6-26 Jan)": ORANGE, "After credit (3-23 Feb)": TEAL}))
     for i, (title, prop) in enumerate([("Lyft zone share gain (pp)", "Lyft zone share gap pp"),
                                        ("Extra Lyft zone trips", "Credit uplift"),
                                        ("Cost per extra trip ($6 margin)", "Credit cost per extra trip"),
@@ -468,17 +529,19 @@ def build_pages():
     p = Page("weather_alerts", "Weather and alerts")
     header(p, "Step 3: rain and daily alerts",
            "Rain: each rain hour vs dry hours of the same month, weekday and hour, summer 2024. Alerts: 4 segments x 90 days.")
-    p.add("rain", 20, 72, 620, 300, chart("clusteredBarChart", {
+    p.add("rain", 20, 72, 620, 300, with_labels(color_measures(chart("clusteredBarChart", {
         "Category": [projection(column("FactWeather", "Weather"), active=True)],
         "Y": [projection(measure("FactWeather", m)) for m in ("Trips vs dry hours", "Wait vs dry hours")]},
         "Trips and waiting time vs dry hours (summer 2024: 35 heavy-rain hours, 14 events)",
-        "Bar chart of the change in trips and wait time in light and heavy rain"))
+        "Bar chart of the change in trips and wait time in light and heavy rain"),
+        "FactWeather", {"Trips vs dry hours": TEAL, "Wait vs dry hours": GREY})))
     p.add("fixed_alerts", 660, 72, 296, 110, card("Alerts, fixed ±7% rule", "FactKPI", "Fixed 7% rule alerts"))
     p.add("band_alerts", 964, 72, 296, 110, card("Alerts, band of 2.5 x segment SD", "FactAlertList", "Band alerts"))
-    p.add("alert_reasons", 660, 192, 600, 180, chart("clusteredBarChart", {
+    p.add("alert_reasons", 660, 192, 600, 180, color_values(chart("clusteredBarChart", {
         "Category": [projection(column("FactAlertList", "Reason"), active=True)],
         "Y": [projection(measure("FactAlertList", "Band alerts"))]},
-        "Why the 9 band alerts happened", "Bar chart of band alerts by reason"))
+        "Why the 9 band alerts happened", "Bar chart of band alerts by reason"),
+        "FactAlertList", "Reason", {"Holiday": GREY, "Rain or snow on a reference day": TEAL, "Unexplained": ORANGE}))
     p.add("alerts", 20, 382, 1240, 330, chart("tableEx", {"Values": [projection(column("FactAlertList", c)) for c in
                                                                     ("Date", "Segment", "TripCount", "Expected", "Reason", "ReferenceDays")]},
         "Band alerts and the weather on their reference days", "Table of the nine segment-days outside the band"))
@@ -488,10 +551,11 @@ def build_pages():
     header(p, "Step 4: plan for 17-23 Feb 2025",
            "History ends at 16 Feb and counts only trips completed by then. B2 was chosen before the week was scored.", 1000)
     p.add("forecast_segment", 1040, 14, 220, 52, slicer("DimSegment", "Segment", "Segment"))
-    p.add("plan_vs_actual", 20, 72, 820, 330, chart("clusteredColumnChart", {
+    p.add("plan_vs_actual", 20, 72, 820, 330, color_measures(chart("clusteredColumnChart", {
         "Category": [projection(column("DimDate", "Date"), active=True)],
         "Y": [projection(measure("FactForecast", m)) for m in ("Actual trips", "Plan B2")]},
-        "Actual trips vs plan B2 per day", "Column chart comparing actual trips with plan B2 per day"))
+        "Actual trips vs plan B2 per day", "Column chart comparing actual trips with plan B2 per day"),
+        "FactForecast", {"Actual trips": NAVY, "Plan B2": TEAL_LIGHT}))
     for i, (title, prop) in enumerate([("Plan B2, week", "Plan B2"), ("Actual trips, week", "Actual trips"),
                                        ("Plan vs actual", "Plan vs actual")]):
         p.add(f"forecast_kpi_{i + 1}", 860, 72 + i * 112, 400, 104,
@@ -505,7 +569,7 @@ def build_pages():
         projection(measure("FactForecast", "Plan B2")), projection(measure("FactForecast", "Plan vs actual"))]},
         "Plan vs actual by day", "Table of actual trips, plan and difference by day")))
     p.add("forecast_reading", 20, 572, 1240, 140, textbox([
-        [("Reading", BOLD)],
+        [("Reading", ACCENT)],
         "B2 missed by 3.5% (WAPE), better than last week alone (B1, 4.4%). The plan was 1.1% above actual.",
         "The largest miss is Sunday 23 Feb (+4.5%): both reference days, 9 and 16 Feb, had rain or snow, while 23 Feb was dry."],
         "Forecast reading"))
@@ -521,8 +585,16 @@ def write_report(folder, pages):
         "datasetReference": {"byPath": {"path": f"../{NAME}.SemanticModel"}}}, indent=2) + "\n")
     (definition / "version.json").write_text(json.dumps({
         "$schema": f"{SCHEMA}/item/report/definition/versionMetadata/1.0.0/schema.json", "version": "2.0.0"}, indent=2) + "\n")
+    theme_file = f"{THEME['name']}.json"
+    resources = folder / "StaticResources/RegisteredResources"
+    resources.mkdir(parents=True)
+    (resources / theme_file).write_text(json.dumps(THEME, indent=2) + "\n")
     (definition / "report.json").write_text(json.dumps({
-        "$schema": f"{SCHEMA}/item/report/definition/report/3.2.0/schema.json", "themeCollection": {}}, indent=2) + "\n")
+        "$schema": f"{SCHEMA}/item/report/definition/report/3.2.0/schema.json",
+        "themeCollection": {"customTheme": {"name": theme_file, "type": "RegisteredResources",
+                                            "reportVersionAtImport": {"visual": "2.8.0", "page": "2.1.0", "report": "3.2.0"}}},
+        "resourcePackages": [{"name": "RegisteredResources", "type": "RegisteredResources",
+                              "items": [{"name": theme_file, "path": theme_file, "type": "CustomTheme"}]}]}, indent=2) + "\n")
     (definition / "pages/pages.json").write_text(json.dumps({
         "$schema": f"{SCHEMA}/item/report/definition/pagesMetadata/1.0.0/schema.json",
         "pageOrder": [p.name for p in pages], "activePageName": pages[0].name}, indent=2) + "\n")

@@ -21,7 +21,8 @@
                   {
                     "value": "Reading",
                     "textStyle": {
-                      "fontWeight": "bold"
+                      "fontWeight": "bold",
+                      "color": "#0F7B6C"
                     }
                   }
                 ]

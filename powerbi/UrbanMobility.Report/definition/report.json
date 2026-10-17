@@ -1,4 +1,27 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.2.0/schema.json",
-  "themeCollection": {}
+  "themeCollection": {
+    "customTheme": {
+      "name": "UrbanMobility.json",
+      "type": "RegisteredResources",
+      "reportVersionAtImport": {
+        "visual": "2.8.0",
+        "page": "2.1.0",
+        "report": "3.2.0"
+      }
+    }
+  },
+  "resourcePackages": [
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "UrbanMobility.json",
+          "path": "UrbanMobility.json",
+          "type": "CustomTheme"
+        }
+      ]
+    }
+  ]
 }

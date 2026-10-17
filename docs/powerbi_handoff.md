@@ -33,6 +33,12 @@ Chỉ giữ những số có trên slide báo cáo (`UrbanMobility_Report.pdf`).
 
 Đã bỏ so với bản trước (không có trên slide): phân rã GMV/giá trung bình/tỷ lệ giữ lại, nhóm chuyến ngắn/giá thấp, khoảng bootstrap, thị phần theo tuần, dải cảnh báo toàn thành phố, hệ số mưa mùa đông, MAE, chi phí credit/GMV, hòa vốn credit có chọn lọc, bộ lọc năm.
 
+## Màu sắc
+
+Theme riêng `UrbanMobility.Report/StaticResources/RegisteredResources/UrbanMobility.json`, cùng bảng màu với slide: nền trang be `#F4F1EA`, khung trắng bo góc, tiêu đề trang nền navy `#1B2430` chữ trắng, thẻ số chữ teal có vạch nhấn bên trái, tiêu đề cột bảng nền navy.
+
+Màu cố định theo ý nghĩa (tham chiếu màu theme, không mã hex cứng): trước phí, có credit, chưa giải thích = cam `#D2632A`; có phí, sau credit, mưa/tuyết = teal `#0F7B6C`; mức dự kiến, kế hoạch B2 = teal nhạt `#7FC4B5`; năm 2024, ngày lễ, thời gian chờ = xám; thực tế = navy. Biểu đồ cột có nhãn số. Đổi màu toàn báo cáo: sửa `THEME` trong builder rồi chạy lại.
+
 ## Đã kiểm tra (không có Power BI Desktop) — bản rút gọn 17/10/2026
 
 - 14 file TMDL đọc được bằng `@pbip-tools/tmdl-parser` 0.2.1, không cảnh báo.
@@ -40,7 +46,7 @@ Chỉ giữ những số có trên slide báo cáo (`UrbanMobility_Report.pdf`).
 - Tên measure không trùng tên cột hay measure khác (script dừng nếu trùng).
 - 51 tham chiếu trường trên visual và mọi tham chiếu DAX đều tồn tại; 38 visual nằm trong khung 1280×720, không chồng nhau.
 - Tính lại từ dữ liệu nhúng: 59.407.013 chuyến; 4,97 / 5,25 / 4,75 triệu chuyến trong vùng; thị phần Lyft 27,0→26,1% và 23,9→24,6%; 9 cảnh báo = 2 lễ + 5 thời tiết ngày tham chiếu + 2 chưa giải thích; kế hoạch B2 4.871.468, thực tế 4.820.140; WAPE B1/B2/B3 4,45% / 3,48% / 3,61%; lệch theo ngày +0,2 / −1,7 / +1,3 / +1,0 / +2,5 / −0,4 / +4,5%.
-- Chưa chạy lại kiểm tra schema JSON của Microsoft cho bản này (cấu trúc visual sinh bởi cùng các hàm như bản đã qua kiểm tra).
+- 48 file PBIP/PBIR hợp lệ theo schema Microsoft (report 3.2.0, page 2.1.0, visualContainer 2.8.0 và các schema con); theme hợp lệ theo `reportThemeSchema-2.159.json`. Schema để trống kiểu của nhiều thuộc tính định dạng, nên tên thuộc tính màu được đối chiếu thêm với danh sách thuộc tính trong schema theme.
 
 Bản in PDF từ Power BI Desktop (14/10/2026) đã mở được cả 4 trang. Các sửa sau đó: thẻ số chuyến hiển thị số đầy đủ (trước là 59M, 5M), thẻ khoảng tin cậy rộng hơn để không bị cắt chữ, bỏ dòng Total trong bảng WAPE, bảng cảnh báo hiện đủ 9 dòng, tiêu đề trang không còn thanh cuộn.
 

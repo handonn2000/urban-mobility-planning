@@ -22,7 +22,8 @@
                     "value": "How many trips does New York need in the Presidents' Day week?",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "16pt"
+                      "fontSize": "16pt",
+                      "color": "#FFFFFF"
                     }
                   }
                 ]
@@ -30,7 +31,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "Plan made on 16 Feb 2025 for 17-23 Feb. Completed Uber and Lyft trips, Jan 2024 and Jan-Feb 2025 (NYC TLC)."
+                    "value": "Plan made on 16 Feb 2025 for 17-23 Feb. Completed Uber and Lyft trips, Jan 2024 and Jan-Feb 2025 (NYC TLC).",
+                    "textStyle": {
+                      "color": "#D8E3E0"
+                    }
                   }
                 ]
               }
@@ -67,6 +71,51 @@
               "expr": {
                 "Literal": {
                   "Value": "''"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 2,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }

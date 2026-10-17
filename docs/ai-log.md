@@ -138,3 +138,8 @@ Ran the single notebook end to end in a new kernel and isolated working director
 - Người dùng yêu cầu review Power BI và bỏ thông tin thừa. Đối chiếu 40 visual/42 measure với 16 slide; phần lớn trang Demand monitoring và nửa trang Fee and credit không có trên slide.
 - Sửa builder rồi sinh lại toàn bộ PBIP, không sửa tay file sinh ra. Lý do cảnh báo dùng cùng quy tắc với notebook (ngày lễ; ngày tham chiếu ≥3 giờ mưa/tuyết) thay cho quy tắc cũ "có mưa bất kỳ"; kết quả 9 cảnh báo không đổi.
 - Dùng pbiplint, TMDL parser cài trong thư mục tạm; không cài vào repo. Không commit/push.
+
+## 17/10/2026 — Màu sắc Power BI
+
+- Người dùng yêu cầu Power BI đẹp và nhiều màu hơn. Dùng bảng màu của slide để báo cáo và slide trông thống nhất; màu mang nghĩa (cam = trước phí/có credit/chưa giải thích, teal = có phí/sau credit), không tô màu trang trí.
+- Bỏ base theme vì PBIR cần file theme gốc của Microsoft đi kèm; chỉ đăng ký custom theme (schema cho phép). Tải schema Microsoft để kiểm tra; không cài gì vào repo.
