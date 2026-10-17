@@ -1,0 +1,57 @@
+table FactLyftShare
+	lineageTag: 13afe4b9-c137-5de6-87d8-90b9d2a03392
+
+	measure 'Lyft share' = DIVIDE(SUM(FactLyftShare[LyftTrips]), SUM(FactLyftShare[MarketTrips]))
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		lineageTag: bb99da6c-ec9c-5e19-b182-8b16c02dde57
+
+	column Period
+		dataType: string
+		lineageTag: edde9ff3-73a7-5210-a445-a5c1ec894090
+		summarizeBy: none
+		sourceColumn: Period
+		sortByColumn: PeriodOrder
+
+	column PeriodOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 031a0eed-5233-5129-915c-2687854daed6
+		summarizeBy: none
+		sourceColumn: PeriodOrder
+
+	column ZoneGroup
+		dataType: string
+		lineageTag: da16a07d-80a5-5625-a35f-c7b87ac6cada
+		summarizeBy: none
+		sourceColumn: ZoneGroup
+
+	column LyftTrips
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,0
+		lineageTag: f255e07b-7a78-5879-86c9-d41b72bbd395
+		summarizeBy: none
+		sourceColumn: LyftTrips
+
+	column MarketTrips
+		dataType: int64
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,0
+		lineageTag: 2035f95b-c26d-590a-a019-14573f371fd2
+		summarizeBy: none
+		sourceColumn: MarketTrips
+
+	partition FactLyftShare = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Binary.FromText("UGVyaW9kLFBlcmlvZE9yZGVyLFpvbmVHcm91cCxMeWZ0VHJpcHMsTWFya2V0VHJpcHMKV2l0aCBjcmVkaXQgKDYtMjYgSmFuKSwxLE91dHNpZGUgdGhlIHpvbmUsMjIzMjMxOSw5MzQ5MDg4CldpdGggY3JlZGl0ICg2LTI2IEphbiksMSxUb3VjaGluZyB0aGUgem9uZSwxMjgyMTcxLDQ3NDg4NjUKQWZ0ZXIgY3JlZGl0ICgzLTIzIEZlYiksMixPdXRzaWRlIHRoZSB6b25lLDIzNjU0NTMsOTYwOTY4NQpBZnRlciBjcmVkaXQgKDMtMjMgRmViKSwyLFRvdWNoaW5nIHRoZSB6b25lLDEyOTY5MDksNDk2MzM1MQo=", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Period", type text}, {"PeriodOrder", Int64.Type}, {"ZoneGroup", type text}, {"LyftTrips", Int64.Type}, {"MarketTrips", Int64.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

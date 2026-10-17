@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactKPI"
+                      "Entity": "FactAlertList"
                     }
                   },
-                  "Property": "Gap 6-26 Jan"
+                  "Property": "Band alerts"
                 }
               },
-              "queryRef": "FactKPI.Gap 6-26 Jan",
-              "nativeQueryRef": "Gap 6-26 Jan"
+              "queryRef": "FactAlertList.Band alerts",
+              "nativeQueryRef": "Band alerts"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Zone vs outside gap, 6-26 Jan'"
+                  "Value": "'Alerts, segment band'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Zone vs outside gap, 6-26 Jan'"
+                  "Value": "'Alerts, segment band'"
                 }
               }
             }

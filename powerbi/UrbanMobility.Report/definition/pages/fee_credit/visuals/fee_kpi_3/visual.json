@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "fee_kpi_3",
   "position": {
-    "x": 1020,
-    "y": 72,
-    "z": 5000,
-    "height": 96,
-    "width": 240,
-    "tabOrder": 5000
+    "x": 1080,
+    "y": 276,
+    "z": 6000,
+    "height": 94,
+    "width": 180,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,11 +23,11 @@
                       "Entity": "FactKPI"
                     }
                   },
-                  "Property": "Gap 95% CI"
+                  "Property": "Gap before fee 2-4 Jan"
                 }
               },
-              "queryRef": "FactKPI.Gap 95% CI",
-              "nativeQueryRef": "Gap 95% CI"
+              "queryRef": "FactKPI.Gap before fee 2-4 Jan",
+              "nativeQueryRef": "Gap before fee 2-4 Jan"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'95% bootstrap interval'"
+                  "Value": "'Gap 2-4 Jan (no fee yet)'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'95% bootstrap interval'"
+                  "Value": "'Gap 2-4 Jan (no fee yet)'"
                 }
               }
             }

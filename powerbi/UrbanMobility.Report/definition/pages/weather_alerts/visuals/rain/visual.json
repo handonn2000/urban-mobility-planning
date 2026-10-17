@@ -1,0 +1,106 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
+  "name": "rain",
+  "position": {
+    "x": 20,
+    "y": 72,
+    "z": 2000,
+    "height": 300,
+    "width": 620,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeather"
+                    }
+                  },
+                  "Property": "Weather"
+                }
+              },
+              "queryRef": "FactWeather.Weather",
+              "nativeQueryRef": "Weather",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeather"
+                    }
+                  },
+                  "Property": "Trips vs dry hours"
+                }
+              },
+              "queryRef": "FactWeather.Trips vs dry hours",
+              "nativeQueryRef": "Trips vs dry hours"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactWeather"
+                    }
+                  },
+                  "Property": "Wait vs dry hours"
+                }
+              },
+              "queryRef": "FactWeather.Wait vs dry hours",
+              "nativeQueryRef": "Wait vs dry hours"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Bar chart of the change in trips and wait time in light and heavy rain'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Trips and waiting time vs dry hours (summer 2024: 35 heavy-rain hours, 14 events)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -132,3 +132,9 @@ Ran the single notebook end to end in a new kernel and isolated working director
 - Viết lại notebook (41 ô) theo thứ tự slide; bỏ các phân tích không xuất hiện trên slide; thêm các bước tính mà slide trình bày nhưng notebook cũ chưa in ra. Cảnh báo được phân loại bằng quy tắc trong code (ngày lễ; ngày tham chiếu có ≥3 giờ mưa/tuyết), không gõ tay.
 - Giữ quy tắc cũ ±7% kèm điều kiện thời gian chờ ±20% vì 118 trên slide gồm cả 4 cảnh báo chỉ do thời gian chờ; ghi rõ trong Markdown.
 - Kiểm tra: chạy toàn bộ trong thư mục độc lập, so 8 bảng với data/processed, xem lại 4 biểu đồ. Cập nhật notebook_execution.json. Không sửa raw, không commit/push.
+
+## 17/10/2026 — Rút gọn Power BI theo slide
+
+- Người dùng yêu cầu review Power BI và bỏ thông tin thừa. Đối chiếu 40 visual/42 measure với 16 slide; phần lớn trang Demand monitoring và nửa trang Fee and credit không có trên slide.
+- Sửa builder rồi sinh lại toàn bộ PBIP, không sửa tay file sinh ra. Lý do cảnh báo dùng cùng quy tắc với notebook (ngày lễ; ngày tham chiếu ≥3 giờ mưa/tuyết) thay cho quy tắc cũ "có mưa bất kỳ"; kết quả 9 cảnh báo không đổi.
+- Dùng pbiplint, TMDL parser cài trong thư mục tạm; không cài vào repo. Không commit/push.

@@ -18,10 +18,6 @@ relationship c31eeaa4-3cd5-5808-bb2a-d086bd0ceacd
 	fromColumn: FactForecast.Method
 	toColumn: DimMethod.Method
 
-relationship 264e00c9-79b6-5e41-8c1c-c826ea9feb99
-	fromColumn: FactCityForecast.Date
-	toColumn: DimDate.Date
-
 relationship 7e6fe07e-9272-592f-b5ae-f77f4a6fde74
 	fromColumn: FactFeeGap.Date
 	toColumn: DimDate.Date

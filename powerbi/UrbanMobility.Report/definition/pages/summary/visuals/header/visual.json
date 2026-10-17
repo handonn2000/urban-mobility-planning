@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "NYC ride-hailing demand planning",
+                    "value": "How many trips does New York need in the Presidents' Day week?",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "16pt"
@@ -30,7 +30,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Decision date 16 Feb 2025. Completed Uber and Lyft trips, Jan 2024 and Jan-Feb 2025 (NYC TLC)."
+                    "value": "Plan made on 16 Feb 2025 for 17-23 Feb. Completed Uber and Lyft trips, Jan 2024 and Jan-Feb 2025 (NYC TLC)."
                   }
                 ]
               }

@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactKPI"
+                      "Entity": "FactForecast"
                     }
                   },
-                  "Property": "Credit cost per extra trip"
+                  "Property": "Plan B2"
                 }
               },
-              "queryRef": "FactKPI.Credit cost per extra trip",
-              "nativeQueryRef": "Credit cost per extra trip"
+              "queryRef": "FactForecast.Plan B2",
+              "nativeQueryRef": "Plan B2"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Credit cost per extra trip ($6 contribution)'"
+                  "Value": "'Plan B2, 17-23 Feb'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Credit cost per extra trip ($6 contribution)'"
+                  "Value": "'Plan B2, 17-23 Feb'"
                 }
               }
             }
@@ -77,6 +77,22 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }

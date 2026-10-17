@@ -1,5 +1,5 @@
-SegmentKey,Operator,ZoneFlag,Segment,SortOrder
-Uber_zone,Uber,Zone,Uber zone,1
-Uber_outside,Uber,Outside,Uber outside,2
-Lyft_zone,Lyft,Zone,Lyft zone,3
-Lyft_outside,Lyft,Outside,Lyft outside,4
+SegmentKey,Segment,SortOrder
+Uber_zone,Uber zone,1
+Uber_outside,Uber outside,2
+Lyft_zone,Lyft zone,3
+Lyft_outside,Lyft outside,4

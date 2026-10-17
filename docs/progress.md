@@ -153,3 +153,9 @@ Không dùng trạng thái này thay cho file kết quả kiểm tra từng gate
 - SQL dùng tên cột trong GROUP BY, không còn GROUP BY ALL. Quy tắc làm sạch, vùng ≥95%, cửa sổ mưa, quy tắc cảnh báo và cutoff giữ nguyên.
 - 58 → 41 ô, 31 → 19 ô code. Chạy lại bằng kernel mới trong thư mục tạm chỉ có nguồn đã cache: 19/19 ô, 0 lỗi, 0 stderr. 8 nhóm bảng khớp data/processed (rtol 1e-9), hash 14 nguồn khớp bản ghi cũ. Chưa chạy trên Colab; chưa commit.
 - Ghi chú: ví dụ 22/02 cho ra đúng 799.268,5 nên slide làm tròn thành 799.269; notebook in cả hai.
+
+## Rút gọn Power BI theo slide — 17/10/2026
+
+- Viết lại `build_tables`, measure và trang trong `scripts/build_powerbi_project.py` để 4 trang đi theo các bước trên slide: Summary, Fee and credit, Weather and alerts, Holiday-week plan. 13 → 11 bảng, 42 → 22 measure, 40 → 38 visual.
+- Bỏ phần không có trên slide (GMV, nhóm chuyến, bootstrap, thị phần theo tuần, dải cảnh báo thành phố, mưa mùa đông, MAE, credit/GMV, bộ lọc năm). Thêm phần slide có: cột 2024/dự kiến/thực tế, thị phần Lyft theo giai đoạn, thẻ 33% hòa vốn và +7,7%, lý do cảnh báo theo quy tắc ≥3 giờ mưa/tuyết như notebook, lệch kế hoạch theo ngày.
+- Kiểm tra: TMDL parser 0 cảnh báo, pbiplint 0 lỗi, tham chiếu trường/DAX và bố cục sạch, số tính lại từ dữ liệu nhúng khớp slide. Chưa mở bằng Power BI Desktop; chưa kiểm tra lại schema JSON; chưa commit.

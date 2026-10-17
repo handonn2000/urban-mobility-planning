@@ -1,2 +1,2 @@
-TripGrowthYoY,GapBeforeFee,GapWithFee,GapCILow,GapCIHigh,ShareGapPP,UpliftProxy,CostPerExtraTrip,BreakevenBlanket,BreakevenTargeted,CreditCostShareZoneGMV,FixedRuleAlerts
-0.019742,-0.138477,-0.094917,-0.109065,-0.080327,1.6077,0.061529,25.88,0.333333,0.1,0.05939,118
+OutsideGrowth,GapBeforeFee,GapWithFee,ShareGapPP,UpliftProxy,CostPerExtraTrip,BreakevenUplift,HeavyRainUplift,FixedRuleAlerts
+0.055765,-0.138477,-0.094917,1.6077,0.061529,25.88,0.333333,0.077174,118

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "credit_kpi_2",
   "position": {
-    "x": 864,
-    "y": 612,
-    "z": 10000,
-    "height": 100,
-    "width": 196,
-    "tabOrder": 10000
+    "x": 964,
+    "y": 382,
+    "z": 9000,
+    "height": 110,
+    "width": 296,
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,11 +23,11 @@
                       "Entity": "FactKPI"
                     }
                   },
-                  "Property": "Credit uplift proxy"
+                  "Property": "Credit uplift"
                 }
               },
-              "queryRef": "FactKPI.Credit uplift proxy",
-              "nativeQueryRef": "Credit uplift proxy"
+              "queryRef": "FactKPI.Credit uplift",
+              "nativeQueryRef": "Credit uplift"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Credit uplift proxy'"
+                  "Value": "'Extra Lyft zone trips'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Credit uplift proxy'"
+                  "Value": "'Extra Lyft zone trips'"
                 }
               }
             }

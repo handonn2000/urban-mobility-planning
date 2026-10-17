@@ -27,7 +27,7 @@ table DimMethod
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(Binary.FromText("TWV0aG9kLERlc2NyaXB0aW9uLFNvcnRPcmRlcgpCMSxTYW1lIHdlZWtkYXkgbGFzdCB3ZWVrLDEKQjIsTWVhbiBvZiB0aGUgbGFzdCB0d28gc2FtZSB3ZWVrZGF5cyAocGxhbiksMgpCMyxCMiB3aXRoIHRoZSBNTEsgZmFjdG9yIG9uIDE3IEZlYiAoc2NlbmFyaW8pLDMK", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Source = Csv.Document(Binary.FromText("TWV0aG9kLERlc2NyaXB0aW9uLFNvcnRPcmRlcgpCMSxTYW1lIHdlZWtkYXkgbGFzdCB3ZWVrLDEKQjIsTWVhbiBvZiB0aGUgbGFzdCB0d28gc2FtZSB3ZWVrZGF5cyAocGxhbiksMgpCMyxCMiB3aXRoIHRoZSBNTEsgZmFjdG9yIG9uIDE3IEZlYiwzCg==", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
 				    Typed = Table.TransformColumnTypes(Headers, {{"Method", type text}, {"Description", type text}, {"SortOrder", Int64.Type}}, "en-US")
 				in

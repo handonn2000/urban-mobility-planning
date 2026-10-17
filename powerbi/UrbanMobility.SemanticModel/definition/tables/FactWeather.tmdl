@@ -1,27 +1,33 @@
 table FactWeather
 	lineageTag: 7dabe816-0e2d-5513-b007-b00910ad7754
 
-	column Study
-		dataType: string
-		lineageTag: 76733158-51bc-544f-a469-ccbbaaae4eb2
-		summarizeBy: none
-		sourceColumn: Study
+	measure 'Trips vs dry hours' = SUM(FactWeather[TripsFactor]) - 1
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 6f73e52d-5d31-5c30-a3bf-4284702816df
+
+	measure 'Wait vs dry hours' = SUM(FactWeather[WaitFactor]) - 1
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: a85c7aac-b41f-565d-9d82-aa860e2aa218
 
 	column Weather
 		dataType: string
 		lineageTag: ba49d14d-aa31-56ef-b5de-f7a70327aebd
 		summarizeBy: none
 		sourceColumn: Weather
+		sortByColumn: WeatherOrder
 
-	column Hours
+	column WeatherOrder
 		dataType: int64
+		isHidden
 		formatString: 0
-		lineageTag: f173325d-bf26-570e-bf44-232a5df6da89
+		lineageTag: 59e6849f-961b-5013-a6b8-e12b647ac0f2
 		summarizeBy: none
-		sourceColumn: Hours
+		sourceColumn: WeatherOrder
 
 	column TripsFactor
 		dataType: decimal
+		isHidden
+		isAvailableInMdx: false
 		formatString: 0.000
 		lineageTag: c874102b-0787-540c-8208-119b5eb011cd
 		summarizeBy: none
@@ -29,24 +35,20 @@ table FactWeather
 
 	column WaitFactor
 		dataType: decimal
+		isHidden
+		isAvailableInMdx: false
 		formatString: 0.000
 		lineageTag: 41517697-0046-5e5c-ae76-d9348a41b019
 		summarizeBy: none
 		sourceColumn: WaitFactor
 
-	column SmallSample
-		dataType: string
-		lineageTag: 1d45691c-e5fc-53df-a8ce-8813abc3f9e4
-		summarizeBy: none
-		sourceColumn: SmallSample
-
 	partition FactWeather = m
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(Binary.FromText("U3R1ZHksV2VhdGhlcixIb3VycyxUcmlwc0ZhY3RvcixXYWl0RmFjdG9yLFNtYWxsU2FtcGxlCnN1bW1lciAyMDI0LFJhaW4gMC41LTIgbW0vaCwxMTAsMS4wMzA3LDEuMDAzNCxObwpzdW1tZXIgMjAyNCxSYWluID4gMiBtbS9oLDM1LDEuMDc3MiwxLjAwOTIsTm8Kd2ludGVyIDIwMjQsUmFpbiAwLjUtMiBtbS9oLDM3LDEuMTAwOSwxLjA1NzIsTm8Kd2ludGVyIDIwMjQsUmFpbiA+IDIgbW0vaCwxNSwxLjAyODYsMS4wNjU3LFllcwp3aW50ZXIgMjAyNCxTbm93LDUwLDEuMDg5NywxLjAzNTUsTm8Kd2ludGVyIDIwMjUsUmFpbiAwLjUtMiBtbS9oLDM4LDEuMDEyLDEuMDQ0NSxObwp3aW50ZXIgMjAyNSxSYWluID4gMiBtbS9oLDQsMS4wNTU5LDEuMDExOCxZZXMKd2ludGVyIDIwMjUsU25vdyw5NCwxLjAyNzQsMS4wNzgxLE5vCg==", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Source = Csv.Document(Binary.FromText("V2VhdGhlcixXZWF0aGVyT3JkZXIsVHJpcHNGYWN0b3IsV2FpdEZhY3RvcgpMaWdodCByYWluICgwLjUtMiBtbS9oKSwxLDEuMDMwNywxLjAwMzQKSGVhdnkgcmFpbiAoPiAyIG1tL2gpLDIsMS4wNzcyLDEuMDA5Mgo=", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				    Typed = Table.TransformColumnTypes(Headers, {{"Study", type text}, {"Weather", type text}, {"Hours", Int64.Type}, {"TripsFactor", Currency.Type}, {"WaitFactor", Currency.Type}, {"SmallSample", type text}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Headers, {{"Weather", type text}, {"WeatherOrder", Int64.Type}, {"TripsFactor", Currency.Type}, {"WaitFactor", Currency.Type}}, "en-US")
 				in
 				    Typed
 

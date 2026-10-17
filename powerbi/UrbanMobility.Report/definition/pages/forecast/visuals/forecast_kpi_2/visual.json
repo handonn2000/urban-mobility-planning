@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "forecast_kpi_2",
   "position": {
-    "x": 864,
-    "y": 382,
-    "z": 7000,
-    "height": 100,
-    "width": 196,
-    "tabOrder": 7000
+    "x": 860,
+    "y": 184,
+    "z": 5000,
+    "height": 104,
+    "width": 400,
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,11 +23,11 @@
                       "Entity": "FactForecast"
                     }
                   },
-                  "Property": "Scenario B3"
+                  "Property": "Actual trips"
                 }
               },
-              "queryRef": "FactForecast.Scenario B3",
-              "nativeQueryRef": "Scenario B3"
+              "queryRef": "FactForecast.Actual trips",
+              "nativeQueryRef": "Actual trips"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Holiday scenario B3, week'"
+                  "Value": "'Actual trips, week'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Holiday scenario B3, week'"
+                  "Value": "'Actual trips, week'"
                 }
               }
             }

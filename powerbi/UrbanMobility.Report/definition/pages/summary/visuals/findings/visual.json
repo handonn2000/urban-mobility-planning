@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "What happened in January",
+                    "value": "Results",
                     "textStyle": {
                       "fontWeight": "bold"
                     }
@@ -29,42 +29,35 @@
               {
                 "textRuns": [
                   {
-                    "value": "Demand grew through volume: trips +2.0% year on year, average base fare +0.7%."
+                    "value": "Fee: zone trips came in 9.5% below the expected level, but the gap was already -13.8% before the fee. Not proven."
                   }
                 ]
               },
               {
                 "textRuns": [
                   {
-                    "value": "Zone-touching trips grew 9.5% slower than outside trips, but the gap was already -13.8% on 2-4 January, before the fee. This comparison cannot attribute the gap to the $1.50 fee."
+                    "value": "Credit: Lyft's zone share rose 1.6 points (about 6% more trips), at $25.88 per extra trip against a ~$6 margin."
                   }
                 ]
               },
               {
                 "textRuns": [
                   {
-                    "value": "Inside the zone Uber's average fare rose 9.2% while Lyft's fell 5.8%, a competing explanation for the shift between platforms."
+                    "value": "Rain: heavy rain lifts trips 7.7%; waiting time barely changes."
                   }
                 ]
               },
               {
                 "textRuns": [
                   {
-                    "value": "Lyft's zone share rose 1.6 pp while its credit ran (uplift proxy about 6%). At a $6 contribution each extra trip cost about $26 in credit."
+                    "value": "Alerts: 118 with a fixed \u00b17% rule, 9 with a band per segment; 7 of the 9 are explained."
                   }
                 ]
               },
               {
                 "textRuns": [
                   {
-                    "value": "Heavy rain (> 2 mm/h) lifts trips about 8% and median wait about 1%."
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "A fixed 7% alert rule fires on 118 of 360 segment-days; a forecast band fires on 9, and 7 of those are explained."
+                    "value": "Forecast: plan 4.87 M trips; actual 4.82 M; WAPE 3.5%."
                   }
                 ]
               }
@@ -80,7 +73,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Key findings'"
+                  "Value": "'Results'"
                 }
               }
             }

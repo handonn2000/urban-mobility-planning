@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Congestion fee and Lyft credit",
+                    "value": "Step 1-2: congestion fee and Lyft credit",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "16pt"
@@ -30,7 +30,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "The zone vs outside gap existed before the fee started on 5 Jan, so it is not a fee effect. Comparisons are observational."
+                    "value": "Both are measured against a comparison group: trips outside the zone. Observational, not an experiment."
                   }
                 ]
               }

@@ -5,10 +5,6 @@ table FactAlertList
 		formatString: #,0
 		lineageTag: 4a7719d4-3073-518f-ab0e-0480f6edd153
 
-	measure 'Open alerts' = CALCULATE(COUNTROWS(FactAlertList), FactAlertList[Reason] = "Unexplained")
-		formatString: #,0
-		lineageTag: b5d2e6a4-413d-5aa5-bed8-182dd7a76bdf
-
 	column Date
 		dataType: dateTime
 		formatString: yyyy-mm-dd
@@ -38,13 +34,6 @@ table FactAlertList
 		summarizeBy: none
 		sourceColumn: Expected
 
-	column ZScore
-		dataType: decimal
-		formatString: +0.0;-0.0
-		lineageTag: bbac675c-6aa8-58cd-8495-9eace7cabc58
-		summarizeBy: none
-		sourceColumn: ZScore
-
 	column Reason
 		dataType: string
 		lineageTag: fc6c17f8-7058-5278-b0f7-5d484a906a9f
@@ -61,9 +50,9 @@ table FactAlertList
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(Binary.FromText("RGF0ZSxTZWdtZW50LFRyaXBDb3VudCxFeHBlY3RlZCxaU2NvcmUsUmVhc29uLFJlZmVyZW5jZURheXMKMjAyNC0wMS0xNSxMeWZ0IHpvbmUsNTAxNzEsNDA3MTgsMi44OSxIb2xpZGF5LCIwOCBKYW46IHJhaW4gMGgsIHNub3cgMGgiCjIwMjQtMDEtMTUsVWJlciB6b25lLDE1MDAyOCwxMTk3NjcsMi43NyxIb2xpZGF5LCIwOCBKYW46IHJhaW4gMGgsIHNub3cgMGgiCjIwMjQtMDEtMTcsVWJlciBvdXRzaWRlLDMxNjQzNSwyNjcwMjMsMy4xMixCYWQgd2VhdGhlciBvbiBhIHJlZmVyZW5jZSBkYXksIjEwIEphbjogcmFpbiA0aCwgc25vdyAwaCIKMjAyNC0wMS0xNyxVYmVyIHpvbmUsMTg1MzUyLDE0NzQxNywyLjgyLEJhZCB3ZWF0aGVyIG9uIGEgcmVmZXJlbmNlIGRheSwiMTAgSmFuOiByYWluIDRoLCBzbm93IDBoIgoyMDI0LTAxLTIzLEx5ZnQgb3V0c2lkZSw5NjQ3MCwxMTM2NzAsLTMuMTMsQmFkIHdlYXRoZXIgb24gYSByZWZlcmVuY2UgZGF5LCIxNiBKYW46IHJhaW4gMWgsIHNub3cgMThoOyAwOSBKYW46IHJhaW4gMTBoLCBzbm93IDBoIgoyMDI0LTAxLTI3LEx5ZnQgb3V0c2lkZSwxMTc1NDEsMTMzNjQ5LC0yLjU2LEJhZCB3ZWF0aGVyIG9uIGEgcmVmZXJlbmNlIGRheSwiMjAgSmFuOiByYWluIDBoLCBzbm93IDBoOyAxMyBKYW46IHJhaW4gN2gsIHNub3cgMGgiCjIwMjUtMDEtMTUsTHlmdCBvdXRzaWRlLDkyODA2LDExNDYwOSwtMy4zNyxVbmV4cGxhaW5lZCwiMDggSmFuOiByYWluIDBoLCBzbm93IDBoIgoyMDI1LTAyLTIzLFViZXIgem9uZSwxNDY3OTcsMTcxOTU4LC0yLjcyLEJhZCB3ZWF0aGVyIG9uIGEgcmVmZXJlbmNlIGRheSwiMTYgRmViOiByYWluIDE3aCwgc25vdyAwaDsgMDkgRmViOiByYWluIDNoLCBzbm93IDloIgoyMDI1LTAyLTI4LFViZXIgem9uZSwxNjAyMjgsMTg2NzUyLC0yLjY1LFVuZXhwbGFpbmVkLCIyMSBGZWI6IHJhaW4gMGgsIHNub3cgMGg7IDE0IEZlYjogcmFpbiAwaCwgc25vdyAwaCIK", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Source = Csv.Document(Binary.FromText("RGF0ZSxTZWdtZW50LFRyaXBDb3VudCxFeHBlY3RlZCxSZWFzb24sUmVmZXJlbmNlRGF5cwoyMDI0LTAxLTE1LEx5ZnQgem9uZSw1MDE3MSw0MDcxOCxIb2xpZGF5LCIwOCBKYW46IHJhaW4gMGgsIHNub3cgMGgiCjIwMjQtMDEtMTUsVWJlciB6b25lLDE1MDAyOCwxMTk3NjcsSG9saWRheSwiMDggSmFuOiByYWluIDBoLCBzbm93IDBoIgoyMDI0LTAxLTE3LFViZXIgb3V0c2lkZSwzMTY0MzUsMjY3MDIzLFJhaW4gb3Igc25vdyBvbiBhIHJlZmVyZW5jZSBkYXksIjEwIEphbjogcmFpbiA0aCwgc25vdyAwaCIKMjAyNC0wMS0xNyxVYmVyIHpvbmUsMTg1MzUyLDE0NzQxNyxSYWluIG9yIHNub3cgb24gYSByZWZlcmVuY2UgZGF5LCIxMCBKYW46IHJhaW4gNGgsIHNub3cgMGgiCjIwMjQtMDEtMjMsTHlmdCBvdXRzaWRlLDk2NDcwLDExMzY3MCxSYWluIG9yIHNub3cgb24gYSByZWZlcmVuY2UgZGF5LCIxNiBKYW46IHJhaW4gMWgsIHNub3cgMThoOyAwOSBKYW46IHJhaW4gMTBoLCBzbm93IDBoIgoyMDI0LTAxLTI3LEx5ZnQgb3V0c2lkZSwxMTc1NDEsMTMzNjQ5LFJhaW4gb3Igc25vdyBvbiBhIHJlZmVyZW5jZSBkYXksIjIwIEphbjogcmFpbiAwaCwgc25vdyAwaDsgMTMgSmFuOiByYWluIDdoLCBzbm93IDBoIgoyMDI1LTAxLTE1LEx5ZnQgb3V0c2lkZSw5MjgwNiwxMTQ2MDksVW5leHBsYWluZWQsIjA4IEphbjogcmFpbiAwaCwgc25vdyAwaCIKMjAyNS0wMi0yMyxVYmVyIHpvbmUsMTQ2Nzk3LDE3MTk1OCxSYWluIG9yIHNub3cgb24gYSByZWZlcmVuY2UgZGF5LCIxNiBGZWI6IHJhaW4gMTdoLCBzbm93IDBoOyAwOSBGZWI6IHJhaW4gM2gsIHNub3cgOWgiCjIwMjUtMDItMjgsVWJlciB6b25lLDE2MDIyOCwxODY3NTIsVW5leHBsYWluZWQsIjIxIEZlYjogcmFpbiAwaCwgc25vdyAwaDsgMTQgRmViOiByYWluIDBoLCBzbm93IDBoIgo=", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"Segment", type text}, {"TripCount", Int64.Type}, {"Expected", Int64.Type}, {"ZScore", Currency.Type}, {"Reason", type text}, {"ReferenceDays", type text}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"Segment", type text}, {"TripCount", Int64.Type}, {"Expected", Int64.Type}, {"Reason", type text}, {"ReferenceDays", type text}}, "en-US")
 				in
 				    Typed
 

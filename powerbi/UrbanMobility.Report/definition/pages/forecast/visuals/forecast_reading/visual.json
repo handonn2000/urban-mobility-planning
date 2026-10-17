@@ -3,9 +3,9 @@
   "name": "forecast_reading",
   "position": {
     "x": 20,
-    "y": 552,
+    "y": 572,
     "z": 9000,
-    "height": 160,
+    "height": 140,
     "width": 1240,
     "tabOrder": 9000
   },
@@ -29,21 +29,14 @@
               {
                 "textRuns": [
                   {
-                    "value": "B2 had the lowest error over the week (WAPE 3.48%) and on Presidents' Day itself (1.41%)."
+                    "value": "B2 missed by 3.5% (WAPE), better than last week alone (B1, 4.4%). The plan was 1.1% above actual."
                   }
                 ]
               },
               {
                 "textRuns": [
                   {
-                    "value": "The MLK factor (B3) made 17 Feb worse in three of four segments: Presidents' Day did not behave like MLK."
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "The largest miss is Uber zone trips on Sunday 23 Feb (about 171k planned, 147k actual); its reference day 16 Feb had 17 hours of rain."
+                    "value": "The largest miss is Sunday 23 Feb (+4.5%): both reference days, 9 and 16 Feb, had rain or snow, while 23 Feb was dry."
                   }
                 ]
               }

@@ -3,11 +3,11 @@
   "name": "scores",
   "position": {
     "x": 20,
-    "y": 382,
-    "z": 5000,
-    "height": 160,
+    "y": 412,
+    "z": 7000,
+    "height": 150,
     "width": 620,
-    "tabOrder": 5000
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "tableEx",
@@ -70,20 +70,6 @@
               },
               "queryRef": "FactForecast.Bias",
               "nativeQueryRef": "Bias"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FactForecast"
-                    }
-                  },
-                  "Property": "MAE"
-                }
-              },
-              "queryRef": "FactForecast.MAE",
-              "nativeQueryRef": "MAE"
             }
           ]
         }
@@ -96,7 +82,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Table of WAPE, bias and MAE by method'"
+                  "Value": "'Table of WAPE and bias by method'"
                 }
               }
             }
@@ -116,7 +102,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Backtest accuracy (WAPE = sum of absolute errors / sum of actuals)'"
+                  "Value": "'Forecast error by method (WAPE = sum of absolute errors / actual trips, 28 cells)'"
                 }
               }
             }

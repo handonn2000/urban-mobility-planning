@@ -1,10 +1,6 @@
 table FactForecast
 	lineageTag: 15b123da-370d-5f20-8f04-ae59a6dd4e96
 
-	measure 'Forecast trips' = IF(HASONEVALUE(DimMethod[Method]), SUM(FactForecast[Forecast]))
-		formatString: #,0
-		lineageTag: c24f3e20-5267-573c-8a25-58186863a3ff
-
 	measure 'Actual trips' = CALCULATE(SUM(FactForecast[Actual]), DimMethod[Method] = "B2")
 		formatString: #,0
 		lineageTag: d10b4050-db99-54b7-ab36-4c4985bb2f7b
@@ -13,28 +9,20 @@ table FactForecast
 		formatString: #,0
 		lineageTag: 9c6a79b9-7c63-5509-9852-4835fea6d9eb
 
-	measure 'Scenario B3' = CALCULATE(SUM(FactForecast[Forecast]), DimMethod[Method] = "B3")
-		formatString: #,0
-		lineageTag: 78cb7c03-35b4-5c4c-b7b1-9c6dd7b543dc
-
-	measure 'Last week B1' = CALCULATE(SUM(FactForecast[Forecast]), DimMethod[Method] = "B1")
-		formatString: #,0
-		lineageTag: 44668ea2-3f96-5de3-b082-62430a033a94
+	measure 'Plan vs actual' = DIVIDE([Plan B2] - [Actual trips], [Actual trips])
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: eb749b36-aca9-5568-b485-c4755956ece5
 
 	measure WAPE = IF(HASONEVALUE(DimMethod[Method]), DIVIDE(SUMX(FactForecast, ABS(FactForecast[Forecast] - FactForecast[Actual])), SUM(FactForecast[Actual])))
-		formatString: 0.00%
+		formatString: #,0.0%;-#,0.0%;#,0.0%
 		lineageTag: dd2d5b83-4cc3-5ce6-ac1a-ada789b61eec
 
 	measure Bias = IF(HASONEVALUE(DimMethod[Method]), DIVIDE(SUMX(FactForecast, FactForecast[Forecast] - FactForecast[Actual]), SUM(FactForecast[Actual])))
-		formatString: +0.00%;-0.00%;0.00%
+		formatString: +0.0%;-0.0%;0.0%
 		lineageTag: 031f7179-378b-5abb-980c-38acc996edb9
 
-	measure MAE = IF(HASONEVALUE(DimMethod[Method]), AVERAGEX(FactForecast, ABS(FactForecast[Forecast] - FactForecast[Actual])))
-		formatString: #,0
-		lineageTag: 8d7aea68-37eb-5537-87cb-0d405c35227a
-
 	measure 'WAPE B2' = CALCULATE([WAPE], DimMethod[Method] = "B2")
-		formatString: 0.00%
+		formatString: #,0.0%;-#,0.0%;#,0.0%
 		lineageTag: c15072d2-8ccf-508f-97e8-80df52fe0fe0
 
 	column Date

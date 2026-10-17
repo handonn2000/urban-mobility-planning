@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactAlertList"
+                      "Entity": "FactForecast"
                     }
                   },
-                  "Property": "Band alerts"
+                  "Property": "WAPE B2"
                 }
               },
-              "queryRef": "FactAlertList.Band alerts",
-              "nativeQueryRef": "Band alerts"
+              "queryRef": "FactForecast.WAPE B2",
+              "nativeQueryRef": "WAPE B2"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Alerts with the forecast band'"
+                  "Value": "'Forecast error (WAPE, B2)'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Alerts with the forecast band'"
+                  "Value": "'Forecast error (WAPE, B2)'"
                 }
               }
             }

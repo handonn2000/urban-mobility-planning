@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "fee_gap_daily",
   "position": {
-    "x": 20,
+    "x": 440,
     "y": 72,
-    "z": 2000,
+    "z": 3000,
     "height": 300,
     "width": 620,
-    "tabOrder": 2000
+    "tabOrder": 3000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -32,6 +32,24 @@
             }
           ]
         },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactFeeGap"
+                    }
+                  },
+                  "Property": "Period"
+                }
+              },
+              "queryRef": "FactFeeGap.Period",
+              "nativeQueryRef": "Period"
+            }
+          ]
+        },
         "Y": {
           "projections": [
             {
@@ -42,39 +60,11 @@
                       "Entity": "FactFeeGap"
                     }
                   },
-                  "Property": "Gap before fee"
+                  "Property": "Daily gap"
                 }
               },
-              "queryRef": "FactFeeGap.Gap before fee",
-              "nativeQueryRef": "Gap before fee"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FactFeeGap"
-                    }
-                  },
-                  "Property": "Gap with fee"
-                }
-              },
-              "queryRef": "FactFeeGap.Gap with fee",
-              "nativeQueryRef": "Gap with fee"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FactFeeGap"
-                    }
-                  },
-                  "Property": "Window estimate"
-                }
-              },
-              "queryRef": "FactFeeGap.Window estimate",
-              "nativeQueryRef": "Window estimate"
+              "queryRef": "FactFeeGap.Daily gap",
+              "nativeQueryRef": "Daily gap"
             }
           ]
         }
@@ -87,7 +77,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Line chart of the daily gap before and after the fee start'"
+                  "Value": "'Column chart of the daily gap before and after the fee start'"
                 }
               }
             }
@@ -107,7 +97,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Daily zone vs outside gap, 2025 vs same weekday 2024'"
+                  "Value": "'Daily zone vs outside gap, 2025 vs same weekday 2024 (fee from 5 Jan)'"
                 }
               }
             }

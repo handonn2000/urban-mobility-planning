@@ -1,9 +1,9 @@
 table FactKPI
 	lineageTag: 3699924e-548f-5e47-acc3-6733c20a1ddf
 
-	measure 'Trip growth YoY' = MAX(FactKPI[TripGrowthYoY])
+	measure 'Outside trip growth' = MAX(FactKPI[OutsideGrowth])
 		formatString: +0.0%;-0.0%;0.0%
-		lineageTag: 32fd6b6d-b2b3-5d1d-aa9f-e78754d02059
+		lineageTag: 6635788c-8879-5de2-8b25-018d9afd3eeb
 
 	measure 'Gap before fee 2-4 Jan' = MAX(FactKPI[GapBeforeFee])
 		formatString: #,0.0%;-#,0.0%;#,0.0%
@@ -13,45 +13,38 @@ table FactKPI
 		formatString: #,0.0%;-#,0.0%;#,0.0%
 		lineageTag: cca637ff-11ec-5bbc-bccb-815197818f57
 
-	measure 'Gap 95% CI' = FORMAT(MAX(FactKPI[GapCILow]), "0.0%") & " to " & FORMAT(MAX(FactKPI[GapCIHigh]), "0.0%")
-		lineageTag: 40e06885-183b-5316-8881-bd19657ee1e7
-
 	measure 'Lyft zone share gap pp' = MAX(FactKPI[ShareGapPP])
-		formatString: #,0.0
+		formatString: +0.0;-0.0
 		lineageTag: c1298851-ff29-52a3-a1ad-3b376b6be842
 
-	measure 'Credit uplift proxy' = MAX(FactKPI[UpliftProxy])
+	measure 'Credit uplift' = MAX(FactKPI[UpliftProxy])
 		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: 372da59b-8b6f-5648-9631-af8c44050253
+		lineageTag: 7d1e4d65-5161-5c92-9ab1-5fa1575bae22
 
 	measure 'Credit cost per extra trip' = MAX(FactKPI[CostPerExtraTrip])
 		formatString: \$#,0.00
 		lineageTag: 2ecd4217-00f1-5055-9009-76f395e1c62d
 
-	measure 'Break-even uplift blanket' = MAX(FactKPI[BreakevenBlanket])
-		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: 872c2e2a-e029-573a-ae13-aeda5e1cc9cd
+	measure 'Break-even uplift' = MAX(FactKPI[BreakevenUplift])
+		formatString: 0%
+		lineageTag: f9a11f09-8df0-598e-9c0e-e9df4cf366db
 
-	measure 'Break-even uplift targeted' = MAX(FactKPI[BreakevenTargeted])
-		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: eb4defca-ce6f-5fb2-a33a-60c871aa329b
-
-	measure 'Max credit cost share of zone GMV' = MAX(FactKPI[CreditCostShareZoneGMV])
-		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: 6dfc34f5-164f-5392-bdc3-69c31f87cd60
+	measure 'Heavy rain trip uplift' = MAX(FactKPI[HeavyRainUplift])
+		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: 3bb1b993-0020-5c10-b7dc-3626ba6e0572
 
 	measure 'Fixed 7% rule alerts' = MAX(FactKPI[FixedRuleAlerts])
 		formatString: #,0
 		lineageTag: 9bf2cc91-3b31-5845-87df-1c5733f10b81
 
-	column TripGrowthYoY
+	column OutsideGrowth
 		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: cb6bc36f-2cf3-5f57-81e6-4d24f61580b1
+		lineageTag: e4712850-2f6e-534c-95c9-45a25a185280
 		summarizeBy: none
-		sourceColumn: TripGrowthYoY
+		sourceColumn: OutsideGrowth
 
 	column GapBeforeFee
 		dataType: double
@@ -70,24 +63,6 @@ table FactKPI
 		lineageTag: 13bf3501-88cb-5887-87e9-5b9217801e5a
 		summarizeBy: none
 		sourceColumn: GapWithFee
-
-	column GapCILow
-		dataType: double
-		isHidden
-		isAvailableInMdx: false
-		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: 739582f1-50a8-5104-849d-87f945549da3
-		summarizeBy: none
-		sourceColumn: GapCILow
-
-	column GapCIHigh
-		dataType: double
-		isHidden
-		isAvailableInMdx: false
-		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: 999ca1ce-f7b3-5da8-ade0-fff0241cde03
-		summarizeBy: none
-		sourceColumn: GapCIHigh
 
 	column ShareGapPP
 		dataType: decimal
@@ -116,32 +91,23 @@ table FactKPI
 		summarizeBy: none
 		sourceColumn: CostPerExtraTrip
 
-	column BreakevenBlanket
+	column BreakevenUplift
 		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: 7716b12e-719d-54aa-adfd-b379eb36656e
+		lineageTag: 1700398b-e5b3-5ab3-917d-e18ff6fa60fe
 		summarizeBy: none
-		sourceColumn: BreakevenBlanket
+		sourceColumn: BreakevenUplift
 
-	column BreakevenTargeted
-		dataType: decimal
-		isHidden
-		isAvailableInMdx: false
-		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: 0fdec81f-88c9-5a94-b631-f502ad86c0b4
-		summarizeBy: none
-		sourceColumn: BreakevenTargeted
-
-	column CreditCostShareZoneGMV
+	column HeavyRainUplift
 		dataType: double
 		isHidden
 		isAvailableInMdx: false
 		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: c77d0f16-d107-56a2-abc8-928007263b72
+		lineageTag: 9fdb36c2-1011-59db-b8c5-bd0f22bf6e8d
 		summarizeBy: none
-		sourceColumn: CreditCostShareZoneGMV
+		sourceColumn: HeavyRainUplift
 
 	column FixedRuleAlerts
 		dataType: int64
@@ -156,9 +122,9 @@ table FactKPI
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(Binary.FromText("VHJpcEdyb3d0aFlvWSxHYXBCZWZvcmVGZWUsR2FwV2l0aEZlZSxHYXBDSUxvdyxHYXBDSUhpZ2gsU2hhcmVHYXBQUCxVcGxpZnRQcm94eSxDb3N0UGVyRXh0cmFUcmlwLEJyZWFrZXZlbkJsYW5rZXQsQnJlYWtldmVuVGFyZ2V0ZWQsQ3JlZGl0Q29zdFNoYXJlWm9uZUdNVixGaXhlZFJ1bGVBbGVydHMKMC4wMTk3NDIsLTAuMTM4NDc3LC0wLjA5NDkxNywtMC4xMDkwNjUsLTAuMDgwMzI3LDEuNjA3NywwLjA2MTUyOSwyNS44OCwwLjMzMzMzMywwLjEsMC4wNTkzOSwxMTgK", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Source = Csv.Document(Binary.FromText("T3V0c2lkZUdyb3d0aCxHYXBCZWZvcmVGZWUsR2FwV2l0aEZlZSxTaGFyZUdhcFBQLFVwbGlmdFByb3h5LENvc3RQZXJFeHRyYVRyaXAsQnJlYWtldmVuVXBsaWZ0LEhlYXZ5UmFpblVwbGlmdCxGaXhlZFJ1bGVBbGVydHMKMC4wNTU3NjUsLTAuMTM4NDc3LC0wLjA5NDkxNywxLjYwNzcsMC4wNjE1MjksMjUuODgsMC4zMzMzMzMsMC4wNzcxNzQsMTE4Cg==", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				    Typed = Table.TransformColumnTypes(Headers, {{"TripGrowthYoY", type number}, {"GapBeforeFee", type number}, {"GapWithFee", type number}, {"GapCILow", type number}, {"GapCIHigh", type number}, {"ShareGapPP", Currency.Type}, {"UpliftProxy", type number}, {"CostPerExtraTrip", Currency.Type}, {"BreakevenBlanket", type number}, {"BreakevenTargeted", Currency.Type}, {"CreditCostShareZoneGMV", type number}, {"FixedRuleAlerts", Int64.Type}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Headers, {{"OutsideGrowth", type number}, {"GapBeforeFee", type number}, {"GapWithFee", type number}, {"ShareGapPP", Currency.Type}, {"UpliftProxy", type number}, {"CostPerExtraTrip", Currency.Type}, {"BreakevenUplift", type number}, {"HeavyRainUplift", type number}, {"FixedRuleAlerts", Int64.Type}}, "en-US")
 				in
 				    Typed
 

@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "credit_kpi_3",
   "position": {
-    "x": 1068,
-    "y": 612,
-    "z": 11000,
-    "height": 100,
-    "width": 196,
-    "tabOrder": 11000
+    "x": 660,
+    "y": 502,
+    "z": 10000,
+    "height": 110,
+    "width": 296,
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,11 +23,11 @@
                       "Entity": "FactKPI"
                     }
                   },
-                  "Property": "Break-even uplift blanket"
+                  "Property": "Credit cost per extra trip"
                 }
               },
-              "queryRef": "FactKPI.Break-even uplift blanket",
-              "nativeQueryRef": "Break-even uplift blanket"
+              "queryRef": "FactKPI.Credit cost per extra trip",
+              "nativeQueryRef": "Credit cost per extra trip"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Break-even, blanket credit'"
+                  "Value": "'Cost per extra trip ($6 margin)'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Break-even, blanket credit'"
+                  "Value": "'Cost per extra trip ($6 margin)'"
                 }
               }
             }

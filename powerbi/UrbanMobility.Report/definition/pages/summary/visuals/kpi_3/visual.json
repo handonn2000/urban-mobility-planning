@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactForecast"
+                      "Entity": "FactKPI"
                     }
                   },
-                  "Property": "Plan B2"
+                  "Property": "Credit cost per extra trip"
                 }
               },
-              "queryRef": "FactForecast.Plan B2",
-              "nativeQueryRef": "Plan B2"
+              "queryRef": "FactKPI.Credit cost per extra trip",
+              "nativeQueryRef": "Credit cost per extra trip"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Holiday-week plan (B2)'"
+                  "Value": "'Credit cost per extra Lyft trip'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Holiday-week plan (B2)'"
+                  "Value": "'Credit cost per extra Lyft trip'"
                 }
               }
             }
@@ -77,22 +77,6 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
-          }
-        }
-      ],
-      "value": [
-        {
-          "properties": {
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
                 }
               }
             }

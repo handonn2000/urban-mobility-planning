@@ -25,38 +25,91 @@ def segment_key(operator, zone):
     return f"{operator}_{'zone' if zone else 'outside'}"
 
 
+
 # ---------------------------------------------------------------- tables
+# Only the numbers shown in the report slides (reports/UrbanMobility_Report.pdf) are loaded.
+
+def wet_days(hourly):
+    """Days with at least 3 hours of rain (>= 0.5 mm) or snow, the rule used to explain alerts."""
+    day = hourly.groupby("request_date").agg(rain_h=("rain_mm", lambda x: int((x >= 0.5).sum())),
+                                             snow_h=("snowfall_cm", lambda x: int((x > 0).sum())))
+    return day, (day.rain_h + day.snow_h) >= 3
+
 
 def build_tables(root):
     p = root / "data/processed"
     daily = pd.read_csv(p / "daily_segment.csv", parse_dates=["request_date"])
     holidays = pd.read_csv(root / "data/external/holidays.csv", parse_dates=["date"])
     hourly = pd.read_csv(p / "hourly_city.csv", parse_dates=["request_date"])
+    names = dict(zip(holidays.date, holidays.holiday_name))
+    segment_label = {s[0]: s[3] for s in SEGMENTS}
     tables = {}
 
     dates = pd.DataFrame({"Date": pd.date_range("2024-01-01", "2025-02-28")})
-    names = dict(zip(holidays.date, holidays.holiday_name))
-    dates["Year"] = dates.Date.dt.year
-    dates["MonthNumber"] = dates.Date.dt.month
-    dates["Month"] = dates.Date.dt.strftime("%b")
-    dates["Weekday"] = dates.Date.dt.dayofweek + 1
-    dates["DayName"] = dates.Date.dt.strftime("%a")
     dates["Holiday"] = dates.Date.map(names).fillna("")
     tables["DimDate"] = dates
 
-    tables["DimSegment"] = pd.DataFrame(SEGMENTS, columns=["SegmentKey", "Operator", "ZoneFlag", "Segment", "SortOrder"])
+    tables["DimSegment"] = pd.DataFrame([(s[0], s[3], s[4]) for s in SEGMENTS], columns=["SegmentKey", "Segment", "SortOrder"])
     tables["DimMethod"] = pd.DataFrame([
         ("B1", "Same weekday last week", 1),
         ("B2", "Mean of the last two same weekdays (plan)", 2),
-        ("B3", "B2 with the MLK factor on 17 Feb (scenario)", 3)], columns=["Method", "Description", "SortOrder"])
+        ("B3", "B2 with the MLK factor on 17 Feb", 3)], columns=["Method", "Description", "SortOrder"])
 
-    fact = daily.assign(SegmentKey=[segment_key(o, z) for o, z in zip(daily.operator, daily.touches_zone)])
-    tables["FactDaily"] = pd.DataFrame({
-        "Date": fact.request_date, "SegmentKey": fact.SegmentKey, "TripCount": fact.trips,
-        "ShortTrips": fact.short_trips, "LowFareTrips": fact.low_fare_trips,
-        "EconomicsTrips": fact.valid_economics_trips, "FareSum": fact.total_base_fare.round(2),
-        "DriverPaySum": fact.total_driver_pay.round(2), "MedianWait": fact.median_wait_minutes.round(3)})
+    daily["SegmentKey"] = [segment_key(o, z) for o, z in zip(daily.operator, daily.touches_zone)]
+    tables["FactDaily"] = pd.DataFrame({"Date": daily.request_date, "SegmentKey": daily.SegmentKey, "TripCount": daily.trips})
 
+    # Step 1, fee: zone trips in the matched windows and the expected 2025 level.
+    def window(start, end):
+        part = daily[daily.request_date.between(start, end)]
+        return part.groupby(part.touches_zone.astype(str).str.lower() == "true").trips.sum()
+
+    before, after = window("2024-01-08", "2024-01-28"), window("2025-01-06", "2025-01-26")
+    outside_growth = after[False] / before[False] - 1
+    expected = before[True] * (1 + outside_growth)
+    tables["FactFeeWindow"] = pd.DataFrame({
+        "Bar": ["2024 (8-28 Jan)", "Expected 2025", "Actual 2025 (6-26 Jan)"], "BarOrder": [1, 2, 3],
+        "ZoneTrips": [int(before[True]), round(expected, 1), int(after[True])]})
+
+    gaps = pd.read_csv(p / "fee_matched_day_gaps.csv", parse_dates=["date_2025"])
+    gaps = gaps[gaps.date_2025 <= "2025-01-26"]
+    tables["FactFeeGap"] = pd.DataFrame({
+        "Date": gaps.date_2025, "Period": (gaps.date_2025 < "2025-01-05").map({True: "Before fee", False: "With fee"}),
+        "GapAll": gaps.All_gap.round(6)})
+
+    # Step 2, credit: Lyft share with and after the credit, inside and outside the zone.
+    credit = pd.read_csv(p / "lyft_credit_period_comparison.csv")
+    tables["FactLyftShare"] = pd.DataFrame({
+        "Period": credit.period.map({"credit_issuance": "With credit (6-26 Jan)", "post_issuance": "After credit (3-23 Feb)"}),
+        "PeriodOrder": credit.period.map({"credit_issuance": 1, "post_issuance": 2}),
+        "ZoneGroup": credit.touches_zone.astype(str).str.lower().map({"true": "Touching the zone", "false": "Outside the zone"}),
+        "LyftTrips": credit.lyft_trips, "MarketTrips": credit.market_trips})
+    s = credit.assign(zone=credit.touches_zone.astype(str).str.lower() == "true").set_index(["period", "zone"]).lyft_share
+    share_gap = (s[("credit_issuance", True)] - s[("post_issuance", True)]) - (s[("credit_issuance", False)] - s[("post_issuance", False)])
+    uplift = share_gap / s[("post_issuance", True)]
+    extra = 100 * uplift
+
+    # Step 3, weather (summer 2024) and alerts.
+    rain = pd.read_csv(p / "rain_factors.csv")
+    rain = rain[(rain.study == "summer_2024") & rain.weather_group.isin(["light_rain", "moderate_or_heavy_rain"])]
+    tables["FactWeather"] = pd.DataFrame({
+        "Weather": rain.weather_group.map({"light_rain": "Light rain (0.5-2 mm/h)", "moderate_or_heavy_rain": "Heavy rain (> 2 mm/h)"}),
+        "WeatherOrder": rain.weather_group.map({"light_rain": 1, "moderate_or_heavy_rain": 2}),
+        "TripsFactor": rain.trips_factor.round(4), "WaitFactor": rain.wait_factor.round(4)})
+
+    weather, wet = wet_days(hourly)
+    alerts = pd.read_csv(p / "forecast_band_alerts.csv", parse_dates=["request_date"])
+    alerts = alerts[alerts.outside_band.astype(str).str.lower() == "true"]
+    rows = []
+    for r in alerts.itertuples(index=False):
+        refs = [pd.Timestamp(d) for d in str(r.reference_dates).split(",") if d and d != "nan"]
+        reason = ("Holiday" if r.request_date in names
+                  else "Rain or snow on a reference day" if any(wet[d] for d in refs) else "Unexplained")
+        rows.append({"Date": r.request_date, "Segment": segment_label[segment_key(r.operator, r.touches_zone)],
+                     "TripCount": int(r.trips), "Expected": round(float(r.expected_trips)), "Reason": reason,
+                     "ReferenceDays": "; ".join(f"{d:%d %b}: rain {weather.rain_h[d]}h, snow {weather.snow_h[d]}h" for d in refs)})
+    tables["FactAlertList"] = pd.DataFrame(rows)
+
+    # Step 4, forecast: B1/B2/B3 against actual trips.
     forecast = pd.read_csv(p / "forecast_week.csv", parse_dates=["request_date"])
     forecast["SegmentKey"] = [segment_key(o, z) for o, z in zip(forecast.operator, forecast.touches_zone)]
     actual = tables["FactDaily"].set_index(["Date", "SegmentKey"]).TripCount
@@ -65,85 +118,14 @@ def build_tables(root):
     long["Actual"] = [actual[(d, s)] for d, s in zip(long.request_date, long.SegmentKey)]
     tables["FactForecast"] = long.rename(columns={"request_date": "Date"}).assign(Forecast=lambda d: d.Forecast.round(2))
 
-    city = pd.read_csv(p / "forecast_band_city.csv", parse_dates=["request_date"]).dropna(subset=["expected_trips"])
-    tables["FactCityForecast"] = pd.DataFrame({
-        "Date": city.request_date, "TripCount": city.trips, "Expected": city.expected_trips.round(1),
-        "BandLower": (city.expected_trips * (city.center_log - city.half_width_log).map(math.exp)).round(1),
-        "BandUpper": (city.expected_trips * (city.center_log + city.half_width_log).map(math.exp)).round(1)})
-
-    weather = hourly.groupby("request_date").agg(rain_h=("rain_mm", lambda x: int((x >= 0.5).sum())),
-                                                 snow_h=("snowfall_cm", lambda x: int((x > 0).sum())))
-    alerts = pd.read_csv(p / "forecast_band_alerts.csv", parse_dates=["request_date"])
-    alerts = alerts[alerts.outside_band.astype(str).str.lower() == "true"].copy()
-
-    def describe(day):
-        return f"{day:%d %b}: rain {weather.loc[day, 'rain_h']}h, snow {weather.loc[day, 'snow_h']}h"
-
-    rows = []
-    for r in alerts.itertuples(index=False):
-        refs = [pd.Timestamp(d) for d in str(r.reference_dates).split(",") if d and d != "nan"]
-        bad_reference = any(weather.loc[d, "rain_h"] > 0 or weather.loc[d, "snow_h"] > 0 for d in refs)
-        reason = ("Holiday" if pd.notna(r.known_event) and str(r.known_event).strip()
-                  else "Bad weather on a reference day" if bad_reference else "Unexplained")
-        rows.append({"Date": r.request_date, "Segment": dict((s[0], s[3]) for s in SEGMENTS)[segment_key(r.operator, r.touches_zone)],
-                     "TripCount": int(r.trips), "Expected": round(float(r.expected_trips)), "ZScore": round(float(r.z_score), 2),
-                     "Reason": reason, "ReferenceDays": "; ".join(describe(d) for d in refs)})
-    tables["FactAlertList"] = pd.DataFrame(rows)
-
-    gaps = pd.read_csv(p / "fee_matched_day_gaps.csv", parse_dates=["date_2025", "date_2024"])
-    tables["FactFeeGap"] = pd.DataFrame({
-        "Date": gaps.date_2025, "BeforeFee": (gaps.date_2025 < "2025-01-05").astype(int), "GapAll": gaps.All_gap.round(6)})
-
-    effect = pd.read_csv(p / "fee_effect.csv")
-    labels = {"all_trips": "All trips", "short_trips": "Short trips (<2 mi)", "low_fare_trips": "Low-fare trips (<=$11.63)"}
-    tables["FactFeeEffect"] = pd.DataFrame({
-        "Operator": effect.operator, "TripGroup": effect.trip_group.map(labels),
-        "TripGroupOrder": effect.trip_group.map({"all_trips": 1, "short_trips": 2, "low_fare_trips": 3}),
-        "Gap": effect.relative_growth_gap.round(6)})
-
-    growth = pd.read_csv(p / "gmv_volume_price_decomposition.csv")
-    growth = growth[growth.before.eq("jan_2024")]
-    growth["Segment"] = [("All trips" if o == "All" else dict((s[0], s[3]) for s in SEGMENTS)[segment_key(o, z)])
-                         for o, z in zip(growth.operator, growth.touches_zone)]
-    tables["FactGrowth"] = pd.DataFrame({
-        "Segment": growth.Segment, "SortOrder": range(1, len(growth) + 1),
-        "TripGrowth": growth.trips_growth.round(6), "FareGrowth": growth.avg_fare_growth.round(6),
-        "GMVGrowth": growth.gmv_proxy_growth.round(6)})
-
-    share = pd.read_csv(p / "lyft_share_weekly.csv", parse_dates=["week_start"])
-    tables["FactWeeklyShare"] = pd.DataFrame({
-        "WeekStart": share.week_start,
-        "ZoneGroup": share.touches_zone.astype(str).str.lower().map({"true": "Touching the zone", "false": "Outside the zone"}),
-        "LyftTrips": share.lyft_trips, "MarketTrips": share.market_trips})
-
-    rain = pd.read_csv(p / "rain_factors.csv")
-    rain = rain[~rain.weather_group.isin(["dry", "drizzle"])]
-    tables["FactWeather"] = pd.DataFrame({
-        "Study": rain.study.str.replace("_", " "),
-        "Weather": rain.weather_group.map({"light_rain": "Rain 0.5-2 mm/h", "moderate_or_heavy_rain": "Rain > 2 mm/h", "snow": "Snow"}),
-        "Hours": rain.usable_trip_hours, "TripsFactor": rain.trips_factor.round(4), "WaitFactor": rain.wait_factor.round(4),
-        "SmallSample": rain.trip_sample_under_20_hours.astype(str).str.lower().map({"true": "Yes", "false": "No"})})
-
     pre = pd.read_csv(p / "fee_pre_period_check.csv").set_index("operator")
-    boot = pd.read_csv(p / "fee_gap_bootstrap.csv")
-    boot = boot[(boot.operator == "All") & (boot.method == "day_pairs")].iloc[0]
-    credit = pd.read_csv(p / "lyft_credit_share_sensitivity.csv").set_index("comparison")
-    cost = pd.read_csv(p / "lyft_credit_cost_vs_gmv.csv")
-    cost = cost[(cost.period == "credit_comparison_window") & (cost.redemption == 1.0)].iloc[0]
-    yoy = pd.read_csv(p / "gmv_volume_price_decomposition.csv")
-    yoy = yoy[(yoy.before == "jan_2024") & (yoy.operator == "All")].iloc[0]
-    uplift = credit.loc["planned_three_weeks", "approx_uplift_vs_post_share"]
-    extra = 100 * uplift
     watchlist = pd.read_csv(p / "watchlist.csv")
     tables["FactKPI"] = pd.DataFrame([{
-        "TripGrowthYoY": round(yoy.trips_growth, 6),
+        "OutsideGrowth": round(outside_growth, 6),
         "GapBeforeFee": round(pre.loc["All", "pre_fee_gap"], 6), "GapWithFee": round(pre.loc["All", "main_window_gap"], 6),
-        "GapCILow": round(boot.ci_low_2_5, 6), "GapCIHigh": round(boot.ci_high_97_5, 6),
-        "ShareGapPP": round(credit.loc["planned_three_weeks", "share_difference_percentage_points"], 4),
-        "UpliftProxy": round(uplift, 6),
-        "CostPerExtraTrip": round((100 + extra) * 1.5 / extra, 2),
-        "BreakevenBlanket": round(1.5 / 4.5, 6), "BreakevenTargeted": round(0.3 * 1.5 / 4.5, 6),
-        "CreditCostShareZoneGMV": round(cost.credit_cost_share_of_lyft_zone_gmv, 6),
+        "ShareGapPP": round(100 * share_gap, 4), "UpliftProxy": round(uplift, 6),
+        "CostPerExtraTrip": round((100 + extra) * 1.5 / extra, 2), "BreakevenUplift": round(1.5 / 4.5, 6),
+        "HeavyRainUplift": round(float(rain[rain.weather_group == "moderate_or_heavy_rain"].trips_factor.iloc[0]) - 1, 6),
         "FixedRuleAlerts": len(watchlist)}])
     return tables
 
@@ -218,102 +200,68 @@ def table_tmdl(name, frame, measures=(), formats=None, hidden=(), sort_by=None, 
     return "\n".join(out)
 
 
-PCT, NUM, DEC2, USD = "#,0.0%;-#,0.0%;#,0.0%", "#,0", "0.00", "\\$#,0.00"
+
+PCT, SIGNED, NUM, USD = "#,0.0%;-#,0.0%;#,0.0%", "+0.0%;-0.0%;0.0%", "#,0", "\\$#,0.00"
 
 MEASURES = {
-    "FactDaily": [
-        ("Trips", "SUM(FactDaily[TripCount])", NUM),
-        ("Average fare", "DIVIDE(SUM(FactDaily[FareSum]), SUM(FactDaily[EconomicsTrips]))", USD),
-        ("Platform share", "DIVIDE(SUM(FactDaily[FareSum]) - SUM(FactDaily[DriverPaySum]), SUM(FactDaily[FareSum]))", PCT),
-        ("Short trip share", "DIVIDE(SUM(FactDaily[ShortTrips]), [Trips])", PCT),
-        ("Low-fare trip share", "DIVIDE(SUM(FactDaily[LowFareTrips]), [Trips])", PCT),
-        ("Median wait (one day and segment)", "IF(HASONEVALUE(DimDate[Date]) && HASONEVALUE(DimSegment[SegmentKey]), SELECTEDVALUE(FactDaily[MedianWait]))", "#,0.0"),
-        ("Trips same weekday last year", "CALCULATE([Trips], DATEADD(DimDate[Date], -364, DAY))", NUM),
-        ("Trips vs last year", "DIVIDE([Trips] - [Trips same weekday last year], [Trips same weekday last year])", PCT),
+    "FactDaily": [("Trips", "SUM(FactDaily[TripCount])", NUM)],
+    "FactFeeWindow": [("Zone trips", "SUM(FactFeeWindow[ZoneTrips])", NUM)],
+    "FactFeeGap": [("Daily gap", "SUM(FactFeeGap[GapAll])", PCT)],
+    "FactLyftShare": [("Lyft share", "DIVIDE(SUM(FactLyftShare[LyftTrips]), SUM(FactLyftShare[MarketTrips]))", PCT)],
+    "FactWeather": [
+        ("Trips vs dry hours", "SUM(FactWeather[TripsFactor]) - 1", SIGNED),
+        ("Wait vs dry hours", "SUM(FactWeather[WaitFactor]) - 1", SIGNED),
     ],
-    "FactCityForecast": [
-        ("City trips", "SUM(FactCityForecast[TripCount])", NUM),
-        ("City forecast", "SUM(FactCityForecast[Expected])", NUM),
-        ("Band lower", "SUM(FactCityForecast[BandLower])", NUM),
-        ("Band upper", "SUM(FactCityForecast[BandUpper])", NUM),
-    ],
-    "FactAlertList": [
-        ("Band alerts", "COUNTROWS(FactAlertList)", NUM),
-        ("Open alerts", 'CALCULATE(COUNTROWS(FactAlertList), FactAlertList[Reason] = "Unexplained")', NUM),
-    ],
-    "FactFeeGap": [
-        ("Gap before fee", "CALCULATE(AVERAGE(FactFeeGap[GapAll]), FactFeeGap[BeforeFee] = 1)", PCT),
-        ("Gap with fee", "CALCULATE(AVERAGE(FactFeeGap[GapAll]), FactFeeGap[BeforeFee] = 0)", PCT),
-        ("Window estimate", "IF(NOT ISEMPTY(FactFeeGap) && MAX(DimDate[Date]) >= DATE(2025, 1, 6) && MIN(DimDate[Date]) <= DATE(2025, 1, 26), MAX(FactKPI[GapWithFee]))", PCT),
-    ],
-    "FactFeeEffect": [("Zone vs outside gap", "AVERAGE(FactFeeEffect[Gap])", PCT)],
-    "FactGrowth": [
-        ("Trip growth", "SUM(FactGrowth[TripGrowth])", PCT),
-        ("Average fare growth", "SUM(FactGrowth[FareGrowth])", PCT),
-        ("GMV proxy growth", "SUM(FactGrowth[GMVGrowth])", PCT),
-    ],
-    "FactWeeklyShare": [("Lyft share", "DIVIDE(SUM(FactWeeklyShare[LyftTrips]), SUM(FactWeeklyShare[MarketTrips]))", PCT)],
+    "FactAlertList": [("Band alerts", "COUNTROWS(FactAlertList)", NUM)],
     "FactForecast": [
-        ("Forecast trips", "IF(HASONEVALUE(DimMethod[Method]), SUM(FactForecast[Forecast]))", NUM),
         ("Actual trips", 'CALCULATE(SUM(FactForecast[Actual]), DimMethod[Method] = "B2")', NUM),
         ("Plan B2", 'CALCULATE(SUM(FactForecast[Forecast]), DimMethod[Method] = "B2")', NUM),
-        ("Scenario B3", 'CALCULATE(SUM(FactForecast[Forecast]), DimMethod[Method] = "B3")', NUM),
-        ("Last week B1", 'CALCULATE(SUM(FactForecast[Forecast]), DimMethod[Method] = "B1")', NUM),
-        ("WAPE", "IF(HASONEVALUE(DimMethod[Method]), DIVIDE(SUMX(FactForecast, ABS(FactForecast[Forecast] - FactForecast[Actual])), SUM(FactForecast[Actual])))", "0.00%"),
-        ("Bias", "IF(HASONEVALUE(DimMethod[Method]), DIVIDE(SUMX(FactForecast, FactForecast[Forecast] - FactForecast[Actual]), SUM(FactForecast[Actual])))", "+0.00%;-0.00%;0.00%"),
-        ("MAE", "IF(HASONEVALUE(DimMethod[Method]), AVERAGEX(FactForecast, ABS(FactForecast[Forecast] - FactForecast[Actual])))", NUM),
-        ("WAPE B2", 'CALCULATE([WAPE], DimMethod[Method] = "B2")', "0.00%"),
+        ("Plan vs actual", "DIVIDE([Plan B2] - [Actual trips], [Actual trips])", SIGNED),
+        ("WAPE", "IF(HASONEVALUE(DimMethod[Method]), DIVIDE(SUMX(FactForecast, ABS(FactForecast[Forecast] - FactForecast[Actual])), SUM(FactForecast[Actual])))", PCT),
+        ("Bias", "IF(HASONEVALUE(DimMethod[Method]), DIVIDE(SUMX(FactForecast, FactForecast[Forecast] - FactForecast[Actual]), SUM(FactForecast[Actual])))", SIGNED),
+        ("WAPE B2", 'CALCULATE([WAPE], DimMethod[Method] = "B2")', PCT),
     ],
-    "FactWeather": [],
     "FactKPI": [
-        ("Trip growth YoY", "MAX(FactKPI[TripGrowthYoY])", "+0.0%;-0.0%;0.0%"),
+        ("Outside trip growth", "MAX(FactKPI[OutsideGrowth])", SIGNED),
         ("Gap before fee 2-4 Jan", "MAX(FactKPI[GapBeforeFee])", PCT),
         ("Gap 6-26 Jan", "MAX(FactKPI[GapWithFee])", PCT),
-        ("Gap 95% CI", 'FORMAT(MAX(FactKPI[GapCILow]), "0.0%") & " to " & FORMAT(MAX(FactKPI[GapCIHigh]), "0.0%")', None),
-        ("Lyft zone share gap pp", "MAX(FactKPI[ShareGapPP])", "#,0.0"),
-        ("Credit uplift proxy", "MAX(FactKPI[UpliftProxy])", PCT),
+        ("Lyft zone share gap pp", "MAX(FactKPI[ShareGapPP])", "+0.0;-0.0"),
+        ("Credit uplift", "MAX(FactKPI[UpliftProxy])", PCT),
         ("Credit cost per extra trip", "MAX(FactKPI[CostPerExtraTrip])", USD),
-        ("Break-even uplift blanket", "MAX(FactKPI[BreakevenBlanket])", PCT),
-        ("Break-even uplift targeted", "MAX(FactKPI[BreakevenTargeted])", PCT),
-        ("Max credit cost share of zone GMV", "MAX(FactKPI[CreditCostShareZoneGMV])", PCT),
+        ("Break-even uplift", "MAX(FactKPI[BreakevenUplift])", "0%"),
+        ("Heavy rain trip uplift", "MAX(FactKPI[HeavyRainUplift])", SIGNED),
         ("Fixed 7% rule alerts", "MAX(FactKPI[FixedRuleAlerts])", NUM),
     ],
 }
 
 FORMATS = {
-    "FactDaily": {"TripCount": NUM, "FareSum": NUM, "DriverPaySum": NUM, "MedianWait": "0.0"},
-    "FactCityForecast": {"TripCount": NUM, "Expected": NUM, "BandLower": NUM, "BandUpper": NUM},
-    "FactKPI": {c: PCT for c in ("TripGrowthYoY", "GapBeforeFee", "GapWithFee", "GapCILow", "GapCIHigh",
-                                 "UpliftProxy", "BreakevenBlanket", "BreakevenTargeted", "CreditCostShareZoneGMV")}
-               | {"ShareGapPP": "0.00", "CostPerExtraTrip": USD, "FixedRuleAlerts": NUM},
-    "FactWeeklyShare": {"LyftTrips": NUM, "MarketTrips": NUM},
-    "FactAlertList": {"TripCount": NUM, "Expected": NUM, "ZScore": "+0.0;-0.0"},
+    "FactDaily": {"TripCount": NUM},
+    "FactFeeWindow": {"ZoneTrips": NUM},
     "FactFeeGap": {"GapAll": PCT},
-    "FactFeeEffect": {"Gap": PCT},
-    "FactGrowth": {"TripGrowth": PCT, "FareGrowth": PCT, "GMVGrowth": PCT},
+    "FactLyftShare": {"LyftTrips": NUM, "MarketTrips": NUM},
     "FactWeather": {"TripsFactor": "0.000", "WaitFactor": "0.000"},
+    "FactAlertList": {"TripCount": NUM, "Expected": NUM},
     "FactForecast": {"Forecast": NUM, "Actual": NUM},
+    "FactKPI": {c: PCT for c in ("OutsideGrowth", "GapBeforeFee", "GapWithFee", "UpliftProxy", "BreakevenUplift", "HeavyRainUplift")}
+               | {"ShareGapPP": "0.00", "CostPerExtraTrip": USD, "FixedRuleAlerts": NUM},
 }
-HIDDEN = {"FactDaily": ["Date", "SegmentKey", "TripCount", "ShortTrips", "LowFareTrips", "EconomicsTrips", "FareSum", "DriverPaySum", "MedianWait"],
+HIDDEN = {"FactDaily": ["Date", "SegmentKey", "TripCount"],
+          "FactFeeWindow": ["BarOrder", "ZoneTrips"],
+          "FactFeeGap": ["Date", "GapAll"],
+          "FactLyftShare": ["PeriodOrder", "LyftTrips", "MarketTrips"],
+          "FactWeather": ["WeatherOrder", "TripsFactor", "WaitFactor"],
           "FactForecast": ["Date", "SegmentKey", "Method", "Forecast", "Actual"],
-          "FactCityForecast": ["Date", "TripCount", "Expected", "BandLower", "BandUpper"],
-          "FactFeeGap": ["Date", "BeforeFee", "GapAll"],
-          "FactKPI": ["TripGrowthYoY", "GapBeforeFee", "GapWithFee", "GapCILow", "GapCIHigh", "ShareGapPP",
-                      "UpliftProxy", "CostPerExtraTrip", "BreakevenBlanket", "BreakevenTargeted",
-                      "CreditCostShareZoneGMV", "FixedRuleAlerts"],
-          "FactGrowth": ["SortOrder", "TripGrowth", "FareGrowth", "GMVGrowth"],
-          "FactWeeklyShare": ["LyftTrips", "MarketTrips"],
-          "FactFeeEffect": ["TripGroupOrder", "Gap"],
+          "FactKPI": ["OutsideGrowth", "GapBeforeFee", "GapWithFee", "ShareGapPP", "UpliftProxy", "CostPerExtraTrip",
+                      "BreakevenUplift", "HeavyRainUplift", "FixedRuleAlerts"],
           "DimSegment": ["SegmentKey", "SortOrder"], "DimMethod": ["SortOrder"]}
 KEYS = {"DimDate": ["Date"], "DimSegment": ["SegmentKey"], "DimMethod": ["Method"]}
-SORT_TARGETS = {"SortOrder", "TripGroupOrder", "Weekday", "MonthNumber"}
-SORT = {"DimDate": {"DayName": "Weekday", "Month": "MonthNumber"}, "DimSegment": {"Segment": "SortOrder"},
-        "DimMethod": {"Method": "SortOrder"}, "FactFeeEffect": {"TripGroup": "TripGroupOrder"},
-        "FactGrowth": {"Segment": "SortOrder"}}
+SORT_TARGETS = {"SortOrder", "BarOrder", "PeriodOrder", "WeatherOrder"}
+SORT = {"DimSegment": {"Segment": "SortOrder"},
+        "DimMethod": {"Method": "SortOrder"}, "FactFeeWindow": {"Bar": "BarOrder"},
+        "FactLyftShare": {"Period": "PeriodOrder"}, "FactWeather": {"Weather": "WeatherOrder"}}
 RELATIONSHIPS = [("FactDaily", "Date", "DimDate", "Date"), ("FactDaily", "SegmentKey", "DimSegment", "SegmentKey"),
                  ("FactForecast", "Date", "DimDate", "Date"), ("FactForecast", "SegmentKey", "DimSegment", "SegmentKey"),
-                 ("FactForecast", "Method", "DimMethod", "Method"), ("FactCityForecast", "Date", "DimDate", "Date"),
-                 ("FactFeeGap", "Date", "DimDate", "Date")]
+                 ("FactForecast", "Method", "DimMethod", "Method"), ("FactFeeGap", "Date", "DimDate", "Date")]
 
 
 def check_unique_names(tables):
@@ -446,13 +394,6 @@ def slicer(entity, prop, title):
     return visual
 
 
-def year_filter(year):
-    return {"filters": [{"name": "year_filter", "field": column("DimDate", "Year"), "type": "Categorical",
-                         "filter": {"Version": 2, "From": [{"Name": "d", "Entity": "DimDate", "Type": 0}],
-                                    "Where": [{"Condition": {"In": {
-                                        "Expressions": [{"Column": {"Expression": {"SourceRef": {"Source": "d"}}, "Property": "Year"}}],
-                                        "Values": [[{"Literal": {"Value": f"{year}L"}}]]}}}]}}]}
-
 
 BOLD = {"fontWeight": "bold"}
 HEADER = {"fontWeight": "bold", "fontSize": "16pt"}
@@ -466,119 +407,107 @@ def build_pages():
     pages = []
 
     p = Page("summary", "Summary")
-    header(p, "NYC ride-hailing demand planning",
-           "Decision date 16 Feb 2025. Completed Uber and Lyft trips, Jan 2024 and Jan-Feb 2025 (NYC TLC).")
-    cards = [("Completed trips analysed", "FactDaily", "Trips"), ("Trip growth, matched Jan windows", "FactKPI", "Trip growth YoY"),
-             ("Holiday-week plan (B2)", "FactForecast", "Plan B2"), ("Backtest WAPE, B2", "FactForecast", "WAPE B2"),
-             ("Zone vs outside gap, 2-4 Jan (no fee)", "FactKPI", "Gap before fee 2-4 Jan"),
-             ("Zone vs outside gap, 6-26 Jan", "FactKPI", "Gap 6-26 Jan"),
-             ("Credit cost per extra trip ($6 contribution)", "FactKPI", "Credit cost per extra trip"),
-             ("Alerts with the forecast band", "FactAlertList", "Band alerts")]
-    for i, (title, entity, prop) in enumerate(cards):
-        units = EXACT if prop in ("Trips", "Plan B2") else None
+    header(p, "How many trips does New York need in the Presidents' Day week?",
+           "Plan made on 16 Feb 2025 for 17-23 Feb. Completed Uber and Lyft trips, Jan 2024 and Jan-Feb 2025 (NYC TLC).")
+    cards = [("Completed trips analysed", "FactDaily", "Trips", EXACT),
+             ("Zone vs outside gap before the fee (2-4 Jan)", "FactKPI", "Gap before fee 2-4 Jan", None),
+             ("Credit cost per extra Lyft trip", "FactKPI", "Credit cost per extra trip", None),
+             ("Heavy rain: trips vs dry hours", "FactKPI", "Heavy rain trip uplift", None),
+             ("Alerts, fixed ±7% rule", "FactKPI", "Fixed 7% rule alerts", None),
+             ("Alerts, segment band", "FactAlertList", "Band alerts", None),
+             ("Plan B2, 17-23 Feb", "FactForecast", "Plan B2", EXACT),
+             ("Forecast error (WAPE, B2)", "FactForecast", "WAPE B2", None)]
+    for i, (title, entity, prop, units) in enumerate(cards):
         p.add(f"kpi_{i + 1}", 20 + (i % 4) * 312, 76 + (i // 4) * 122, 296, 110, card(title, entity, prop, units=units))
     p.add("findings", 20, 330, 800, 380, textbox([
-        [("What happened in January", BOLD)],
-        "Demand grew through volume: trips +2.0% year on year, average base fare +0.7%.",
-        "Zone-touching trips grew 9.5% slower than outside trips, but the gap was already -13.8% on 2-4 January, before the fee. "
-        "This comparison cannot attribute the gap to the $1.50 fee.",
-        "Inside the zone Uber's average fare rose 9.2% while Lyft's fell 5.8%, a competing explanation for the shift between platforms.",
-        "Lyft's zone share rose 1.6 pp while its credit ran (uplift proxy about 6%). At a $6 contribution each extra trip cost about $26 in credit.",
-        "Heavy rain (> 2 mm/h) lifts trips about 8% and median wait about 1%.",
-        "A fixed 7% alert rule fires on 118 of 360 segment-days; a forecast band fires on 9, and 7 of those are explained."],
-        "Key findings"))
+        [("Results", BOLD)],
+        "Fee: zone trips came in 9.5% below the expected level, but the gap was already -13.8% before the fee. Not proven.",
+        "Credit: Lyft's zone share rose 1.6 points (about 6% more trips), at $25.88 per extra trip against a ~$6 margin.",
+        "Rain: heavy rain lifts trips 7.7%; waiting time barely changes.",
+        "Alerts: 118 with a fixed ±7% rule, 9 with a band per segment; 7 of the 9 are explained.",
+        "Forecast: plan 4.87 M trips; actual 4.82 M; WAPE 3.5%."], "Results"))
     p.add("recommendations", 840, 330, 420, 380, textbox([
-        [("Recommendations", BOLD)],
-        "Plan 4.87 M trips for 17-23 Feb with B2 and keep B3 as the holiday scenario.",
-        "Replace blanket credit with a targeted test and a 10% randomized holdout.",
-        "Move daily monitoring to the forecast band and skip bad-weather reference days.",
-        "Add Nov-Dec 2023 and 2024 before quoting any fee effect.",
-        "Treat rain as an operations trigger, not a demand multiplier."], "Recommendations"))
-    pages.append(p)
-
-    p = Page("monitoring", "Demand monitoring", year_filter(2025))
-    header(p, "Demand monitoring, Jan-Feb 2025", "Year filter is set to 2025 in the filter pane; change it to 2024 to see January 2024.", 1000)
-    p.add("segment_slicer", 1040, 14, 220, 52, slicer("DimSegment", "Segment", "Segment"))
-    p.add("daily_trips", 20, 72, 760, 300, chart("lineChart", {
-        "Category": [projection(column("DimDate", "Date"), active=True)],
-        "Y": [projection(measure("FactDaily", "Trips"))],
-        "Series": [projection(column("DimSegment", "Segment"))]},
-        "Completed trips per day by segment", "Line chart of daily completed trips for the four segments"))
-    for i, (title, prop, alt) in enumerate([("Completed trips", "Trips", "Completed trips"),
-                                            ("Average base fare", "Average fare", "Average base fare"),
-                                            ("Platform share", "Platform share", "Platform share, 1 - driver pay / fare")]):
-        units = (MILLIONS, 2) if prop == "Trips" else (None, None)
-        p.add(f"monitor_kpi_{i + 1}", 800 + i * 156, 72, 148, 90, card(title, "FactDaily", prop, alt, *units))
-    p.add("city_band", 20, 382, 760, 330, chart("lineChart", {
-        "Category": [projection(column("DimDate", "Date"), active=True)],
-        "Y": [projection(measure("FactCityForecast", m)) for m in ("City trips", "City forecast", "Band lower", "Band upper")]},
-        "City trips vs two-week forecast and alert band (2.5 robust SD)",
-        "Line chart of city-wide trips against the forecast and its alert band"))
-    p.add("alerts", 800, 172, 460, 262, chart("tableEx", {"Values": [projection(column("FactAlertList", c)) for c in
-                                                                     ("Date", "Segment", "ZScore", "Reason")]},
-        "Band alerts (Jan 2024 and Jan-Feb 2025)", "Table of the nine segment-days outside the forecast band"))
-    p.add("weather", 800, 444, 460, 268, chart("tableEx", {"Values": [projection(column("FactWeather", c)) for c in
-                                                                      ("Study", "Weather", "Hours", "TripsFactor", "WaitFactor", "SmallSample")]},
-        "Weather factors vs matched dry hours", "Table of trip and wait ratios by weather group"))
+        [("Recommendations at 16 Feb", BOLD)],
+        "1. Plan 4.87 M trips with B2. Watch the 17 Feb holiday and keep a plan for rain or snow.",
+        "2. Do not give the credit to everyone: test on selected riders with a 10% holdout for at least 14 days.",
+        "3. Switch to the segment band for alerts; get Nov-Dec 2024 data before measuring the fee again."], "Recommendations"))
     pages.append(p)
 
     p = Page("fee_credit", "Fee and credit")
-    header(p, "Congestion fee and Lyft credit",
-           "The zone vs outside gap existed before the fee started on 5 Jan, so it is not a fee effect. Comparisons are observational.")
-    p.add("fee_gap_daily", 20, 72, 620, 300, chart("lineChart", {
+    header(p, "Step 1-2: congestion fee and Lyft credit",
+           "Both are measured against a comparison group: trips outside the zone. Observational, not an experiment.")
+    p.add("fee_window", 20, 72, 400, 300, chart("clusteredColumnChart", {
+        "Category": [projection(column("FactFeeWindow", "Bar"), active=True)],
+        "Y": [projection(measure("FactFeeWindow", "Zone trips"))]},
+        "Zone trips in 21 days vs the expected level", "Column chart of zone trips in 2024, expected 2025 and actual 2025"))
+    p.add("fee_gap_daily", 440, 72, 620, 300, chart("clusteredColumnChart", {
         "Category": [projection(column("DimDate", "Date"), active=True)],
-        "Y": [projection(measure("FactFeeGap", m)) for m in ("Gap before fee", "Gap with fee", "Window estimate")]},
-        "Daily zone vs outside gap, 2025 vs same weekday 2024", "Line chart of the daily gap before and after the fee start"))
-    for i, (title, prop) in enumerate([("Gap 2-4 Jan (no fee yet)", "Gap before fee 2-4 Jan"),
-                                       ("Gap 6-26 Jan", "Gap 6-26 Jan"), ("95% bootstrap interval", "Gap 95% CI")]):
-        p.add(f"fee_kpi_{i + 1}", 660 + i * 180, 72, 240 if i == 2 else 172, 96, card(title, "FactKPI", prop))
-    p.add("fee_groups", 660, 176, 600, 196, chart("clusteredBarChart", {
-        "Category": [projection(column("FactFeeEffect", "TripGroup"), active=True)],
-        "Series": [projection(column("FactFeeEffect", "Operator"))],
-        "Y": [projection(measure("FactFeeEffect", "Zone vs outside gap"))]},
-        "Zone vs outside gap by trip group, 6-26 Jan 2025 vs 8-28 Jan 2024",
-        "Bar chart of the relative gap by operator and trip group"))
-    p.add("growth", 20, 382, 620, 330, chart("clusteredBarChart", {
-        "Category": [projection(column("FactGrowth", "Segment"), active=True)],
-        "Y": [projection(measure("FactGrowth", m)) for m in ("Trip growth", "Average fare growth")]},
-        "Year-on-year growth: trips vs average fare", "Bar chart splitting year-on-year growth into volume and price"))
-    p.add("lyft_share", 660, 382, 600, 220, chart("lineChart", {
-        "Category": [projection(column("FactWeeklyShare", "WeekStart"), active=True)],
-        "Y": [projection(measure("FactWeeklyShare", "Lyft share"))],
-        "Series": [projection(column("FactWeeklyShare", "ZoneGroup"))]},
-        "Lyft weekly share (credit issued 5-31 Jan; first and last weeks partial)",
-        "Line chart of Lyft weekly share inside and outside the zone"))
-    for i, (title, prop) in enumerate([("Lyft zone share gap (pp)", "Lyft zone share gap pp"),
-                                       ("Credit uplift proxy", "Credit uplift proxy"),
-                                       ("Break-even, blanket credit", "Break-even uplift blanket")]):
-        p.add(f"credit_kpi_{i + 1}", 660 + i * 204, 612, 196, 100, card(title, "FactKPI", prop))
+        "Series": [projection(column("FactFeeGap", "Period"))],
+        "Y": [projection(measure("FactFeeGap", "Daily gap"))]},
+        "Daily zone vs outside gap, 2025 vs same weekday 2024 (fee from 5 Jan)",
+        "Column chart of the daily gap before and after the fee start"))
+    for i, (title, prop) in enumerate([("Outside zone growth", "Outside trip growth"), ("Gap 6-26 Jan", "Gap 6-26 Jan"),
+                                       ("Gap 2-4 Jan (no fee yet)", "Gap before fee 2-4 Jan")]):
+        p.add(f"fee_kpi_{i + 1}", 1080, 72 + i * 102, 180, 94, card(title, "FactKPI", prop))
+    p.add("lyft_share", 20, 382, 620, 330, chart("clusteredColumnChart", {
+        "Category": [projection(column("FactLyftShare", "ZoneGroup"), active=True)],
+        "Series": [projection(column("FactLyftShare", "Period"))],
+        "Y": [projection(measure("FactLyftShare", "Lyft share"))]},
+        "Lyft share of Uber + Lyft trips, with and after the credit",
+        "Column chart of Lyft share inside and outside the zone in the two periods"))
+    for i, (title, prop) in enumerate([("Lyft zone share gain (pp)", "Lyft zone share gap pp"),
+                                       ("Extra Lyft zone trips", "Credit uplift"),
+                                       ("Cost per extra trip ($6 margin)", "Credit cost per extra trip"),
+                                       ("Break-even: extra trips needed", "Break-even uplift")]):
+        p.add(f"credit_kpi_{i + 1}", 660 + (i % 2) * 304, 382 + (i // 2) * 120, 296, 110, card(title, "FactKPI", prop))
+    p.add("credit_note", 660, 622, 600, 90, textbox([
+        "Cost = 106.15 trips x $1.50 credit / 6.15 extra trips. Assumes a $6 margin and every credit used; "
+        "if only half are used it is still about $12.9 per extra trip."], "Credit cost note"))
+    pages.append(p)
+
+    p = Page("weather_alerts", "Weather and alerts")
+    header(p, "Step 3: rain and daily alerts",
+           "Rain: each rain hour vs dry hours of the same month, weekday and hour, summer 2024. Alerts: 4 segments x 90 days.")
+    p.add("rain", 20, 72, 620, 300, chart("clusteredBarChart", {
+        "Category": [projection(column("FactWeather", "Weather"), active=True)],
+        "Y": [projection(measure("FactWeather", m)) for m in ("Trips vs dry hours", "Wait vs dry hours")]},
+        "Trips and waiting time vs dry hours (summer 2024: 35 heavy-rain hours, 14 events)",
+        "Bar chart of the change in trips and wait time in light and heavy rain"))
+    p.add("fixed_alerts", 660, 72, 296, 110, card("Alerts, fixed ±7% rule", "FactKPI", "Fixed 7% rule alerts"))
+    p.add("band_alerts", 964, 72, 296, 110, card("Alerts, band of 2.5 x segment SD", "FactAlertList", "Band alerts"))
+    p.add("alert_reasons", 660, 192, 600, 180, chart("clusteredBarChart", {
+        "Category": [projection(column("FactAlertList", "Reason"), active=True)],
+        "Y": [projection(measure("FactAlertList", "Band alerts"))]},
+        "Why the 9 band alerts happened", "Bar chart of band alerts by reason"))
+    p.add("alerts", 20, 382, 1240, 330, chart("tableEx", {"Values": [projection(column("FactAlertList", c)) for c in
+                                                                    ("Date", "Segment", "TripCount", "Expected", "Reason", "ReferenceDays")]},
+        "Band alerts and the weather on their reference days", "Table of the nine segment-days outside the band"))
     pages.append(p)
 
     p = Page("forecast", "Holiday-week plan")
-    header(p, "Holiday-week plan, 17-23 Feb 2025",
-           "History ends at 16 Feb and counts only trips completed by then. B2 was chosen before the test week.", 1000)
+    header(p, "Step 4: plan for 17-23 Feb 2025",
+           "History ends at 16 Feb and counts only trips completed by then. B2 was chosen before the week was scored.", 1000)
     p.add("forecast_segment", 1040, 14, 220, 52, slicer("DimSegment", "Segment", "Segment"))
-    p.add("plan_by_day", 20, 72, 620, 300, chart("clusteredColumnChart", {
+    p.add("plan_vs_actual", 20, 72, 820, 330, chart("clusteredColumnChart", {
         "Category": [projection(column("DimDate", "Date"), active=True)],
-        "Y": [projection(measure("FactForecast", "Plan B2"))]},
-        "Planned completed trips per day (B2)", "Column chart of planned trips per day"))
-    p.add("forecast_vs_actual", 660, 72, 600, 300, chart("lineChart", {
-        "Category": [projection(column("DimDate", "Date"), active=True)],
-        "Y": [projection(measure("FactForecast", m)) for m in ("Actual trips", "Plan B2", "Scenario B3", "Last week B1")]},
-        "Backtest: actual trips vs the three baselines", "Line chart comparing actual trips with B1, B2 and B3"))
-    p.add("scores", 20, 382, 620, 160, no_totals(chart("tableEx", {"Values": [
+        "Y": [projection(measure("FactForecast", m)) for m in ("Actual trips", "Plan B2")]},
+        "Actual trips vs plan B2 per day", "Column chart comparing actual trips with plan B2 per day"))
+    for i, (title, prop) in enumerate([("Plan B2, week", "Plan B2"), ("Actual trips, week", "Actual trips"),
+                                       ("Plan vs actual", "Plan vs actual")]):
+        p.add(f"forecast_kpi_{i + 1}", 860, 72 + i * 112, 400, 104,
+              card(title, "FactForecast", prop, units=EXACT if prop != "Plan vs actual" else None))
+    p.add("scores", 20, 412, 620, 150, no_totals(chart("tableEx", {"Values": [
         projection(column("DimMethod", "Method")), projection(column("DimMethod", "Description")),
-        projection(measure("FactForecast", "WAPE")), projection(measure("FactForecast", "Bias")),
-        projection(measure("FactForecast", "MAE"))]},
-        "Backtest accuracy (WAPE = sum of absolute errors / sum of actuals)", "Table of WAPE, bias and MAE by method")))
-    for i, (title, prop) in enumerate([("Plan B2, week", "Plan B2"), ("Holiday scenario B3, week", "Scenario B3"),
-                                       ("Actual trips, week", "Actual trips")]):
-        p.add(f"forecast_kpi_{i + 1}", 660 + i * 204, 382, 196, 100, card(title, "FactForecast", prop, units=EXACT))
-    p.add("forecast_reading", 20, 552, 1240, 160, textbox([
+        projection(measure("FactForecast", "WAPE")), projection(measure("FactForecast", "Bias"))]},
+        "Forecast error by method (WAPE = sum of absolute errors / actual trips, 28 cells)", "Table of WAPE and bias by method")))
+    p.add("daily_gap", 660, 412, 600, 150, no_totals(chart("tableEx", {"Values": [
+        projection(column("DimDate", "Date")), projection(measure("FactForecast", "Actual trips")),
+        projection(measure("FactForecast", "Plan B2")), projection(measure("FactForecast", "Plan vs actual"))]},
+        "Plan vs actual by day", "Table of actual trips, plan and difference by day")))
+    p.add("forecast_reading", 20, 572, 1240, 140, textbox([
         [("Reading", BOLD)],
-        "B2 had the lowest error over the week (WAPE 3.48%) and on Presidents' Day itself (1.41%).",
-        "The MLK factor (B3) made 17 Feb worse in three of four segments: Presidents' Day did not behave like MLK.",
-        "The largest miss is Uber zone trips on Sunday 23 Feb (about 171k planned, 147k actual); its reference day 16 Feb had 17 hours of rain."],
+        "B2 missed by 3.5% (WAPE), better than last week alone (B1, 4.4%). The plan was 1.1% above actual.",
+        "The largest miss is Sunday 23 Feb (+4.5%): both reference days, 9 and 16 Feb, had rain or snow, while 23 Feb was dry."],
         "Forecast reading"))
     pages.append(p)
     return pages

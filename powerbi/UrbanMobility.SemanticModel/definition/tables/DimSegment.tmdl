@@ -10,18 +10,6 @@ table DimSegment
 		summarizeBy: none
 		sourceColumn: SegmentKey
 
-	column Operator
-		dataType: string
-		lineageTag: b82c0122-ead5-5f30-afdf-314b88dad6e2
-		summarizeBy: none
-		sourceColumn: Operator
-
-	column ZoneFlag
-		dataType: string
-		lineageTag: 2e6abd34-5e3b-5d93-9a3a-f71640176e11
-		summarizeBy: none
-		sourceColumn: ZoneFlag
-
 	column Segment
 		dataType: string
 		lineageTag: b8181a60-e57f-5659-b0e1-c650c53cac8d
@@ -41,9 +29,9 @@ table DimSegment
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(Binary.FromText("U2VnbWVudEtleSxPcGVyYXRvcixab25lRmxhZyxTZWdtZW50LFNvcnRPcmRlcgpVYmVyX3pvbmUsVWJlcixab25lLFViZXIgem9uZSwxClViZXJfb3V0c2lkZSxVYmVyLE91dHNpZGUsVWJlciBvdXRzaWRlLDIKTHlmdF96b25lLEx5ZnQsWm9uZSxMeWZ0IHpvbmUsMwpMeWZ0X291dHNpZGUsTHlmdCxPdXRzaWRlLEx5ZnQgb3V0c2lkZSw0Cg==", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Source = Csv.Document(Binary.FromText("U2VnbWVudEtleSxTZWdtZW50LFNvcnRPcmRlcgpVYmVyX3pvbmUsVWJlciB6b25lLDEKVWJlcl9vdXRzaWRlLFViZXIgb3V0c2lkZSwyCkx5ZnRfem9uZSxMeWZ0IHpvbmUsMwpMeWZ0X291dHNpZGUsTHlmdCBvdXRzaWRlLDQK", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				    Typed = Table.TransformColumnTypes(Headers, {{"SegmentKey", type text}, {"Operator", type text}, {"ZoneFlag", type text}, {"Segment", type text}, {"SortOrder", Int64.Type}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Headers, {{"SegmentKey", type text}, {"Segment", type text}, {"SortOrder", Int64.Type}}, "en-US")
 				in
 				    Typed
 

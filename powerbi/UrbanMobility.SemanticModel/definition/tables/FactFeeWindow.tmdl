@@ -1,0 +1,42 @@
+table FactFeeWindow
+	lineageTag: 5c29325d-1904-5038-a38a-d97eaa947ceb
+
+	measure 'Zone trips' = SUM(FactFeeWindow[ZoneTrips])
+		formatString: #,0
+		lineageTag: a49b3bcb-39aa-5dd4-b6ac-5d4c4f9a7e3b
+
+	column Bar
+		dataType: string
+		lineageTag: 123b5740-6ac6-575e-ad00-c71e798ae0db
+		summarizeBy: none
+		sourceColumn: Bar
+		sortByColumn: BarOrder
+
+	column BarOrder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 2e801956-1312-5da0-b9f0-03c08a75d316
+		summarizeBy: none
+		sourceColumn: BarOrder
+
+	column ZoneTrips
+		dataType: decimal
+		isHidden
+		isAvailableInMdx: false
+		formatString: #,0
+		lineageTag: 32d55952-cfb8-52ae-867b-e970b47f6873
+		summarizeBy: none
+		sourceColumn: ZoneTrips
+
+	partition FactFeeWindow = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(Binary.FromText("QmFyLEJhck9yZGVyLFpvbmVUcmlwcwoyMDI0ICg4LTI4IEphbiksMSw0OTY5NzQ1LjAKRXhwZWN0ZWQgMjAyNSwyLDUyNDY4ODAuOQpBY3R1YWwgMjAyNSAoNi0yNiBKYW4pLDMsNDc0ODg2NS4wCg==", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"Bar", type text}, {"BarOrder", Int64.Type}, {"ZoneTrips", Currency.Type}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table

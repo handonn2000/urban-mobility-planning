@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactForecast"
+                      "Entity": "FactKPI"
                     }
                   },
-                  "Property": "WAPE B2"
+                  "Property": "Heavy rain trip uplift"
                 }
               },
-              "queryRef": "FactForecast.WAPE B2",
-              "nativeQueryRef": "WAPE B2"
+              "queryRef": "FactKPI.Heavy rain trip uplift",
+              "nativeQueryRef": "Heavy rain trip uplift"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Backtest WAPE, B2'"
+                  "Value": "'Heavy rain: trips vs dry hours'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Backtest WAPE, B2'"
+                  "Value": "'Heavy rain: trips vs dry hours'"
                 }
               }
             }

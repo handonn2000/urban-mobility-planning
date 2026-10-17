@@ -2,15 +2,15 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "lyft_share",
   "position": {
-    "x": 660,
+    "x": 20,
     "y": 382,
-    "z": 8000,
-    "height": 220,
-    "width": 600,
-    "tabOrder": 8000
+    "z": 7000,
+    "height": 330,
+    "width": 620,
+    "tabOrder": 7000
   },
   "visual": {
-    "visualType": "lineChart",
+    "visualType": "clusteredColumnChart",
     "query": {
       "queryState": {
         "Category": {
@@ -20,33 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactWeeklyShare"
+                      "Entity": "FactLyftShare"
                     }
                   },
-                  "Property": "WeekStart"
+                  "Property": "ZoneGroup"
                 }
               },
-              "queryRef": "FactWeeklyShare.WeekStart",
-              "nativeQueryRef": "WeekStart",
+              "queryRef": "FactLyftShare.ZoneGroup",
+              "nativeQueryRef": "ZoneGroup",
               "active": true
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "FactWeeklyShare"
-                    }
-                  },
-                  "Property": "Lyft share"
-                }
-              },
-              "queryRef": "FactWeeklyShare.Lyft share",
-              "nativeQueryRef": "Lyft share"
             }
           ]
         },
@@ -57,14 +39,32 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "FactWeeklyShare"
+                      "Entity": "FactLyftShare"
                     }
                   },
-                  "Property": "ZoneGroup"
+                  "Property": "Period"
                 }
               },
-              "queryRef": "FactWeeklyShare.ZoneGroup",
-              "nativeQueryRef": "ZoneGroup"
+              "queryRef": "FactLyftShare.Period",
+              "nativeQueryRef": "Period"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactLyftShare"
+                    }
+                  },
+                  "Property": "Lyft share"
+                }
+              },
+              "queryRef": "FactLyftShare.Lyft share",
+              "nativeQueryRef": "Lyft share"
             }
           ]
         }
@@ -77,7 +77,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Line chart of Lyft weekly share inside and outside the zone'"
+                  "Value": "'Column chart of Lyft share inside and outside the zone in the two periods'"
                 }
               }
             }
@@ -97,7 +97,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Lyft weekly share (credit issued 5-31 Jan; first and last weeks partial)'"
+                  "Value": "'Lyft share of Uber + Lyft trips, with and after the credit'"
                 }
               }
             }

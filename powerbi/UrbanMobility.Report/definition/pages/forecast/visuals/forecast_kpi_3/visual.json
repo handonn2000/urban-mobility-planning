@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.8.0/schema.json",
   "name": "forecast_kpi_3",
   "position": {
-    "x": 1068,
-    "y": 382,
-    "z": 8000,
-    "height": 100,
-    "width": 196,
-    "tabOrder": 8000
+    "x": 860,
+    "y": 296,
+    "z": 6000,
+    "height": 104,
+    "width": 400,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,11 +23,11 @@
                       "Entity": "FactForecast"
                     }
                   },
-                  "Property": "Actual trips"
+                  "Property": "Plan vs actual"
                 }
               },
-              "queryRef": "FactForecast.Actual trips",
-              "nativeQueryRef": "Actual trips"
+              "queryRef": "FactForecast.Plan vs actual",
+              "nativeQueryRef": "Plan vs actual"
             }
           ]
         }
@@ -40,7 +40,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Actual trips, week'"
+                  "Value": "'Plan vs actual'"
                 }
               }
             }
@@ -60,7 +60,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Actual trips, week'"
+                  "Value": "'Plan vs actual'"
                 }
               }
             }
@@ -77,22 +77,6 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
-                }
-              }
-            }
-          },
-          "selector": {
-            "id": "default"
-          }
-        }
-      ],
-      "value": [
-        {
-          "properties": {
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
                 }
               }
             }

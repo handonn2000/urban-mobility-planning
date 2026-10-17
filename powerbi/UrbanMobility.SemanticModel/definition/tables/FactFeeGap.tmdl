@@ -1,17 +1,9 @@
 table FactFeeGap
 	lineageTag: 062865c6-cea4-52bb-adbb-98f9d8242107
 
-	measure 'Gap before fee' = CALCULATE(AVERAGE(FactFeeGap[GapAll]), FactFeeGap[BeforeFee] = 1)
+	measure 'Daily gap' = SUM(FactFeeGap[GapAll])
 		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: 79c7cf3d-c58d-5903-b55b-fa573ab86152
-
-	measure 'Gap with fee' = CALCULATE(AVERAGE(FactFeeGap[GapAll]), FactFeeGap[BeforeFee] = 0)
-		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: 8af84a2c-3b41-542f-8c6a-cf189bf6dd6f
-
-	measure 'Window estimate' = IF(NOT ISEMPTY(FactFeeGap) && MAX(DimDate[Date]) >= DATE(2025, 1, 6) && MIN(DimDate[Date]) <= DATE(2025, 1, 26), MAX(FactKPI[GapWithFee]))
-		formatString: #,0.0%;-#,0.0%;#,0.0%
-		lineageTag: f30c2fe9-0f88-54d4-8cce-52b6a3d9de5c
+		lineageTag: b36586aa-e9e5-54c1-8fb2-b1279c15f5e0
 
 	column Date
 		dataType: dateTime
@@ -24,14 +16,11 @@ table FactFeeGap
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column BeforeFee
-		dataType: int64
-		isHidden
-		isAvailableInMdx: false
-		formatString: 0
-		lineageTag: 9125d9b2-a379-5499-9b52-dd2ab6fd3375
+	column Period
+		dataType: string
+		lineageTag: f972e8bc-2d99-54c0-9ccd-c408530d367f
 		summarizeBy: none
-		sourceColumn: BeforeFee
+		sourceColumn: Period
 
 	column GapAll
 		dataType: double
@@ -46,9 +35,9 @@ table FactFeeGap
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(Binary.FromText("RGF0ZSxCZWZvcmVGZWUsR2FwQWxsCjIwMjUtMDEtMDIsMSwtMC4xODIyMTYKMjAyNS0wMS0wMywxLC0wLjExNzczNQoyMDI1LTAxLTA0LDEsLTAuMTI2NTA3CjIwMjUtMDEtMDUsMCwtMC4xMDU3MjIKMjAyNS0wMS0wNiwwLC0wLjEwODQ4NwoyMDI1LTAxLTA3LDAsLTAuMTI4NDE1CjIwMjUtMDEtMDgsMCwtMC4xMTM5ODEKMjAyNS0wMS0wOSwwLC0wLjExODA0NQoyMDI1LTAxLTEwLDAsLTAuMDU0MDg5CjIwMjUtMDEtMTEsMCwtMC4wNDQ5MDgKMjAyNS0wMS0xMiwwLC0wLjExMjAyMgoyMDI1LTAxLTEzLDAsLTAuMTA3OTQyCjIwMjUtMDEtMTQsMCwtMC4wMjA2MTkKMjAyNS0wMS0xNSwwLC0wLjA2MTU2MQoyMDI1LTAxLTE2LDAsLTAuMDg4NjM2CjIwMjUtMDEtMTcsMCwtMC4xMDUzNTUKMjAyNS0wMS0xOCwwLC0wLjE0MzUwOQoyMDI1LTAxLTE5LDAsLTAuMTE4NjEKMjAyNS0wMS0yMCwwLC0wLjA3NjYzCjIwMjUtMDEtMjEsMCwtMC4xMzkzNDIKMjAyNS0wMS0yMiwwLC0wLjA5OTcwMQoyMDI1LTAxLTIzLDAsLTAuMDg5MDYyCjIwMjUtMDEtMjQsMCwtMC4wNjMwNTEKMjAyNS0wMS0yNSwwLC0wLjA2ODY2NQoyMDI1LTAxLTI2LDAsLTAuMTExMDk1CjIwMjUtMDEtMjcsMCwtMC4wNjU0MjcKMjAyNS0wMS0yOCwwLC0wLjA5MjI4CjIwMjUtMDEtMjksMCwtMC4wMjExNDMK", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Source = Csv.Document(Binary.FromText("RGF0ZSxQZXJpb2QsR2FwQWxsCjIwMjUtMDEtMDIsQmVmb3JlIGZlZSwtMC4xODIyMTYKMjAyNS0wMS0wMyxCZWZvcmUgZmVlLC0wLjExNzczNQoyMDI1LTAxLTA0LEJlZm9yZSBmZWUsLTAuMTI2NTA3CjIwMjUtMDEtMDUsV2l0aCBmZWUsLTAuMTA1NzIyCjIwMjUtMDEtMDYsV2l0aCBmZWUsLTAuMTA4NDg3CjIwMjUtMDEtMDcsV2l0aCBmZWUsLTAuMTI4NDE1CjIwMjUtMDEtMDgsV2l0aCBmZWUsLTAuMTEzOTgxCjIwMjUtMDEtMDksV2l0aCBmZWUsLTAuMTE4MDQ1CjIwMjUtMDEtMTAsV2l0aCBmZWUsLTAuMDU0MDg5CjIwMjUtMDEtMTEsV2l0aCBmZWUsLTAuMDQ0OTA4CjIwMjUtMDEtMTIsV2l0aCBmZWUsLTAuMTEyMDIyCjIwMjUtMDEtMTMsV2l0aCBmZWUsLTAuMTA3OTQyCjIwMjUtMDEtMTQsV2l0aCBmZWUsLTAuMDIwNjE5CjIwMjUtMDEtMTUsV2l0aCBmZWUsLTAuMDYxNTYxCjIwMjUtMDEtMTYsV2l0aCBmZWUsLTAuMDg4NjM2CjIwMjUtMDEtMTcsV2l0aCBmZWUsLTAuMTA1MzU1CjIwMjUtMDEtMTgsV2l0aCBmZWUsLTAuMTQzNTA5CjIwMjUtMDEtMTksV2l0aCBmZWUsLTAuMTE4NjEKMjAyNS0wMS0yMCxXaXRoIGZlZSwtMC4wNzY2MwoyMDI1LTAxLTIxLFdpdGggZmVlLC0wLjEzOTM0MgoyMDI1LTAxLTIyLFdpdGggZmVlLC0wLjA5OTcwMQoyMDI1LTAxLTIzLFdpdGggZmVlLC0wLjA4OTA2MgoyMDI1LTAxLTI0LFdpdGggZmVlLC0wLjA2MzA1MQoyMDI1LTAxLTI1LFdpdGggZmVlLC0wLjA2ODY2NQoyMDI1LTAxLTI2LFdpdGggZmVlLC0wLjExMTA5NQo=", BinaryEncoding.Base64), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
-				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"BeforeFee", Int64.Type}, {"GapAll", type number}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"Period", type text}, {"GapAll", type number}}, "en-US")
 				in
 				    Typed
 

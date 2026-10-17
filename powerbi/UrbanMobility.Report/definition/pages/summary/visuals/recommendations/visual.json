@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Recommendations",
+                    "value": "Recommendations at 16 Feb",
                     "textStyle": {
                       "fontWeight": "bold"
                     }
@@ -29,35 +29,21 @@
               {
                 "textRuns": [
                   {
-                    "value": "Plan 4.87 M trips for 17-23 Feb with B2 and keep B3 as the holiday scenario."
+                    "value": "1. Plan 4.87 M trips with B2. Watch the 17 Feb holiday and keep a plan for rain or snow."
                   }
                 ]
               },
               {
                 "textRuns": [
                   {
-                    "value": "Replace blanket credit with a targeted test and a 10% randomized holdout."
+                    "value": "2. Do not give the credit to everyone: test on selected riders with a 10% holdout for at least 14 days."
                   }
                 ]
               },
               {
                 "textRuns": [
                   {
-                    "value": "Move daily monitoring to the forecast band and skip bad-weather reference days."
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "Add Nov-Dec 2023 and 2024 before quoting any fee effect."
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "Treat rain as an operations trigger, not a demand multiplier."
+                    "value": "3. Switch to the segment band for alerts; get Nov-Dec 2024 data before measuring the fee again."
                   }
                 ]
               }
